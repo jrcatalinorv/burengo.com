@@ -1,0 +1,65 @@
+
+		<div class="col-md-4">
+            <!-- Application buttons -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Tipo de Vehiculo </h3>
+              </div>
+              <div class="card-body">
+                  <div class="row">
+                <div class="col-12 col-sm-3">
+                  <div class="info-box bg-light">
+                    
+                      1
+                    
+                  </div>
+                </div>                
+				
+				<div class="col-12 col-sm-3">
+                  <div class="info-box bg-light">
+                   2
+                  </div>
+                </div>
+    				<div class="col-12 col-sm-3">
+                  <div class="info-box bg-light">
+                   2
+                  </div>
+                </div>
+    				<div class="col-12 col-sm-3">
+                  <div class="info-box bg-light">
+                   2
+                  </div>
+                </div>
+    				<div class="col-12 col-sm-3">
+                  <div class="info-box bg-light">
+                   2
+                  </div>
+                </div>
+    				<div class="col-12 col-sm-3">
+                  <div class="info-box bg-light">
+                   2
+                  </div>
+                </div>
+    				<div class="col-12 col-sm-3">
+                  <div class="info-box bg-light">
+                   2
+                  </div>
+                </div>
+    				<div class="col-12 col-sm-3">
+                  <div class="info-box bg-light">
+                   2
+                  </div>
+                </div>
+    
+			 
+                
+              </div>
+            
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+ 
+          
+          </div>
+		

@@ -10,38 +10,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-
-  <title>Burengo.com</title>
-
-  <!-- Font Awesome Icons -->
+  <link rel="icon" type="image/png" href="favicon.ico"/>
+  <title>Burengo</title>
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-  <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
-  <!-- Google Font: Source Sans Pro -->
-    <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 <body class="hold-transition layout-top-nav">
 <div class="wrapper">
 
   <!-- Navbar -->
- <nav class="main-header navbar navbar-expand-md navbar-light navbar-warning"> 
+ <nav class="main-header navbar navbar-expand-md navbar-dark bg-navy"> 
     <div class="container">
-      <a href="#" class="navbar-brand">
-        <!-- <img src="dist/img/AdminLTELogo.png" alt="Burengo Logo" class="brand-image img-circle elevation-3"
-             style="opacity: .8"> -->
-        <span class="brand-text">Buren<span class="text-danger">go</span></span>
+      <a href="index.php" class="navbar-brand">
+          <img src="dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8">  
       </a>
-     
-      <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-        <!-- Left navbar links -->
-        <ul class="navbar-nav"> </ul>
-      </div>
-
-     <!-- Right navbar links -->
+      <div class="collapse navbar-collapse order-3" id="navbarCollapse"><ul class="navbar-nav"> </ul></div>
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-        <!-- Messages Dropdown Menu -->
         <li class="nav-item"><a class="nav-link" href="index.php"> Portada </a></li>
         <li class="nav-item"><a class="nav-link" href="contacto.php"> Contacto  </a></li>
       </ul>

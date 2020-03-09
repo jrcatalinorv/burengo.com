@@ -1,6 +1,5 @@
 <?php 
 session_start();
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,19 +7,21 @@ session_start();
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Burengo.com</title>
+  <link rel="icon" type="image/png" href="favicon.ico"/>
+  <title>Burengo</title>
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
-<body class="hold-transition layout-top-nav">
+<body class="hold-transition layout-top-nav layout-navbar-fixed">
 <div class="wrapper">
- <nav class="main-header navbar navbar-expand-md navbar-light navbar-warning"> 
+ <nav class="main-header navbar navbar-expand-md navbar-dark bg-navy"> 
     <div class="container">
       <a href="#" class="navbar-brand">
-        <span class="brand-text">Buren<span class="text-danger">go</span></span>
+            <img src="dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8">  
+      
       </a>    
       <div class="collapse navbar-collapse order-3" id="navbarCollapse">
         <ul class="navbar-nav"> </ul>
@@ -92,8 +93,22 @@ session_start();
         <a href="#" class="btn btn-block btn-secondary">
            Olvide la Contrasena 
         </a>
-        <a href="registro.php" class="btn btn-block btn-warning">
+        <a href="registro.php" class="btn btn-block btn-info">
            Registrarse 
+        </a>        
+		
+		<p class="pt-2 text-info"><dt> Accesos temporales </dt></p>
+		
+		<a id="adminview" href="#" class="btn btn-block btn-outline-danger">
+            *** Entrar como Admin *** 
+        </a>		
+		
+		<a id="customerview" href="#" class="btn   btn-block btn-outline-danger">
+           *** Entrar como Cliente 1*** 
+        </a>		
+		
+		<a id="customerview2" href="#" class="btn   btn-block btn-outline-danger">
+           *** Entrar como Cliente 2*** 
         </a>
       </div>
       <!-- /.social-auth-links -->
@@ -151,18 +166,34 @@ $.getJSON('ajax/login.php',{
 				 $('#user').val("");
 				 $('#pass').val("");
 			  break;
-			case 1: 
-				 if(data['bgo_perfil']==1){
-						window.location = "access/dashboard.php"; 				
-				}else{
-					window.location = "access/inicio.php"; 
-				 }
-			break;		
+			case 1:  window.location = "access/"+data['url']; break;		
 		 }
 	});				 
 }); 
-$('#user').focus(function(){$('#msg').addClass('Hideme'); $('#msg2').addClass('Hideme');});
-$('#pass').focus(function(){$('#msg').addClass('Hideme'); $('#msg2').addClass('Hideme');});
+ 
+
+ 
+
+$('#adminview').click(function(){
+	$('#user').val('admin');
+	$('#pass').val('12345');
+	$('#login').click();
+});
+
+
+$('#customerview').click(function(){
+	$('#user').val('user-test');
+	$('#pass').val('12345');
+	$('#login').click();
+});
+
+
+$('#customerview2').click(function(){
+	$('#user').val('claudiaf');
+	$('#pass').val('12345');
+	$('#login').click();
+});
+
 </script>
 </body>
 </html>

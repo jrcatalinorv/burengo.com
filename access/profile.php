@@ -1,23 +1,41 @@
 <?php 
+session_start();
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../modelos/conexion.php";
 
-$stmt2 = Conexion::conectar()->prepare(" SELECT COUNT(bgo_code) as totalp FROM bgo_posts WHERE bgo_status = 1 and bgo_usercode = '202002162143-8789'");
+$code = rand(1000000,9999999) ;
+ 
+ 
+$fsDt = date("Y-m-d", strtotime("first day of this month")); 
+$lsDt = date("Y-m-d", strtotime("last day of this month")); 
+ 
+/* Total Publicaciones */
+$stmt2 = Conexion::conectar()->prepare(" SELECT COUNT(bgo_code) as totalp 
+FROM bgo_posts WHERE bgo_status = 1 and bgo_usercode = ".$_SESSION['bgo_userId']."");
 $stmt2 -> execute();
 $results = $stmt2 -> fetch();
 $total_post = number_format($results['totalp']);
 
+/* Vehiculos */
 $stmt2 = Conexion::conectar()->prepare(" SELECT COUNT(bgo_code) as totalpv FROM 
-bgo_posts WHERE bgo_status = 1 and bgo_usercode = '202002162143-8789' and bgo_cat = 1");
+bgo_posts WHERE bgo_status = 1 and bgo_usercode = ".$_SESSION['bgo_userId']." and bgo_cat = 1");
 $stmt2 -> execute();
 $results = $stmt2 -> fetch();
 $total_postv = number_format($results['totalpv']);
  
+/* Inmnuebles */ 
 $stmt2 = Conexion::conectar()->prepare(" SELECT COUNT(bgo_code) as totalpin FROM 
-bgo_posts WHERE bgo_status = 1 and bgo_usercode = '202002162143-8789' and bgo_cat = 2");
+bgo_posts WHERE bgo_status = 1 and bgo_usercode = ".$_SESSION['bgo_userId']." and bgo_cat = 2");
 $stmt2 -> execute();
 $results = $stmt2 -> fetch();
 $total_postin = number_format($results['totalpin']);
+
+/* Visitas del mes */
+$stmt4 = Conexion::conectar()->prepare("SELECT COUNT(vstid) as visits FROM bgo_visits WHERE vstdate  
+BETWEEN '".$fsDt."' AND '".$lsDt."' AND vst_usercode = ".$_SESSION['bgo_userId']."");
+$stmt4 -> execute();
+$rest4 = $stmt4 -> fetch(); 
+
 
 
 ?>
@@ -28,27 +46,57 @@ $total_postin = number_format($results['totalpin']);
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Burengo.com</title>
+  <link rel="icon" type="image/png" href="../favicon.ico"/>
+  <title>Burengo</title>
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
-  <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../dist/css/adminlte.css">
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
-<body class="hold-transition layout-top-nav">
+<body class="hold-transition layout-top-nav layout-navbar-fixed">
 <div class="wrapper">
 
   <!-- Navbar -->
- <nav class="main-header navbar navbar-expand-md navbar-light navbar-warning"> 
+ <nav class="main-header navbar navbar-expand-md navbar-dark bg-navy"> 
     <div class="container">
       <a href="inicio.php" class="navbar-brand">
-        <span class="brand-text">Buren<span class="text-danger">go</span></span>
+        <img src="../dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8"> 
       </a>
       <div class="collapse navbar-collapse order-3" id="navbarCollapse">
         <ul class="navbar-nav"> </ul>
       </div>
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-        <li class="nav-item"><a class="nav-link" href="#">Mensajes</a></li>
-        <li class="nav-item"><a class="nav-link" href="../index.php"> Cerrar Session </a></li>
+	  		<li class="nav-item"><a class="nav-link" href="profile.php">
+			 <img alt="Avatar"  class="user-image" src="../media/users/<?php echo $_SESSION['bgo_userImg']; ?>">
+			 <?php echo $_SESSION['bgo_user']; ?></a>
+		</li>
+	<li class="nav-item dropdown show">
+        <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true">
+          <i class="fas fa-bars fa-lg"></i>
+           
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <div class="dropdown-divider"></div>
+          <a href="inicio.php" class="dropdown-item">
+            <i class="fas fa-th mr-2"></i> Portada  
+          </a>
+          <div class="dropdown-divider"></div>		  
+		  <a href="publicaciones.php" class="dropdown-item">
+            <i class="far fa-list-alt mr-2"></i> Mis publicaciones 
+          </a>		  
+          <div class="dropdown-divider"></div>
+          <a href="profile.php" class="dropdown-item">
+            <i class="far fa-id-badge mr-2"></i> Cuenta   
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-envelope mr-2"></i> Mensajes
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> Cerrar Session </a>
+        </div>
+      </li>
+     
       </ul>
     </div>
   </nav>
@@ -60,10 +108,9 @@ $total_postin = number_format($results['totalpin']);
     <div class="content-header">
       <div class="container">
         <div class="row mb-2">
-          <input id="route01" value="1" />
-          <input id="route02" value="1" />
-          <input id="rcode" value="202002162143-8789" />
-    
+          <input type="hidden" id="route01" value="1" />
+          <input type="hidden" id="route02" value="1" />
+          <input type="hidden" id="usrcode" value="<?php echo $_SESSION['bgo_userId']; ?>" />
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
@@ -73,20 +120,23 @@ $total_postin = number_format($results['totalpin']);
  <section class="content">
       <div class="container-fluid">
         <div class="row">
-		
-		
-          <div class="col-md-3">
-
-            <!-- Profile Image -->
-            <div class="card card-warning card-outline">
+          <div class="col-md-3"><input id="fcd" type="hidden" value="<?php echo $code; ?>" />
+            <div class="card">
               <div class="card-body box-profile">
                 <div class="text-center">
-                  <img class="profile-user-img img-fluid img-circle" src="../dist/img/user8-128x128.jpg" alt="User profile picture">
+                  <img class="profile-user-img img-fluid img-circle" src="../media/users/<?php echo $_SESSION['bgo_userImg']; ?>" alt="User profile picture">
                 </div>
 
-                <h3 class="profile-username text-center"> Administrator </h3>
+                <h3 class="profile-username text-center"> <?php echo $_SESSION['bgo_name']; ?>  </h3>
 
-                <p class="text-muted text-center"> - </p>
+                <p class="text-muted text-center">  
+					<?php if($_SESSION['bgo_perfil']==10){
+							echo '<i class="fas fa-trophy fa-2x text-primary"></i>'; 
+					}else{
+						echo '<i class="far fa-flag fa-2x text-primary"></i>';
+					}
+					?>
+				</p>
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
@@ -102,12 +152,13 @@ $total_postin = number_format($results['totalpin']);
                   </li>                  
 				 
 				  <li class="list-group-item">
-                    <b> Visitas a publicaciones  </b> <a class="float-right"> - </a>
+                    <b> Visitas del mes </b> <a class="float-right"> <?php echo number_format($rest4['visits']); ?>  </a>
                   </li>
                 </ul>
 
 				<button  type="button" class="btn btn-block bg-gradient-warning btn-lg" data-toggle="modal" data-target="#modal-default"> Crear Publicacion</button>
-
+ 
+			 
               </div>
               <!-- /.card-body -->
             </div>
@@ -117,57 +168,38 @@ $total_postin = number_format($results['totalpin']);
           </div>
           <!-- /.col -->
           <div class="col-md-9">
-            <div class="card card-warning card-outline">
-    
+  <div class="card   card-outline-tabs">
+              <div class="card-header p-0 border-bottom-0">
+                <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true"> <i class="fas fa-user"></i> Datos Personales </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false"> <i class="far fa-id-card"></i> Cuenta </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-three-messages-tab" data-toggle="pill" href="#custom-tabs-three-messages" role="tab" aria-controls="custom-tabs-three-messages" aria-selected="false"> <i class="fas fa-cog"></i> Ajustes </a>
+                  </li>
+                </ul>
+              </div>
               <div class="card-body">
-           <div class="row">
-		   		 <?php
+                <div class="tab-content" id="custom-tabs-three-tabContent">
+                  <div style="height:415px;" class="tab-pane fade show active" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
+                             
+                                
+							   
+				</div>
+                  <div style="height:415px;" class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
+                   
+				  </div>
+                  <div style="height:415px;" class="tab-pane fade" id="custom-tabs-three-messages" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab">
+                 
 
-$stmt = Conexion::conectar()->prepare(" SELECT * FROM bgo_posts WHERE bgo_status = 1");
-$stmt -> execute();
-while($results = $stmt -> fetch()){
-echo '<div class="col-lg-3 col-md-6 visit mb-3 itemSelection" itemId="'.$results['bgo_code'].'" data-aos="fade-up">';
-      
-
-	  echo '<img src="../media/thumbnails/'.$results['bgo_thumbnail'].'" alt="Image placeholder" class="img-fluid rounded"> 
-      <div style="z-index:999; margin-top:-2em;"> <span class="badge bg-warning">$'.number_format($results['bgo_price'],2).' '.convert($results['bgo_uom']).' </span></div>
-	  <h5 class="pt-2"> 
-		  '.$results['bgo_title'].'';
-
-
-		  
-		echo '<br/>
-		<small class="float-left"> '.$results['bgo_lugar'].'  </small>
-		<small>'; 
-			if($results['bgo_cat']==1){
-				echo '<span class="badge bg-success float-right "> Venta';   
-					if($results['bgo_subcat']==1){
-						echo ' <i class="fas fa-car"></i> ';
-					}else{
-						echo ' <i class="fas fa-home"></i> ';
-					}
-				echo '</span>';
-			}else{
-				echo ' <span class="badge bg-warning float-right"> Renta';  
-					if($results['bgo_subcat']==1){
-						echo ' <i class="fas fa-car"></i> ';
-					}else{
-						echo ' <i class="fas fa-home"></i> ';
-					}
-
-				echo '</span>';
-			}
-					
-		echo '</small> </h5>
-      <div class="reviews-star float-left">   
-      </div>
- </div>';
- 
-
-}		 
- ?>
-  </div>
- </div><!-- /.card-body -->
+				 </div>
+              
+                </div>
+              </div>
+              <!-- /.card -->
             </div>
             <!-- /.nav-tabs-custom -->
           </div>
@@ -251,10 +283,13 @@ echo '<div class="col-lg-3 col-md-6 visit mb-3 itemSelection" itemId="'.$results
 	 var rt1 = $('#route01').val();
 	 var rt2 = $('#route02').val();
 	 var fullRoute = rt1+rt2;
+	 var fcc = $('#fcd').val();
 	 
 	 switch(fullRoute){
-		case '11': location.href = "../post/vehiculo.php?hdmi="+$('#rcode').val(); break;
-		case '12': location.href = "../post/inmueble.php?hdmi="+$('#rcode').val(); break;
+		case '11': location.href = "../post/vehiculos/datos.php?ccdt="+fcc+"&ccdtm=11"; break;
+		case '21': location.href = "../post/vehiculos/datos.php?ccdt="+fcc+"&ccdtm=11"; break;
+		case '12': location.href = "../post/inmueble.php?ccdt="+fcc+"&ccdtm=12"; break;
+		case '22': location.href = "../post/inmueble.php?ccdt="+fcc+"&ccdtm=12"; break;
 	 }
  });
 </script>

@@ -11,18 +11,20 @@ require_once "../modelos/conexion.php";
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Burengo.com</title>
+  <link rel="icon" type="image/png" href="../favicon.ico"/>
+  <title>Burengo</title>
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../plugins/bootstrap-slider/css/bootstrap-slider.min.css">
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+ 
+ 
 </head>
 <body class="hold-transition layout-top-nav">
 <div class="wrapper">
- <nav class="main-header navbar navbar-expand-md navbar-light navbar-warning"> 
+ <nav class="main-header navbar navbar-expand-md navbar-dark bg-navy"> 
     <div class="container">
       <a href="../index.php" class="navbar-brand">
-        <span class="brand-text">Buren<span class="text-danger">go</span></span>
+          <img src="../dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8">  
       </a>
       <div class="collapse navbar-collapse order-3" id="navbarCollapse">
         <ul class="navbar-nav"> </ul>
@@ -36,34 +38,245 @@ require_once "../modelos/conexion.php";
   </nav>
   <!-- /.navbar -->
 
+
+
+
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <div class="content-header">
-      <div class="container">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">  
-			<input id="route01" type="hidden" value="1" />
-			<small> </small></h1>
-          </div><!-- /.col -->
-    
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
     <!-- Main content -->
     <div class="content">
-      <div class="container">
-        <div class="row">
+      <div class=" ">
+        <div class="row pt-2">
 		
-          <div class="col-lg-12">
-		  
+          <div class="col-lg-3">
+		  <input id="tipocarro"  type="hidden" value="0" />
+		  <input id="string"     type="text" />
 		  	<div class="card">
-              <div class="card-body p-0">
-               <div class="row">
-                
+              <div class="card-body p-1 opFilters">
+                  <div class="pt-2">
+                        <select id="condition" class="form-control opSelector" variable="condition">
+                          <option value="0"> Condicion del vehiculo </option>
+                          <option value="0"> Todas </option>
+                          <option value="Nuevo"> Nuevo </option>
+                          <option value="Usado"> Usado </option>
+                        </select>                    
+					</div>
+				  <div class="pt-2">
+						<select id="brands" class="form-control opSelector" variable="marca"> 
+						<option value="0"> Marcas </option> </select>
+						</select> 
+				</div> 
+                <div class="pt-2"><select id="models" class="form-control"> 
+					<option value="0"> Modelos </option> </select></div> 
+             	
+				<div class="card-header">
+            <h3 class="card-title"> Tipos de Vehiculos</h3>
+
+            <div class="card-tools">
+              <a id="ctpBtn" href="#" class="btn-tool" optp="show" ></a>
+            </div>
+          </div>
+			 
+				<div id="ctp"  class="row pt-0 Hideme">
+		
+				<div class="col-sm-4 border-right border-top carTypeTxt" cttlabel="1">
+                    <div class="description-block">
+                      <h5 class="description-header"><img class="img-circle" style="width:50px;" src="../media/icons/sedan.png" alt="User Image"> </h5>
+                      <span class="description-text">Sedan</span>
+                    </div>             
+                  </div>				
+				  
+				  <div class="col-sm-4 border-right border-top carTypeTxt" cttlabel="2">
+                    <div class="description-block">
+                      <h5 class="description-header"><img class="" style="width:50px;" src="../media/icons/todoterreno.png" alt="User Image"> </h5>
+                      <span class="description-text">Jeepeta</span>
+                    </div>         
+                  </div>				  
+				  
+				  <div class="col-sm-4 border-top carTypeTxt" cttlabel="3">
+                    <div class="description-block ">
+                      <h5 class="description-header"><img class="" style="width:50px;" src="../media/icons/camioneta.png" alt="User Image"> </h5>
+                      <span class="description-text">Camioneta</span>
+                    </div>
+                  </div>				  
+				  <!------ Row 2-------->
+				  <div class="col-sm-4 border-right border-top carTypeTxt" cttlabel="4">
+                    <div class="description-block">
+                      <h5 class="description-header"><img style="width:50px;" src="../media/icons/limusina.png" alt="User Image"> </h5>
+                      <span class="description-text">Limosinas</span>
+                    </div>
+                  </div>				  
+				  
+				  <div class="col-sm-4 border-right border-top carTypeTxt" cttlabel="5">
+                    <div class="description-block">
+                      <h5 class="description-header"><img style="width:50px;" src="../media/icons/sport-car.png" alt="User Image"> </h5>
+                      <span class="description-text">Coupe/Sport</span>
+                    </div>
+                  </div>				  
+				  
+				  <div class="col-sm-4 border-top carTypeTxt" cttlabel="6">
+                    <div class="description-block">
+                      <h5 class="description-header"><img style="width:50px;" src="../media/icons/motocicleta.png" alt="User Image"> </h5>
+                      <span class="description-text">  Motores </span>
+                    </div>
+                  </div>
+				  	  <!------ Row 3 -------->
+				  <div class="col-sm-4 border-right border-top carTypeTxt" cttlabel="7">
+                    <div class="description-block">
+                      <h5 class="description-header"><img style="width:50px;" src="../media/icons/bus-electrico.png" alt="User Image"> </h5>
+                      <span class="description-text">Autobuses</span>
+                    </div>
+                  </div>				  
+				  
+				  <div class="col-sm-4 border-right border-top carTypeTxt" cttlabel="8">
+                    <div class="description-block">
+                      <h5 class="description-header"><img style="width:50px;" src="../media/icons/barco.png" alt="User Image"> </h5>
+                      <span class="description-text"> Barcos </span>
+                    </div>
+                  </div>				  
+				  
+				  <div class="col-sm-4 border-top carTypeTxt" cttlabel="9">
+                    <div class="description-block">
+                      <h5 class="description-header"><img style="width:50px;" src="../media/icons/moto-acuatica.png" alt="User Image"> </h5>
+                      <span class="description-text"> Jet Ski </span>
+                    </div>
+                  </div>
+				  
+				  <!------ Row 4-------->
+				  <div class="col-sm-4 border-right border-top border-bottom carTypeTxt" cttlabel="10">
+                    <div class="description-block">
+                      <h5 class="description-header"><img class="img-circle" style="width:50px;" src="../media/icons/camion.png" alt="User Image"> </h5>
+                      <span class="description-text">Caminoes</span>
+                    </div>
+                  </div>				  
+				  
+				  <div class="col-sm-4 border-right border-top border-bottom carTypeTxt" cttlabel="11">
+                    <div class="description-block">
+                      <h5 class="description-header"><img style="width:50px;" src="../media/icons/mezclador.png" alt="User Image"> </h5>
+                      <span class="description-text">V. Pesados </span>
+                    </div>
+                  </div>				  
+				  
+				  <div class="col-sm-4 border-top border-bottom carTypeTxt" cttlabel="12">
+                    <div class="description-block">
+                      <h5 class="description-header"><img style="width:50px;" src="../media/icons/generador.png" alt="User Image"> </h5>
+                      <span class="description-text"> Otros </span>
+                    </div>
+                  </div>
+			 
+          
+                 
+                  </div>
+				<div class="row pt-2">
+                 
+                  <div class="col-6">
+                    <select id="pricefrom" class="form-control">
+						<option value="0"> Precio Min.  </option>
+						<option value="25000"> $25,000  </option>
+						<option value="50000"> $50,000  </option>
+						<option value="75000"> $75,000  </option>
+						<option value="100000"> $100,000  </option>
+						<option value="150000"> $150,000  </option>
+						<option value="200000"> $200,000  </option>
+						<option value="250000"> $250,000  </option>
+						<option value="300000"> $300,000  </option>
+						<option value="350000"> $350,000  </option>
+						<option value="400000"> $400,000  </option>
+						<option value="450000"> $450,000  </option>
+						<option value="500000"> $500,000  </option>
+						<option value="550000"> $550,000  </option>
+						<option value="600000"> $600,000  </option>
+						<option value="650000"> $650,000  </option>
+						<option value="700000"> $700,000  </option>
+						<option value="750000"> $750,000  </option>
+						<option value="800000"> $800,000  </option>
+						<option value="850000"> $850,000  </option>
+						<option value="900000"> $900,000  </option>
+						<option value="950000"> $950,000  </option>
+						<option value="1000000"> $1,000,000  </option>
+						<option value="1500000"> $1,500,000  </option>
+						<option value="2000000"> $2,000,000  </option>
+						<option value="2500000"> $2,500,000  </option>
+					</select>
+                  </div>
+                  <div class="col-6">
+					<select id="priceto" class="form-control">
+						<option value="9000000"> Precio Max.  </option>
+						<option value="50000"> $50,000  </option>
+						<option value="75000"> $75,000  </option>
+						<option value="100000"> $100,000  </option>
+						<option value="150000"> $150,000  </option>
+						<option value="200000"> $200,000  </option>
+						<option value="250000"> $250,000  </option>
+						<option value="300000"> $300,000  </option>
+						<option value="350000"> $350,000  </option>
+						<option value="400000"> $400,000  </option>
+						<option value="450000"> $450,000  </option>
+						<option value="500000"> $500,000  </option>
+						<option value="550000"> $550,000  </option>
+						<option value="600000"> $600,000  </option>
+						<option value="650000"> $650,000  </option>
+						<option value="700000"> $700,000  </option>
+						<option value="750000"> $750,000  </option>
+						<option value="800000"> $800,000  </option>
+						<option value="850000"> $850,000  </option>
+						<option value="900000"> $900,000  </option>
+						<option value="950000"> $950,000  </option>
+						<option value="1000000"> $1,000,000  </option>
+						<option value="1500000"> $1,500,000  </option>
+						<option value="2000000"> $2,000,000  </option>
+						<option value="2500000"> $2,500,000  </option>
+					</select>
+                  </div>
+                </div>				
+				
+				<div class="row pt-2">
+                  <div class="col-6">
+                    <select id="yearfrom" class="form-control">
+						 <option value="0"> Año Desde </option>
+                    </select>
+                  </div>
+                  <div class="col-6">
+                       <select id="yearto" class="form-control">
+						 <option value="0"> Año Hasta </option>
+                    </select>
+                  </div>
                 </div>
+				 
+               <div class="pt-2">
+					<select id="fuel" class="form-control"> 
+						<option value="0"> Combustible </option>
+						<option value="1"> Gasolina </option>
+						<option value="2"> Gas/GLP </option>
+						<option value="3"> Gasoil/Diesel </option>						
+					</select>
+				</div> 
+				
+               <div class="pt-2">
+					<select id="color" class="form-control"> 
+							<option value="0"> Color </option> 
+					</select>
+				</div> 
+               
+			   <div class="pt-2">
+			   <select id="transmision" class="form-control"> 
+					<option value="0"> Transmision </option>
+                    <option value="1"> Automatica </option>
+                    <option value="2"> Manual </option>
+                    <option value="3"> Triptonica </option>
+					</select>
+				</div> 
+               <div class="pt-2">
+					<select id="place" class="form-control"> 
+							<option value="0"> Lugar </option> 
+					</select>
+			   </div> 
+             	
+			 
+						
+
+               
               </div>
             </div> 
 			
@@ -75,57 +288,14 @@ require_once "../modelos/conexion.php";
 
           </div>
           <!-- /.col-md-6 -->
-            <div class="col-lg-12">
-<div class="card">
- <div class="card-body plist">
-   <div class="row">
-<?php
-
-$stmt = Conexion::conectar()->prepare(" SELECT * FROM bgo_posts 
-WHERE bgo_status = 1 
-and bgo_cat = 1 and bgo_subcat = 1");
-$stmt -> execute();
-while($results = $stmt -> fetch()){
-
-echo '<div class="col-lg-3 col-md-6 visit mb-3 itemSelection" itemId="'.$results['bgo_code'].'" data-aos="fade-up">
-      <img src="../media/thumbnails/'.$results['bgo_thumbnail'].'" alt="Image placeholder" class="img-fluid rounded"> 
-      <div style="overlay; z-index:999; margin-top:-2em;"> <span class="badge bg-warning">$'.number_format($results['bgo_price'],2).' </span></div>
-	  <h5 class="pt-2"> 
-		  '.$results['bgo_title'].'    
-		<small class="float-right pt-1"> '.$results['bgo_lugar'].' </small>
-	  </h5>
-      <div class="reviews-star float-left">   
-      </div>
- </div>';
-}		 
-			 
-			 
-			 
-			 ?>
-              <!-- /.card-header -->
-             
-         
-		  
-        
-        
-         
-
-
-         
-        
-          
-                  
-		  		  
-		  
-
-        </div>
-      
-              </div>
-              <!-- /.card-body -->
-		           
-
-		   </div>  
-          </div>
+<div class="col-lg-9">
+<div class="p-0">
+ <div class="card-body p-0">
+	<div class="row plist">
+ 	</div>
+   </div>
+  </div>  
+</div>
           <!-- /.col-md-6 -->
   
         </div>
@@ -150,63 +320,98 @@ echo '<div class="col-lg-3 col-md-6 visit mb-3 itemSelection" itemId="'.$results
 </div>
 <!-- ./wrapper -->
 
-<!-- REQUIRED SCRIPTS -->
-
-<!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script>
+<script src="../plugins/jquery/jquery.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../dist/js/adminlte.min.js"></script>
+<script src="../dist/js/demo.js"></script>
+<script src="../plugins/bootstrap-slider/bootstrap-slider.min.js"></script>
 <script type="text/javascript">
- $('#op1').click(function(){
-	 $(this).removeClass('btn-default');
-	 $(this).addClass('btn-warning');
-	 $('#op2').removeClass('btn-warning');
-	 $('#op2').addClass('btn-default');
-	 $('#route01').val(1);
- });
+$(document).ready(function(){
+$('#brands').load('../ajax/bgo_select_car_brands.php');	
+$('#yearfrom').load('../ajax/bgo_select_active_years2.php');	
+$('#yearto').load('../ajax/bgo_select_active_years3.php');
+$('#color').load('../ajax/burengo_select_color.php');
+$('#place').load('../ajax/burengo_select_places.php');	
+SendData();
+$("#ctp").hide();
+document.getElementById('ctpBtn').innerHTML='<i class="fas fa-plus"></i>';
+$('.plist').load("../ajax/burengo_select_conditionals.php?t1="+$('#string').val()+"&t2="
+					+$('#pricefrom').val()+"&t3="+$('#priceto').val()+"&t4="
+					+$('#yearfrom').val()+"&t5="+$('#yearto').val()+"");
+
+});
+
+
+$('#condition').change(function(){SendData();});
+$('#brands').change(function(){SendData();});
+$('#brands').change(function(){SendData();});
+$('#models').change(function(){SendData();});
+$('#fuel').change(function(){SendData();});
+$('#color').change(function(){SendData();});
+$('#transmision').change(function(){SendData();});
+$('#place').change(function(){SendData();});
+$('#yearfrom').change(function(){SendData();});
+$('#yearto').change(function(){SendData();});
+$('#pricefrom').change(function(){SendData();});
+$('#priceto').change(function(){SendData();});
  
-  $('#op2').click(function(){
-	 $(this).removeClass('btn-default');
-	 $(this).addClass('btn-warning');
-	 $('#op1').removeClass('btn-warning');
-	 $('#op1').addClass('btn-default');
-	 $('#route01').val(2);
- });
+$('#brands').change(function(){$('#models').load('../ajax/bgo_select_car_models.php?id='+$('#brands').val()); });
+ 
  
  
 $('.plist').on("click", "div.itemSelection", function(){ 
 	var id = $(this).attr('itemId');
-	location.href="itemview.php?dtcd="+id; 
+//	location.href="itemview.php?dtcd="+id; 
 }); 
 
 
+$('#ctp').on("click","div.carTypeTxt", function(){
+	var myVal = $(this).attr("cttlabel");
+	$('#tipocarro').val(myVal);
+	 SendData();
+});
 
-
-$('#btnCompras').click(function(){
-var rt = $('#route01').val();
-switch(rt){
-	case '1': location.href="buy/vehiculos.php"; break;
-	case '2': location.href="buy/inmuebles.php"; break;
-	default: 
-	
+$("#ctpBtn").click(function(){
+  var op = $(this).attr('optp');
+  
+switch(op){
+	case 'show': 
+		$("#ctp").show();
+		document.getElementById('ctpBtn').innerHTML='<i class="fas fa-minus"></i>';
+		$("#ctpBtn").attr('optp','hide');
 	break;
-}	
-	
+	case 'hide': 
+	   $("#ctp").hide();
+	   document.getElementById('ctpBtn').innerHTML='<i class="fas fa-plus"></i>';
+	   $("#ctpBtn").attr('optp','show');	
+	 break;
+} 
 });
+ 
+function SendData(){
+var condition = $('#condition').val();
+var brand = $('#brands').val();
+var brand = $('#brands').val();
+var model = $('#models').val();
+var tipocarro = $('#tipocarro').val();
+var fuel = $('#fuel').val();
+var color = $('#color').val();
+var transmision = $('#transmision').val();
+var place = $('#place').val();
+	
+var Mydats = [['condicion',condition],
+			  ['marca',brand],
+			  ['modelo',model],
+			  ['vtype',tipocarro],
+			  ['fuel',fuel],
+			  ['color',color],
+			  ['transmision',transmision],
+			  ['lugar',place]];		
 
-$('#btnRentas').click(function(){
-var rt = $('#route01').val();
-switch(rt){
-	case '1': alert("Renta de vehiculos!"); break;
-	case '2': alert("Renta de Inmuebles!"); break;
-	default: break;
-}	
-	
-});
+$("#string").val(JSON.stringify(Mydats)); 
+$('.plist').load("../ajax/burengo_select_conditionals.php?t1="+$('#string').val()+"&t2="+$('#pricefrom').val()+"&t3="+$('#priceto').val()+"&t4="+$('#yearfrom').val()+"&t5="+$('#yearto').val()+"");
+}
+ 
 
 
 </script>

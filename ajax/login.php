@@ -12,17 +12,23 @@ $results = $stmt2 -> fetch();
 										
 if($results['user']==$usr && $results['pass']==$pass){
 
+	switch($results['profile']){
+		case 1:  $addr="inicio.php"; break;  /* Free user */
+		case 50: $addr="dashboard.php"; break; /* Admin */
+		case 10: $addr="inicio.php"; break; /* VIP */ 
+		default: $addr="salir.php"; break; 
+	}
+	
 	$_SESSION['bgo_userId'] = $results['uid'];
 	$_SESSION['bgo_name'] = $results['name'];
 	$_SESSION['bgo_user'] = $results['user'];
+	$_SESSION['bgo_userImg'] = $results['img'];
 	$_SESSION['bgo_perfil'] = $results['profile'];
 	$_SESSION["bgoSesion"] = 'ok';
-	
-	/* Datos comunes */
 	$_SESSION['bgo_year'] = date('Y');
 	$_SESSION['bgo_version'] = '1.1.0.1';
-	$_SESSION['bgo_userImg'] = 'dist/img/user.png';
  
+	$out['url'] = $addr;
 	$out['ok'] = 1;
 	$out['status'] = 1; 
 }else{

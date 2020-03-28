@@ -14,6 +14,38 @@ if($results = $stmt -> fetch()){
 }
 
 
+$stmt = Conexion::conectar()->prepare("SELECT p.*, c.*, i.*, m.*,n.*, l.*, cr.*, ts.*, tc.*, fl.*, vt.* FROM bgo_posts p 
+INNER JOIN bgo_colores c ON p.bgo_color = c.clrs_id
+INNER JOIN bgo_colores_int i ON p.bgo_color_interior = i.clrs_int_id
+INNER JOIN bgo_marcas_vehiculos m ON p.bgo_marca = m.mv_id   
+INNER JOIN bgo_modelos_vehiculos n ON p.bgo_modelo = n.mvd_id      
+INNER JOIN bgo_places l ON p.bgo_lugar = l.pcid      
+INNER JOIN bgo_currency cr ON p.bgo_currency = cr.cur_id  
+INNER JOIN bgo_transmision_vehiculo ts ON p.bgo_transmision = ts.tsvid    
+INNER JOIN bgo_traccion_vehiculo tc ON p.bgo_traccion = tc.tv_id    
+INNER JOIN bgo_fuel fl ON p.bgo_fuel = fl.fid   
+INNER JOIN bgo_innercategoires vt ON p.bgo_vtype = vt.inncat  
+AND p.bgo_code = '".$code."'");
+
+$stmt -> execute();
+
+if($results = $stmt -> fetch()){
+	$thumpnail = "../../../../media/thumbnails/".$results['bgo_thumbnail'];
+	$totalPhotos = intval($results['bgo_comp_img']);
+	}
+
+
+//$structure = '../../../../media/images/'.$code.'/';
+
+//if(is_dir($structure)){
+	/* No hacer nada */
+//}else{
+	//if (!mkdir($structure, 0777, true)) {
+		//	die('Failed to create folders...');
+	//} 
+//}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -136,7 +168,7 @@ if($results = $stmt -> fetch()){
 				<i class="far fa-image"></i>
 				
 				Portada Publicacion 
-				<input id="uploadedCTRL" type="hidden" value="0" />
+				<input id="uploadedCTRL" type="hidden" value="1" />
 				<input id="getCode" type="hidden" value="<?php echo $code; ?>" />
 				
 				</h3>
@@ -144,8 +176,20 @@ if($results = $stmt -> fetch()){
             <div class="card-body"> <input id="currentCode" type="hidden" value="<?php echo $code; ?>" />
  
 			<div class="form-group">
-                      <h3>Seleccione la Imagen de Portada </h3>
-                    <div class="input-group">
+				<button id="changeImg" class="btn btn-info  "> <i class="far fa-image"></i> Cambiar Imagen de Portada </button>
+				
+				<?php 
+					if($totalPhotos>=1){ 
+						echo '<button id="changeImges" class="btn btn-info  "> <i class="far fa-image"></i> Sustituir Imagenes Complemtarias </button>';
+						}else{
+						echo '<button id="changeImges" class="btn btn-primary  "><i class="fas fa-plus"></i> Anexar Mas imagenes </button>';
+					}
+					
+				?>
+				
+			
+                      <h3 class="Hideme">Seleccione la Imagen de Portada </h3>
+                    <div class="input-group Hideme">
                       <div class="custom-file">
                         <input type="file" class="custom-file-input" id="file">
                         <label class="custom-file-label" for="file">Choose file</label>
@@ -153,11 +197,7 @@ if($results = $stmt -> fetch()){
                     </div>
                   </div>
  
-			<center>
-			<div style="padding: 10px; height:260px; width:415px; border: solid #ced4da;">
-			   <span   id="uploaded_image"></span>
-			</div>
-             </center>
+
 			 <hr/>
 			 
 			 <h3 id="t2" class="Hideme"> <i class="far fa-images"></i> Anexar Mas imagenes  </h3>
@@ -175,6 +215,30 @@ if($results = $stmt -> fetch()){
 					  
                     </div>
                   </div>
+				  
+			<div class="col-md-6">
+				<div style="padding: 10px; height:260px; width:315px;">
+					<span   id="uploaded_image"> <img src="<?php echo $thumpnail; ?>" height="250" width="300" class="img-thumbnail" /></span>
+					
+					 
+				</div>
+            </div>			
+			<br/>
+			<div class="col-md-6 float-right">
+				<div>
+					<span   id="uploaded_images">
+					  <?php 
+				  for($i=0; $i < $totalPhotos; $i++){
+					 
+					 echo '<div <img src="../../../../media/images/'.$code.'/'.$code.'-'.$i.'.jpg" height="125" width="150" class="img-thumbnail"></div>';
+				  }
+				?>
+					</span>
+					
+				</div>
+            </div>  
+				  
+				  
 			</div>
 			
 			<div class="card-footer clearfix ">
@@ -198,10 +262,7 @@ if($results = $stmt -> fetch()){
  
 
   <!-- Main Footer -->
-  <footer class="main-footer bg-black">
-    <div class="float-right d-none d-sm-inline"></div>
-    Burengo &copy; 2020 - Todos los derechos reservados.  
-  </footer>
+  <footer class="main-footer bg-black"> Burengo &copy; 2020 - Todos los derechos reservados. </footer>
 </div>
 <!-- ./wrapper -->
 
@@ -213,7 +274,16 @@ if($results = $stmt -> fetch()){
 <script type="text/javascript">
 $(document).ready(function(){
   
-$('#next').prop('disabled', true);
+ 
+
+
+$('#changeImg').click(function(){
+	$('#file').click();
+});
+
+$('#changeImges').click(function(){
+	$('#inpFile').click();
+});
   
 $(document).on('change', '#file', function(){
 	var name = document.getElementById("file").files[0].name;
@@ -253,9 +323,9 @@ $(document).on('change', '#file', function(){
 			success:function(data){
 			$('#uploaded_image').html(data);
 			$('#uploadedCTRL').val(1);
-			$('#next').prop('disabled', false);
-			$('#t2').removeClass('Hideme');
-			$('#t3').removeClass('Hideme');
+			//$('#next').prop('disabled', false);
+			//$('#t2').removeClass('Hideme');
+			//$('#t3').removeClass('Hideme');
 		}
    });
   } //Fin del else 
@@ -299,8 +369,8 @@ $.ajax({
 			//toastr.success('Subiendo Imagen de portada');	
 		},   
 	  success:function(data){
-			alert(data);
-			//$('#uploaded_image').html(data);
+			//alert(data);
+			$('#uploaded_images').html(data);
 			//$('#uploadedCTRL').val(1);
 		}
    });				

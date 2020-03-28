@@ -152,7 +152,7 @@ $tp = $_REQUEST['cat'];
                     </div>
                   </div>				  
 				  
-				  <div class="col-sm-4 border-right border-top border-bottom carTypeTxt bg-warning" cttlabel="15" >
+				  <div class="col-sm-4 border-right border-top border-bottom carTypeTxt" cttlabel="15" >
                     <div class="description-block ">
                       <h5 class="description-header "><img style="width:50px;" src="../media/icons/choza.png" alt="User Image"> </h5>
                       <span class="description-text"> <small>Villas </small> </span>

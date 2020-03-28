@@ -3,48 +3,64 @@ session_start();
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../../../../modelos/conexion.php";
 
+
 $code = $_REQUEST["ccdt"];
 $src = $_REQUEST["pth"];
-$cat = 1;
-$subcat = 2;
-$strcat = "Venta";	
 
-$stmt = Conexion::conectar()->prepare("SELECT p.*, t.*, cr.*, l.* FROM bgo_posts p
-INNER JOIN bgo_innercategoires t ON p.bgo_tipolocal = t.inncat 
-INNER JOIN bgo_places l ON p.bgo_lugar = l.pcid 
-INNER JOIN bgo_currency cr ON p.bgo_currency = cr.cur_id  AND p.bgo_code = '".$code."'");
+
+$stmt = Conexion::conectar()->prepare("SELECT p.*, c.*, i.*, m.*,n.*, l.*, cr.*, ts.*, tc.*, fl.*, vt.* FROM bgo_posts p 
+INNER JOIN bgo_colores c ON p.bgo_color = c.clrs_id
+INNER JOIN bgo_colores_int i ON p.bgo_color_interior = i.clrs_int_id
+INNER JOIN bgo_marcas_vehiculos m ON p.bgo_marca = m.mv_id   
+INNER JOIN bgo_modelos_vehiculos n ON p.bgo_modelo = n.mvd_id      
+INNER JOIN bgo_places l ON p.bgo_lugar = l.pcid      
+INNER JOIN bgo_currency cr ON p.bgo_currency = cr.cur_id  
+INNER JOIN bgo_transmision_vehiculo ts ON p.bgo_transmision = ts.tsvid    
+INNER JOIN bgo_traccion_vehiculo tc ON p.bgo_traccion = tc.tv_id    
+INNER JOIN bgo_fuel fl ON p.bgo_fuel = fl.fid   
+INNER JOIN bgo_innercategoires vt ON p.bgo_vtype = vt.inncat  
+AND p.bgo_code = '".$code."'");
 
 $stmt -> execute();
 
 if($results = $stmt -> fetch()){
+	$user = $results['bgo_usercode'];
 	$desc = $results['bgo_title'];
 	$precio =  $results['bgo_price'];
-	
 	$year = $results['bgo_year']; 
+	$mc = $results['bgo_marca'];
+	$md = $results['bgo_modelo'];
+	
 	$modelo = $results['mvd_modelo'];
 	$fullbrand = $results['mv_marca'] ; 
 	$motor = 'N/A';
 	$color =$results['clrs_name'];
 	$color2 =$results['clrs_int_name'];
+	$cc1 = $results['bgo_color'];
+	$cc2 = $results['bgo_color_interior'];	
+	$vtype = $results['bgo_vtype'];
 	$tipo = $results['inncat_name'];
+	$fuelc = $results['bgo_fuel'];
 	$fuel = $results['fstr'];
+	$uom = $results['bgo_uom'];
+	$transmissionc = $results['bgo_transmision']; 
 	$transmission = $results['tsvstr']; 
+	$tracsionc = $results['bgo_traccion'];
 	$tracsion = $results['tv_name'];
 	$condition = $results['bgo_condicion'];
 	$passengers = $results['bgo_pasajeros_cantidad'];
 	$doors = $results['bgo_puertas_cantidad']; 
 	$addr = $results['bgo_addr']; 
-	 
-	$uom = $results['bgo_uom'];
-	$currency = $results['bgo_currency']; 
-	$location = '../../../../media/thumbnails/' . $results['bgo_thumbnail']; 
-	$totalPhotos = intval($results['bgo_comp_img']);
-	$rooms =  $results['bgo_rooms'] ;
-	$bath =  $results['bgo_bath'] ;
-	$garage =  $results['bgo_parqueos'] ;
-	$terr =  $results['bgo_terreno'] ;
-	$cons =  $results['bgo_construccion'] ;
-	$notes =  $results['bgo_notes'] ;
+	$placec = $results['bgo_lugar']; 
+	$place = $results['pcstr']; 
+	$totalPhotos = intval($results['bgo_comp_img']); 
+	$thumpnail = "../../../../media/thumbnails/".$results['bgo_thumbnail'];
+	$subcat = intval($results['bgo_cat']);
+	$tcp = $results['bgo_uom'];
+	$currencyC = $results['bgo_currency']; /* Tipo de moneda */
+	$currency = $results['cur_str']." (".$results['cur_code'].")"; /* Tipo de moneda */
+	$img = array($thumpnail,'0000.jpg','0000.jpg','0000.jpg','0000.jpg');
+	$notes = $results['bgo_notes'];
   }
 ?>
 <!DOCTYPE html>
@@ -89,35 +105,55 @@ if($results = $stmt -> fetch()){
  <div class="col-md-12">
                <div class="card">
 			 <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-car"></i> <?php echo $strcat;?> de Vehiculos | Informaciones Generales  </h3>
+                <h3 class="card-title"><i class="fas fa-car"></i> Editar Publicacion        </h3>
 				<input id="pcode" type="hidden" value="<?php echo $code; ?>">
-				<input id="cat" type="hidden" value="<?php echo $cat; ?>">
-				<input id="subcat" type="hidden" value="<?php echo $subcat; ?>">
-				<input id="userId" type="hidden" value="<?php echo $_SESSION['bgo_userId']; ?>">
+				<input id="userId" type="hidden" value="<?php echo $user; ?>">
 				<input id="url" type="hidden" value="<?php echo $src; ?>">
               </div>
             <div class="card-body">
 		    <div class="row">
-                    <div class="col-sm-12">
-                      <div class="form-group">
-						<input id="title" maxlength="25" type="text" class="form-control" placeholder="Titulo de Publicacion (Ejemplo: Honda Civic EX 2014)">
-                      </div>
-                    </div>
+             <div class="col-sm-12">
+              <div class="form-group"><label> Titulo de Publicacion </label><input id="title" maxlength="25" type="text" class="form-control" value="<?php echo $desc; ?>"></div>
             </div>
- 			
+            </div>
 			<div class="row">
                  <div class="col-sm-6">
-					<div class="form-group">
+					<div class="form-group"><label> Marcas </label>
 						<select id="brands" class="form-control"> 
-							<option value="0"> Marcas </option> 
+							<option value="0"> Marcas </option>
+<?php 
+$stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_marcas_vehiculos WHERE mv_status = 1 ORDER BY mv_marca");
+$stmt -> execute();
+while( $resultado = $stmt -> fetch()){
+	if($mc==$resultado['mv_id']){
+		echo '<option selected value="'.$resultado['mv_id'].'"> '.$resultado['mv_marca'].' </option>';
+	}else{
+		echo '<option value="'.$resultado['mv_id'].'"> '.$resultado['mv_marca'].' </option>';
+	}		
+}	
+?>							
 						</select> 
 					</div>
 				 </div>
 				 
                  <div class="col-sm-6">
-					<div class="form-group">
+					<div class="form-group"> <label> Modelos  </label>
 						<select id="models" class="form-control"> 
-							<option value="0"> Modelo </option> 
+							<option value="0"> Modelos </option>
+<?php 
+
+
+$stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_modelos_vehiculos WHERE mvd_status = 1 and mvd_marca = ".$mc." ORDER BY mvd_modelo");
+$stmt -> execute();
+
+while( $resultado = $stmt -> fetch()){
+	if($md==$resultado['mvd_id']){
+		echo '<option selected value="'.$resultado['mvd_id'].'"> '.$resultado['mvd_modelo'].' </option>';
+	}else{
+	   echo '<option value="'.$resultado['mvd_id'].'"> '.$resultado['mvd_modelo'].' </option>';		
+	}
+}	
+?>							
 						</select>
 					</div>
 				</div>
@@ -125,18 +161,29 @@ if($results = $stmt -> fetch()){
 			<!-- Anio / Condicion -->
 			<div class="row">
                    <div class="col-sm-6"> 
-						<div class="form-group">
+						<div class="form-group"> <label>  Año del Vehiculo  </label>  
 							<select id="activeYears" class="form-control"> 
-								<option value="0"> Seleccione el Año  </option> 
-							</select> 
-						</div>
-					 </div>
+								<option value="0"> Seleccione el Año  </option> 					
+<?php 
+$stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_active_years WHERE yr_status = 1 ORDER BY yr_id DESC");
+$stmt -> execute();
+while( $resultado = $stmt -> fetch()){
+	if($year==$resultado['yr_str']){
+		echo '<option selected value="'.$resultado['yr_str'].'"> '.$resultado['yr_str'].' </option>';
+	}else{
+		echo '<option value="'.$resultado['yr_str'].'"> '.$resultado['yr_str'].' </option>';
+	}		
+}	
+?>
+</select> 
+</div>
+</div>
 					<div class="col-sm-6">
-                      <div class="form-group">
-                        <select id="condition" class="form-control">
+                      <div class="form-group"><label>  Condicion del vehiculo  </label>
+                        <select id="condition" class="form-control"> 
                           <option value="0"> Condicion del vehiculo </option>
-                          <option value="Nuevo"> Nuevo </option>
-                          <option value="Usado"> Usado </option>
+                          <option <?php if($condition=="Nuevo"){ echo "selected"; } ?> value="Nuevo"> Nuevo </option>
+                          <option <?php if($condition=="Usado"){ echo "selected"; } ?> value="Usado"> Usado </option>
                         </select>                    
 					</div>
                     </div>
@@ -144,43 +191,70 @@ if($results = $stmt -> fetch()){
 			<!-- Precio / Tipo de Moneda -->	
 				<div class="row">
                     <div class="col-sm-6">
-						<div class="form-group">
-							<input id="price" type="text" class="form-control" placeholder="Precio">
+						<div class="form-group">  <label> Precio   </label>
+							<input id="price" type="text" class="form-control" value="<?php echo $precio; ?>">
 						</div>
 					</div>				
-					<div class="col-sm-6">
-						<div class="form-group">
+						<div class="col-sm-6">
+						<div class="form-group"> <label> Tipo de Moneda </label>
 							<select id="currency" class="form-control"> 
 								<option value="0"> Tipo de Moneda </option>
+								<?php 
+$stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_currency WHERE cur_status = 1");
+$stmt -> execute();
+while( $resultado = $stmt -> fetch()){
+	
+	if($currencyC==$resultado['cur_id']){
+		echo '<option selected value="'.$resultado['cur_id'].'"> '.$resultado['cur_str'].' </option>';
+	}else{
+		echo '<option value="'.$resultado['cur_id'].'"> '.$resultado['cur_str'].' </option>';
+	}
+	}	
+?>
+								
 							</select>
 						</div>
 					</div>
                  </div>
 			<!-- Combustible / Tipo de Vehiculo -->					
 			<div class="row">
-					<div class="col-sm-6">
-						<div class="form-group">
-							<select id="fuel" class="form-control">
-								<option value="0"> Combustible </option>
-							  </select>
-							</div>
-						</div>					
+<div class="col-sm-6">
+<div class="form-group"> <label> Combustible </label>
+<select id="fuel" class="form-control">
+<option value="0"> Combustible </option>
+<?php 
+$stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_fuel WHERE fstatus = 1");
+$stmt -> execute();
+while( $resultado = $stmt -> fetch()){
+	
+	if($fuelc==$resultado['fid']){
+		echo '<option selected value="'.$resultado['fid'].'"> '.$resultado['fstr'].' </option>';
+	}else{
+	echo '<option value="'.$resultado['fid'].'"> '.$resultado['fstr'].' </option>';	
+	}
+	
+			
+	}	
+?>
+ </select>
+</div>
+</div>				
 					
-					<div class="col-sm-6">
-                      <div class="form-group">
-					   <div class="input-group mb-3">
+<div class="col-sm-6">
+   <div class="form-group">  <label> Tipo de Vehiculo   </label>
+		<div class="input-group mb-3">
                   <select id="cartype" class="form-control">
-                        <option value="0"> Tipo de Vehiculo  </option>
-						<option value="1"> Sedan   </option>
-						<option value="2"> Compacto  </option> 
-						<option value="3"> Jeepeta  </option>
-						<option value="4"> Camioneta  </option>
-						<option value="5"> Coupe/Sport  </option>
-						<option value="6"> Motores  </option>
-						<option value="7"> Camiones  </option>
-						<option value="8"> Autobuses  </option>
-						<option value="9"> Vehiculos Pesados  </option>
-						<option value="10"> Otros  </option>
+                        <option <?php if($vtype==0){ echo "selected"; } ?> value="0"> Tipo de Vehiculo  </option>
+						<option <?php if($vtype==1){ echo "selected"; } ?> value="1"> Sedan   </option>
+						<option <?php if($vtype==2){ echo "selected"; } ?> value="2"> Compacto  </option> 
+						<option <?php if($vtype==3){ echo "selected"; } ?> value="3"> Jeepeta  </option>
+						<option <?php if($vtype==4){ echo "selected"; } ?> value="4"> Camioneta  </option>
+						<option <?php if($vtype==5){ echo "selected"; } ?> value="5"> Coupe/Sport  </option>
+						<option <?php if($vtype==6){ echo "selected"; } ?> value="6"> Motores  </option>
+						<option <?php if($vtype==7){ echo "selected"; } ?> value="7"> Camiones  </option>
+						<option <?php if($vtype==8){ echo "selected"; } ?> value="8"> Autobuses  </option>
+						<option <?php if($vtype==9){ echo "selected"; } ?> value="9"> Vehiculos Pesados  </option>
+						<option <?php if($vtype==10){ echo "selected"; } ?> value="10"> Otros  </option>
                     </select> 
                 </div>                     
 					</div>
@@ -189,20 +263,32 @@ if($results = $stmt -> fetch()){
 			<!-- Transmision / Traccion -->			 	
 			<div class="row">
 					<div class="col-sm-6">
-                      <div class="form-group">
+                      <div class="form-group"> <label> Transmision </label>
                         <select id="trasnmision" class="form-control">
-                          <option value="0"> Transmision </option>
-                          <option value="1"> Automatica </option>
-                          <option value="2"> Manual </option>
-                          <option value="3"> Triptonica </option>
+                          <option <?php if($transmissionc==0){ echo "selected"; } ?> value="0"> Transmision </option>
+                          <option <?php if($transmissionc==1){ echo "selected"; } ?> value="1"> Automatica </option>
+                          <option <?php if($transmissionc==2){ echo "selected"; } ?> value="2"> Manual </option>
+                          <option <?php if($transmissionc==3){ echo "selected"; } ?> value="3"> Triptonica </option>
                         </select>                    
 					</div>
                     </div>					
 					
 					<div class="col-sm-6">
-                      <div class="form-group"> 
+                      <div class="form-group"> <label> Traccion </label>
 						<select id="traccion" class="form-control">
                           <option value="0"> Traccion </option>
+<?php 
+$stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_traccion_vehiculo WHERE tv_status = 1");
+$stmt -> execute();
+while( $resultado = $stmt -> fetch()){
+   if($tracsionc==$resultado['tv_id']){
+	   echo '<option selected value="'.$resultado['tv_id'].'"> '.$resultado['tv_name'].' </option>';		
+   }else{
+	 echo '<option value="'.$resultado['tv_id'].'"> '.$resultado['tv_name'].' </option>';		
+   
+   }
+}	
+?>
               
                         </select>                
 					</div>
@@ -211,41 +297,61 @@ if($results = $stmt -> fetch()){
 			<!-- Color -->		
 			<div class="row">
 					<div class="col-sm-6">
-                      <div class="form-group">
-                        <select id="color" class="form-control">
+                      <div class="form-group">  <label> Color Exterior </label>
+                        <select id="color" class="form-control"> 
 						 <option value="0"> Color </option>
-                        </select>                    
+<?php 
+$stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_colores WHERE clrs_status = 1");
+$stmt -> execute();
+while( $resultado = $stmt -> fetch()){
+  if($cc1==$resultado['clrs_id']){
+	  echo '<option selected value="'.$resultado['clrs_id'].'"> '.$resultado['clrs_name'].' </option>';
+  }else{
+	echo '<option value="'.$resultado['clrs_id'].'"> '.$resultado['clrs_name'].' </option>';  
+  }
+}	
+?>
+	</select>                    
 					</div>
                     </div>					
 					
 					<div class="col-sm-6">
-                      <div class="form-group">
-					   <div class="input-group mb-3">
+                      <div class="form-group"> <label> Color Interior </label> 
+					   <div class="input-group mb-3"> 
 						<select id="interior" class="form-control">
                           <option value="0"> Color Interior </option>
-  
-                        </select> 
-                  
-                </div>                     
-					</div>
-                    </div>
-                  </div>
+<?php 
+$stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_colores_int WHERE clrs_int_status = 1");
+$stmt -> execute();
+while( $resultado = $stmt -> fetch()){
+   if($cc2==$resultado['clrs_int_id']){
+	 echo '<option selected value="'.$resultado['clrs_int_id'].'"> '.$resultado['clrs_int_name'].' </option>';  
+   }else{
+	 echo '<option value="'.$resultado['clrs_int_id'].'"> '.$resultado['clrs_int_name'].' </option>';   
+   }
+}	
+?>  
+</select> 
+	</div>                     
+		</div>
+             </div>
+                 </div>	
 			<!-- Puertas / Pasajeros --> 					
 			<div class="row">
     			<div class="col-sm-6">
-                      <div class="form-group">
+                      <div class="form-group">  <label> Cantidad de Puertas </label>
                         <select id="doors" class="form-control">
-                          <option value="0"> Cantidad de Puertas </option>
-                          <option value="0">0</option>
-						  <option value="2">2</option>
-						  <option value="3">3</option>
-						  <option value="4">4</option>
-						  <option value="5">5</option>
+                          <option <?php if($doors==0){ echo "selected"; } ?> value="0"> Cantidad de Puertas </option>
+                          <option <?php if($doors==1){ echo "selected"; } ?>  value="0">0</option>
+						  <option <?php if($doors==2){ echo "selected"; } ?>  value="2">2</option>
+						  <option <?php if($doors==3){ echo "selected"; } ?>  value="3">3</option>
+						  <option <?php if($doors==4){ echo "selected"; } ?>  value="4">4</option>
+						  <option <?php if($doors==5){ echo "selected"; } ?>  value="5">5</option>
 						</select>                    
 					</div>
 				</div>					 
-				<div class="col-sm-6"><div class="form-group">
-					<input id="passengers" type="number" min="1" class="form-control" placeholder="Cantidad de Pasajeros"> 
+				<div class="col-sm-6"><div class="form-group"> <label> Cantidad de Pasajeros </label>
+					<input id="passengers" type="number" min="1" class="form-control" value="<?php echo $passengers; ?>" > 
 					</div>
 					</div>	
 			</div>  
@@ -253,24 +359,19 @@ if($results = $stmt -> fetch()){
 			<div class="row">
 			<div class="col-sm-6"> <label> Provincia  </label>
 				<div class="form-group"> 
-							<select id="place" class="form-control">
-                          <option value="0"> Provincia </option>
-						  <?php 
+					<select id="place" class="form-control">
+                         <option value="0"> Provincia </option>
+						 <?php 
 							$stmt2 = Conexion::conectar()->prepare("SELECT * FROM bgo_places WHERE pcstatus = 1");
 							$stmt2 -> execute();
-
-							while( $resulta2 = $stmt2 -> fetch()){
-								
-								if($place==$resulta2['pcid']){
+							while( $resulta2 = $stmt2 -> fetch()){		
+								if($placec==$resulta2['pcid']){
 									echo '<option selected value="'.$resulta2['pcid'].'"> '.$resulta2['pcstr'].' </option>';	
 								}else{
 									echo '<option value="'.$resulta2['pcid'].'"> '.$resulta2['pcstr'].' </option>';	
 								}
-									
-								
-								
-								}	
-							?>
+							}	
+						?>
 						</select> 
 						</div>
 						</div>	
@@ -280,25 +381,26 @@ if($results = $stmt -> fetch()){
 			</div>
 
 						
-			</div> 
+			</div>
 			<div class='row'>
 			<div class="col-sm-12">
 				 <div class="card-header">
-                <h3 class="card-title"> <i class="fas fa-list"></i> Observaciones  </h3>
+                <h3 class="card-title"> <i class="fas fa-list"></i> Descripcion, Observaciones u Otros detalles </h3>
               </div>
             </div>
             </div>
 			<div class="row carAcc">
-			 
-				<div class="col-md-12">
+		<div class="col-md-12">
                       <input id="accesories" type="hidden"  />
-					  <textarea id="notes" class="form-control" rows="7" placeholder="Descripcion, Observaciones u Otros detalles"></textarea>
+					  <textarea id="notes" class="form-control" rows="3" placeholder="">
+					  <?php echo $notes; ?>
+					  </textarea>
                   </div>
             </div>
 		</div> <!-- Card Body -->
           <div class="card-footer">
               <button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> Cancelar </button>
-              <button id="next" type="button" class="btn btn-primary float-right"> Siguente <i class="fas fa-arrow-alt-circle-right"></i> </button>
+              <button id="updateData" type="button" class="btn btn-primary float-right"> Siguente <i class="fas fa-arrow-alt-circle-right"></i> </button>
           </div>	 
    </div>
  
@@ -319,11 +421,9 @@ if($results = $stmt -> fetch()){
 <script src="../../../../../dist/js/demo.js"></script>
 <script src="../../../../../plugins/jquery-number/jquery.number.js"></script>
 <script type="text/javascript"> 
-
-$('#updateData').click(function(){
-	 
-});
-
+$('#price').number(true,0); 
+$('#brands').change(function(){$('#models').load('../../../../ajax/bgo_select_car_models.php?id='+$('#brands').val()); });
+ 
 $('#cancel').click(function(){ 
 var ch = $('#url').val();
 switch(ch){
@@ -331,27 +431,53 @@ switch(ch){
 	case '2': location.href="../../../publicaciones.php"; break;
 	default: location.href="../../../inicio.php";  break; 
 }
-
-
-
 });
-$('#price').number(true,0); 
+
+
 /* BTN Next  */
-$('#next').click(function(){
- var uom = 0;
- $.getJSON('../../ajax/burengo_insert_vehicle.php',{
+$('#updateData').click(function(){
+ if( !isEmpty($('#title').val()) ){
+if( $('#brands').val() != 0 ){ 
+if( $('#models').val() != 0){
+if( $('#activeYears').val() != 0){
+if( $('#condition').val() != 0){
+if( !isEmpty($('#price').val()) ){	
+if( $('#currency').val() != 0){
+if( $('#fuel').val() != 0){
+if( $('#cartype').val() != 0){
+if( $('#trasnmision').val() != 0){
+if( $('#color').val() != 0){
+if( !isEmpty($('#addrs').val()) ){	 
+if( $('#place').val() != 0){
+	save_data();
+}else{ toastr.error('Debe colocar la provincia donde se encuentra el vehículo'); }
+}else{ toastr.error('Debe colocar la direccion donde se encuentra el vehículo'); }
+}else{ toastr.error('Debe seleccionar el color del vehículo'); }
+}else{ toastr.error('Debe seleccionar el tipo de Transmision del vehículo'); }
+}else{ toastr.error('Debe seleccionar el tipo de vehículo'); }
+}else{ toastr.error('Debe seleccionar el tipo de Combustible del vehículo'); }
+}else{ toastr.error('Debe seleccionar el tipo de moneda para la venta'); }
+}else{ toastr.error('Debe colocar el Precio del vehículo'); }
+}else{ toastr.error('Debe la condicion del vehículo '); }
+}else{ toastr.error('Debe seleccionar el Año del vehículo'); }
+}else{ toastr.error('Debe seleccionar el Moldelo del vehículo'); }
+}else{ toastr.error('Debe seleccionar la Marca del vehículo'); }
+}else{ $('#title').focus();  toastr.error('Debe completar todos los campos'); }
+});
+
+
+function save_data(){
+	var uom = 0;
+ $.getJSON('../../../../ajax/burengo_update_vehicle.php',{
 	code: $('#pcode').val(),
-	usercode: $('#userId').val(),
-	cat: $('#cat').val(),
-	subcat: $('#subcat').val(),
 	title: $('#title').val(),
 	price: $('#price').val(),
 	lugar: $('#place').val(),
+	condition: $('#condition').val(),
 	uom: uom,
 	marca: $('#brands').val(),
 	modelo: $('#models').val(),
 	year: $('#activeYears').val(),
-	condicion: $('#condition').val(),
 	currency: $('#currency').val(),
 	fuel: $('#fuel').val(),
 	vtype: $('#cartype').val(),
@@ -361,16 +487,21 @@ $('#next').click(function(){
 	color_interior: $('#interior').val(),
 	puertas_cantidad: $('#doors').val(),
 	pasajeros_cantidad: $('#passengers').val(),
-	addr: $('#addrs').val(),
-	accesories: $('#accesories').val(),   
+	addr: $('#addrs').val(),  
 	notes: $('#notes').val()	
   },function(data){
 		switch(data['ok']){
 			case 0: toastr.error('ERROR! No se pudo almacenar los datos: '+ data['err']); break;
-			case 1:  location.href="fotos.php?ccdt="+data['ccdt']; break;
+			case 1:  location.href="fotos-edit.php?ccdt=" + $('#pcode').val(); break;
 		}
-	});	
-});
+	});		
+	
+}
+
+function isEmpty(str) {
+    return (!str || 0 === str.length);
+}
+
 </script>
 </body>
 </html>

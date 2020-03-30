@@ -3,6 +3,9 @@ session_start();
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../../../../modelos/conexion.php";
 $code = $_REQUEST["ccdt"];
+$src = $_REQUEST["pth"];
+
+
 /*Buscar el plan */
  $stmt = Conexion::conectar()->prepare(" SELECT a.profile, b.planmaxf FROM bgo_users a INNER JOIN bgo_planes b
 ON a.profile = b.planid AND a.uid = '".$_SESSION['bgo_userId']."' ");
@@ -162,6 +165,7 @@ if($results = $stmt -> fetch()){
 	<div class="col-md-11">
 	<input id="getMaxValAllow" value="<?php echo $max; ?>" type="hidden" />
 	<input id="getUserID" type="hidden" value="<?php echo $_SESSION['bgo_userId']; ?>" />
+	<input id="url" type="hidden" value="<?php echo $src; ?>" />
             <div class="card">
 			  <div class="card-header">
                 <h3 class="card-title">  
@@ -385,11 +389,13 @@ $.ajax({
 
 });
  
-
- 
-
-$('#cancel').click(function(){
-	location.href="../../../inicio.php";
+$('#cancel').click(function(){ 
+var ch = $('#url').val();
+switch(ch){
+	case '1':  location.href="confirmacion.php?ccdt="+$('#pcode').val(); break;
+	case '2': location.href="../../../publicaciones.php"; break;
+	default: location.href="../../../inicio.php";  break; 
+}
 });
 
 $('#next').click(function(){
@@ -411,8 +417,6 @@ function isHigher(limit, data){
       return false;
     } 
 
-	
-	
 function isValid(data){
       for(var k = 0; k < data.length; k++){
 		  var n = data[k].name;

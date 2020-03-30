@@ -1,8 +1,8 @@
 <?php 
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../modelos/conexion.php";
- $plan = $_REQUEST["p"];
- $uid = $_REQUEST["acc"];
+$plan = $_REQUEST["p"];
+$uid = $_REQUEST["acc"];
 
 /* verificar si ya se ha completado la transacción */
 
@@ -139,38 +139,26 @@ En caso que desee proceder con una solicitud de reembolso, deberá tener a mano 
 <br/>
 Deberá tener también a mano el comprobante de la transacción. En caso que lo haya extraviado, verifique su cuenta de email ya que nuestro sistema le envía a su dirección una copia del comprobante de la transacción.
 Acceda a la página de contacto y remítanos la información requerida de su publicación. Si prefiere, puede también contactarnos vía telefónica en los números de teléfono en nuestra página de contacto.
-
-
 </p>
-						</div>
-                        <div class="text-center mt-5 mb-3">
-                <a href="../index.php" class="btn btn-sm btn-primary"> <i class="fas fa-list-alt"></i> Pagina Principal </a>
-                <button type="button" id="goToAcc"  class="btn btn-sm btn-success"> <i class="fas fa-user"></i> Acceder a Mi cuenta </button>
-              </div>
-                    </div>
- 
-               </div>
-              </div>
-            </div>
-   
-          </div>
-        </div>
+</div>
+<div class="text-center mt-5 mb-3">
+  <a href="../index.php" class="btn btn-sm btn-primary"> <i class="fas fa-list-alt"></i> Pagina Principal </a>
+  <button type="button" id="goToAcc"  class="btn btn-sm btn-success"> <i class="fas fa-user"></i> Acceder a Mi cuenta </button>
+</div>
+</div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
         <!-- /.card-body -->
       </div>
-
-           
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>
   </div>
-  
- 
-  
 <footer class="main-footer"> Burengo &copy; 2020 - Todos los derechos reservados. </footer>
-
- 
-
 </div>
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

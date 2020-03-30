@@ -15,7 +15,7 @@ $myPlan = $rest6["up_planid"];
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <link rel="icon" type="image/png" href="../../favicon.ico"/>
   <title>Burengo</title>
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
@@ -27,9 +27,40 @@ $myPlan = $rest6["up_planid"];
   <!-- Navbar -->
  <nav class="main-header navbar navbar-expand-md navbar-dark bg-navy"> 
     <div class="container">
-      <a href="index.php" class="navbar-brand"> <img src="../../dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8"> </a>
+      <a href="inicio.php" class="navbar-brand"> <img src="../../dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8"> </a>
       <div class="collapse navbar-collapse order-3" id="navbarCollapse"><ul class="navbar-nav"> </ul></div>
-      <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto"> </ul>
+      <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto"> 
+	  	  		<li class="nav-item"><a class="nav-link" href="profile.php">
+			 <img alt="Avatar"  class="user-image" src="../media/users/<?php echo $_SESSION['bgo_userImg']; ?>">
+			 <?php echo $_SESSION['bgo_user']; ?></a>
+		</li>
+	  	<li class="nav-item dropdown show">
+        <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true">
+          <i class="fas fa-bars fa-lg"></i>
+           
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <div class="dropdown-divider"></div>
+          <a href="inicio.php" class="dropdown-item">
+            <i class="fas fa-th mr-2"></i> Portada  
+          </a>
+          <div class="dropdown-divider"></div>		  
+		  <a href="publicaciones.php" class="dropdown-item">
+            <i class="far fa-list-alt mr-2"></i> Mis publicaciones 
+          </a>		  
+          <div class="dropdown-divider"></div>
+          <a href="profile.php" class="dropdown-item">
+            <i class="far fa-id-badge mr-2"></i> Cuenta   
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="mail/inbox.php" class="dropdown-item">
+            <i class="fas fa-envelope mr-2"></i> Mensajes
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> Cerrar Session </a>
+        </div>
+      </li>
+	  </ul>
     </div>
   </nav>
   <!-- /.navbar -->
@@ -156,9 +187,10 @@ if($myPlan == $results["planid"]){
               </button>
             </div>
             <div class="modal-body">
+				<input type="hidden" id="mdlPlanValue"  />
 				<div class="row tf"> <button id="transfer" type="button" class="btn btn-block bg-gradient-info btn-lg"> Trasnferencia Bancaria / Deposito  </button></div>
 				<br/>
-				<div class="row pp"></div>
+				<div id="paypal-button-container" class="row pp"></div>
             </div>
           
           </div>
@@ -170,8 +202,34 @@ if($myPlan == $results["planid"]){
   
 <footer class="main-footer"> Burengo &copy; 2020 - Todos los derechos reservados. </footer>
 
-<script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
-<script>paypal.Buttons().render('div.pp');</script>
+<script src="https://www.paypal.com/sdk/js?client-id=Ac87nE2RADPU10SpCPPzs7lsaHCwimpGPCETweXQ7tQ5owHaOasfaa21i8OwP7yQOh1PvZhp36axHUGE"></script>
+ 
+ 
+ <script>
+  paypal.Buttons({
+    createOrder: function(data, actions) {
+      // This function sets up the details of the transaction, including the amount and line item details.
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: $('#mdlPlanValue').val()
+          }
+        }]
+      });
+    },
+    onApprove: function(data, actions) {
+      // This function captures the funds from the transaction.
+      return actions.order.capture().then(function(details) {
+        	var idPlan = $('#getPlan').val();
+			location.href="confirmation.php?p="+idPlan+"&acc="+$('#getCode').val();
+		
+		// This function shows a transaction success message to your buyer.
+        //alert('Transaction completed by ' + details.payer.name.given_name);
+      });
+    }
+  }).render('#paypal-button-container');
+  //This function displays Smart Payment Buttons on your web page.
+</script>
 
 
 </div>
@@ -184,12 +242,13 @@ if($myPlan == $results["planid"]){
 $('.panList').on("click", "a.planselection", function(){
 	var idPlan = $(this).attr('idPlan');
 	var code = $('#getCode').val();
-    var price  =  parseInt($(this).attr('pricePlan'));
+    var price  =  parseFloat($(this).attr('pricePlan'));
 	if(price == 0 ){
 		 $('#getPlan').val(idPlan);
 		 location.href="confirmation.php?p="+idPlan+"&acc="+code;
 	}else{
 		$('#getPlan').val(idPlan);
+		$('#mdlPlanValue').val(price);
 		$('#triggerPM').click();
 	}
 });

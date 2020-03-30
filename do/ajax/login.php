@@ -1,6 +1,7 @@
 <?php 
 session_start();
 require_once "../modelos/conexion.php";
+require_once "../modelos/data.php";
 
 $usr  = strtolower ($_REQUEST["usr"]);
 $pass = crypt($_REQUEST["pass"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
@@ -35,7 +36,7 @@ $_SESSION['bgo_planName'] = '';
 	$_SESSION["bgoSesion"] = 'ok';
 	$_SESSION['bgo_year'] = date('Y');
 	$_SESSION['bgo_version'] = '1.1.0.1';
-	$_SESSION['bgo_ccode'] = 'do';
+	$_SESSION['bgo_ccode'] = COUNTRY_CODE;
 	
  
 	$out['url'] = $addr;

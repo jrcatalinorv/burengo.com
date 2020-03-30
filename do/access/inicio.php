@@ -89,7 +89,7 @@ $total_postv = number_format($results['totalpv']);
             <i class="far fa-id-badge mr-2"></i> Cuenta    
           </a>
           <div class="dropdown-divider"></div>
-          <a href="mensajes-recibidos.php" class="dropdown-item">
+          <a href="mail/inbox.php" class="dropdown-item">
             <i class="fas fa-envelope mr-2"></i> Mensajes
           </a>
           <div class="dropdown-divider"></div>

@@ -3,8 +3,6 @@ session_start();
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../modelos/conexion.php";
 
-$code = rand(1000000,9999999) ;
- 
  
 $fsDt = date("Y-m-d", strtotime("first day of this month")); 
 $lsDt = date("Y-m-d", strtotime("last day of this month")); 
@@ -62,6 +60,7 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
   <title>Burengo</title>
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="../../dist/css/adminlte.css">
+    <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
   <style>
   .bgo_top{
 	 
@@ -111,7 +110,7 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
             <i class="far fa-id-badge mr-2"></i> Cuenta   
           </a>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
+          <a href="mail/inbox.php" class="dropdown-item">
             <i class="fas fa-envelope mr-2"></i> Mensajes
           </a>
           <div class="dropdown-divider"></div>
@@ -130,7 +129,7 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
     <div class="content-header">
       <div class="container">
         <div class="row mb-2">
-          <input type="hidden" id="usrcode" value="<?php echo $_SESSION['bgo_userId']; ?>" />
+		  <input id="currentCode" class="form-control" type="hidden" value="<?php  echo $_SESSION['bgo_userId']; ?>"/>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
@@ -145,18 +144,17 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
                 <div class="text-center"><img class="profile-user-img img-fluid img-circle" src="../media/users/<?php echo $_SESSION['bgo_userImg']; ?>" alt="User profile picture"></div>
                 <h3 class="profile-username text-center"> <?php echo $_SESSION['bgo_name']; ?>  </h3>
                 <p class="text-muted text-center">  
-					<?php if($_SESSION['bgo_perfil'] > 1){
-					
+				<?php 
+					if($_SESSION['bgo_perfil'] > 1){
 							if($_SESSION['bgo_perfil'] == 4){
-									echo '<i class="fas fa-trophy fa-2x text-success"></i>'; 
+								echo '<i class="fas fa-trophy fa-2x text-success"></i>'; 
 							}else{
 								echo '<i class="fas fa-trophy fa-2x text-primary"></i>';
 							}
-					
 					}else{
 						echo '<i class="far fa-flag fa-2x text-primary"></i>'; 
 					}
-					?>
+				?>
 				</p>
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item"><b>Total Publicaciones </b> <a class="float-right"> <?php echo $total_post; ?></a></li>
@@ -170,9 +168,8 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
 	  
 		  </div>
           <!-- /.col -->
-          <div class="col-md-6">
-<div class="card">
-  
+      <div class="col-md-6">
+		<div class="card">
         <div class="card-body" style="display: block;">
           <div class="row">
             <div class="col-12 col-md-12 col-lg-8 order-1 order-md-1">
@@ -186,14 +183,13 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
                   <b class="d-block"> <?php echo $rest5["pcstr"].', Republica Dominicana '; ?> </b>
                 </p>				
 				<p class="text-sm">Email<b class="d-block"> <?php echo $rest5["email"]; ?></b></p>
-				<p class="text-sm"><i class="fab fa-lg fa-whatsapp"></i> <?php echo $rest5["bgo_whatsapp"]; ?></b></p>
-				<p class="text-sm"><i class="fab fa-lg fa-instagram"></i> <?php echo $rest5["bgo_instagram"]; ?></b></p>
-				<p class="text-sm"><i class="fab fa-lg fa-facebook"></i> <?php echo $rest5["bgo_facebook"]; ?></b></p>
+				<p class="text-sm"><i class="fab fa-lg fa-whatsapp"></i> Whatsapp <b class="d-block"><?php echo $rest5["bgo_whatsapp"]; ?></b></p>
+				<p class="text-sm"><i class="fab fa-lg fa-instagram"></i> Instagram <b class="d-block"><?php echo $rest5["bgo_instagram"]; ?></b></p>
+				<p class="text-sm"><i class="fab fa-lg fa-facebook"></i> Facebook <b class="d-block"><?php echo $rest5["bgo_facebook"]; ?></b></p>
               </div>
- 
           </div>
-			 
-			 <div class="col-12 col-md-12 col-lg-4 order-2 order-md-2 float-right">
+		
+		<div class="col-12 col-md-12 col-lg-4 order-2 order-md-2 float-right">
 			 <h5 class="bgo_top"> Informacion de Cuenta  </h5>
               <div class="row">
                 <div class="col-12 col-sm-12 bgo_top">
@@ -245,8 +241,8 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
 		
 		<div class="card-footer">
                 <button  type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-pass"> <i class="fas fa-lock"></i> Cambiar Clave </button>
-			  	<button  type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal-datos"> <i class="fas fa-user"></i> Editar datos </button>
-			  	<button  type="button" class="btn btn-success btn-sm" > <i class="fas fa-trophy"></i>  <?php if($_SESSION['bgo_perfil'] > 1){ echo " Ver Planes Disponibles";  } else{ echo "Cambiar Cuenta Premium";  }   ?> </button>
+			  	<a href="profile-edit.php" type="button" class="btn btn-warning btn-sm"> <i class="fas fa-user"></i> Editar datos </a>
+			  	<a href="planes.php" type="button" class="btn btn-success btn-sm" > <i class="fas fa-trophy"></i>  <?php if($_SESSION['bgo_perfil'] > 1){ echo " Ver Planes Disponibles";  } else{ echo "Cambiar a Premium";  }   ?> </a>
            
                 </div>
 		
@@ -264,8 +260,6 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
   </div>
   <!-- /.content-wrapper -->
 
- 
-
    <div class="modal fade" id="modal-pass">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -281,58 +275,68 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
 				<div class="form-group"><input type="password" class="form-control" id="password2" placeholder="Confirmar Clave"></div> 
             </div>
 			 <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-danger" data-dismiss="modal"> Cerrar </button>
+              <button id="closeMeBtn" type="button" class="btn btn-danger" data-dismiss="modal"> Cerrar </button>
               <button id="changePass" type="button" class="btn btn-success"> Aceptar </button>
             </div>
           </div>
         </div>
       </div>
-      <!-- /.modal -->
+   <!-- /.modal -->
 
 <footer class="main-footer"> Burengo &copy; 2020 - Todos los derechos reservados. </footer>
 </div>
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../../dist/js/adminlte.min.js"></script>
-<script src="../../dist/js/demo.js"></script>
+<script src="../../plugins/toastr/toastr.min.js"></script>
 <script type="text/javascript">
- $('#op1').click(function(){
-	 $(this).removeClass('btn-default');
-	 $(this).addClass('btn-warning');
-	 $('#op2').removeClass('btn-warning');
-	 $('#op2').addClass('btn-default');
-	 $('#route02').val(1);
- });
  
-  $('#op2').click(function(){
-	 $(this).removeClass('btn-default');
-	 $(this).addClass('btn-warning');
-	 $('#op1').removeClass('btn-warning');
-	 $('#op1').addClass('btn-default');
-	 $('#route02').val(2);
- });
  
- $('#uploadFiles').click(function(){
-	 var rt1 = $('#route01').val();
-	 var rt2 = $('#route02').val();
-	 var fullRoute = rt1+rt2;
-	 var fcc = $('#fcd').val();
-	 
-	 switch(fullRoute){
-		case '11': location.href = "../post/vehiculos/datos.php?ccdt="+fcc+"&ccdtm=11"; break;
-		case '21': location.href = "../post/vehiculos/datos.php?ccdt="+fcc+"&ccdtm=11"; break;
-		case '12': location.href = "../post/inmueble.php?ccdt="+fcc+"&ccdtm=12"; break;
-		case '22': location.href = "../post/inmueble.php?ccdt="+fcc+"&ccdtm=12"; break;
-	 }
- });
+ function isEmpty(str) {
+    return (!str || 0 === str.length);
+}
+
+function isEmail(email) {
+  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  return regex.test(email);
+}
+ 
  
  
 $('#changePass').click(function(){
-	var original = $("#password0").val(); 
+
+if( !isEmpty($("#password0").val())){ 
+  if( !isEmpty($("#password1").val())){
+	if( !isEmpty($("#password2").val())){
 	var newpass  = $("#password1").val();
 	var conpass  = $("#password2").val(); 
+	var pr = newpass.localeCompare(conpass);
 	
-}); 
+	if(pr==0){
+			$.getJSON('../ajax/burengo_update_account_pass.php',{
+		 code: $('#currentCode').val(),
+		 pass: $("#password0").val(),
+		 npass: newpass
+  },function(data){
+		switch(data['ok']){
+			case 0: toastr.error('ERROR! No se pudo almacenar los datos: '+ data['err']); break;
+			case 1: toastr.success('Los Datos fueron actualizados de forma correcta.'); $('#closeMeBtn').click(); break;
+			case 2: $('#password0').val(""); $('#password0').focus(); toastr.error('La clave actual no es correcta! '); break;
+		}
+	});
+		
+	}else{
+		$('#password1').val(""); 
+		$('#password2').val(""); 
+		$('#password1').focus(); 
+		toastr.error('Las Claves no coinciden');
+	}
+}else{ $('#password2').focus();	toastr.error('Las Claves no coinciden'); }
+}else{ $('#password1').focus();	toastr.error('Las Claves no coinciden'); }
+}else{ $('#password0').focus(); toastr.error('La clave actual no es correcta! '); }
+
+ 
+});
 </script>
 </body>
 </html>

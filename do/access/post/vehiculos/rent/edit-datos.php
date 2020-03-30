@@ -399,8 +399,11 @@ while( $resultado = $stmt -> fetch()){
 		</div> <!-- Card Body -->
           <div class="card-footer">
               <button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> Cancelar </button>
-              <button id="updateData" type="button" class="btn btn-primary float-right"> Siguente <i class="fas fa-arrow-alt-circle-right"></i> </button>
-          </div>	 
+   <div class="float-right">
+	 <button id="updPic" type="button" class="btn btn-info"> <i class="far fa-edit"> Cambiar Imagenes </i> </button>
+	 <button id="updateData" type="button" class="btn btn-warning"> <i class="fas fa-retweet"> Actualizar </i> </button>
+	 
+	</div></div>	 
    </div>
 </div>
  </div><!-- /.container-fluid -->
@@ -491,7 +494,7 @@ function save_data(){
   },function(data){
 		switch(data['ok']){
 			case 0: toastr.error('ERROR! No se pudo almacenar los datos: '+ data['err']); break;
-			case 1:  location.href="fotos-edit.php?ccdt=" + $('#pcode').val(); break;
+			case 1:  location.href="fotos-edit.php?ccdt=" + $('#pcode').val()+"&pth="+$('#url').val(); break;
 		}
 	});		
 	
@@ -502,6 +505,7 @@ function isEmpty(str) {
 }
 
 
+$('#updPic').click(function(){ location.href="fotos-edit.php?ccdt="+$('#pcode').val()+"&pth="+$('#url').val(); });
 </script>
 </body>
 </html>

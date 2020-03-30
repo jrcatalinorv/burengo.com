@@ -1,6 +1,7 @@
 <?php 
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../modelos/conexion.php";
+require_once "../modelos/data.php";
 
 $tp = $_REQUEST['cat'];
 
@@ -24,7 +25,7 @@ $tp = $_REQUEST['cat'];
 <div class="wrapper">
  <nav class="main-header navbar navbar-expand-md navbar-dark bg-navy"> 
     <div class="container">
-      <a href="../../do" class="navbar-brand">
+      <a href="../../<?php echo COUNTRY_CODE; ?>" class="navbar-brand">
           <img src="../../dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8">  
       </a>
       <div class="collapse navbar-collapse order-3" id="navbarCollapse">
@@ -32,7 +33,7 @@ $tp = $_REQUEST['cat'];
       </div>
 
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-        <li class="nav-item"><a class="nav-link" href="../../do"> Portada </a></li>
+        <li class="nav-item"><a class="nav-link" href="../../<?php echo COUNTRY_CODE; ?>"> Portada </a></li>
         <li class="nav-item"><a class="nav-link" href="../acceder.php"> Iniciar Session </a></li>
       </ul>
     </div>

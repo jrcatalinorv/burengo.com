@@ -5,9 +5,6 @@ require_once "../../../../modelos/conexion.php";
 
 $code = $_REQUEST["ccdt"];
 $src = $_REQUEST["pth"];
-$cat = 1;
-$subcat = 2;
-$strcat = "Venta";	
 
 $stmt = Conexion::conectar()->prepare("SELECT p.*, t.*, cr.*, l.* FROM bgo_posts p
 INNER JOIN bgo_innercategoires t ON p.bgo_tipolocal = t.inncat 
@@ -78,12 +75,9 @@ if($results = $stmt -> fetch()){
  <div class="col-md-12">
    <div class="card">
 			 <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-home"></i> Editar  Publicación  <?php echo $strcat;?> de Inmuebles </h3>
+                <h3 class="card-title"><i class="fas fa-home"></i> Editar  Publicación </h3>
 				<input id="pcode" type="hidden" value="<?php echo $code; ?>">
-				<input id="cat" type="hidden" value="<?php echo $cat; ?>">
-				<input id="subcat" type="hidden" value="<?php echo $subcat; ?>">
-				<input id="url" type="hidden" value="<?php echo $src; ?>">
-				
+				<input id="url" type="hidden" value="<?php echo $src; ?>">	
               </div>
             <div class="card-body">
 			<!-- Titulo -->	
@@ -228,7 +222,11 @@ if($results = $stmt -> fetch()){
 </div> <!-- Card Body -->
 <div class="card-footer">
      <button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> Cancelar </button>
-      <button id="updateData" type="button" class="btn btn-warning float-right"> <i class="fas fa-retweet"> Actualizar </i> </button>
+    <div class="float-right">
+	 <button id="updPic" type="button" class="btn btn-info"> <i class="far fa-edit"> Cambiar Imagenes </i> </button>
+	 <button id="updateData" type="button" class="btn btn-warning"> <i class="fas fa-retweet"> Actualizar </i> </button>
+
+	</div>
 </div>	 
 </div>
 </div>
@@ -249,9 +247,7 @@ if($results = $stmt -> fetch()){
 <script src="../../../../../plugins/jquery-number/jquery.number.js"></script>
 <script type="text/javascript"> 
 
-$('#updateData').click(function(){
-	 
-});
+ 
 
 $('#cancel').click(function(){ 
 var ch = $('#url').val();
@@ -265,41 +261,74 @@ switch(ch){
 
 });
 $('#price').number(true,0); 
+ 
+ 
 /* BTN Next  */
-$('#next').click(function(){
- var uom = 0;
- $.getJSON('../../ajax/burengo_insert_vehicle.php',{
+$('#updateData').click(function(){
+if( !isEmpty($('#title').val()) ){
+if( $('#types').val() != 0 ){ 
+if( $('#place').val() != 0 ){ 
+if( !isEmpty($('#addrs').val()) ){
+if( $('#currency').val() != 0 ){ 	
+		save_data();
+}else{ toastr.error('Debe seleccionar el tipo de moneda'); }	
+}else{ toastr.error('Debe colocar la direccion de la propiedad'); }	
+}else{ toastr.error('Debe seleccionar la Provincia'); }
+}else{ toastr.error('Debe seleccionar el tipo de Prodiedad'); }
+}else{ $('#title').focus();  toastr.error('Debe completar todos los campos'); }	
+});
+
+
+function save_data(){
+var rooms = 0;	
+var baths = 0;	
+var garage = 0;	
+var terreain = '-';	
+var cons = '-';	
+var notes = '';
+var uom = 0;
+
+if( !isEmpty($('#rooms').val())  ){ var rooms =  $('#rooms').val();}
+if( !isEmpty($('#baths').val())  ){ var baths =  $('#baths').val();}
+if( !isEmpty($('#garage').val()) ){ var garage =  $('#garage').val();}
+if( !isEmpty($('#terreno').val())){ var terreain = $('#terreno').val();}
+if( !isEmpty($('#construccion').val())){ var cons = $('#construccion').val();}
+if( !isEmpty($('#notes').val())){ var notes = $('#notes').val();}
+
+$.getJSON('../../../../ajax/burengo_update_inmueble.php',{
 	code: $('#pcode').val(),
 	usercode: $('#userId').val(),
 	cat: $('#cat').val(),
 	subcat: $('#subcat').val(),
 	title: $('#title').val(),
-	price: $('#price').val(),
+	type: $('#types').val(),
+	niveles: $('#niveles').val(),
 	lugar: $('#place').val(),
-	uom: uom,
-	marca: $('#brands').val(),
-	modelo: $('#models').val(),
-	year: $('#activeYears').val(),
-	condicion: $('#condition').val(),
-	currency: $('#currency').val(),
-	fuel: $('#fuel').val(),
-	vtype: $('#cartype').val(),
-	transmision: $('#trasnmision').val(),
-	traccion: $('#traccion').val(),
-	color: $('#color').val(),
-	color_interior: $('#interior').val(),
-	puertas_cantidad: $('#doors').val(),
-	pasajeros_cantidad: $('#passengers').val(),
 	addr: $('#addrs').val(),
-	accesories: $('#accesories').val(),   
-	notes: $('#notes').val()	
+	price: $('#price').val(),
+	uom: uom,
+	currency: $('#currency').val(),	
+	rooms: rooms,
+	baths: baths,
+	garage: garage,
+	terreno: terreain,
+	construccion: cons,  
+	notes: notes
   },function(data){
 		switch(data['ok']){
 			case 0: toastr.error('ERROR! No se pudo almacenar los datos: '+ data['err']); break;
-			case 1:  location.href="fotos.php?ccdt="+data['ccdt']; break;
+			case 1: location.href="fotos-edit.php?ccdt="+data['ccdt']+"&pth="+$('#url').val(); break;
 		}
 	});	
-});
+}
+
+function isEmpty(str) {
+    return (!str || 0 === str.length);
+} 
+
+
+$('#updPic').click(function(){ location.href="fotos-edit.php?ccdt="+$('#pcode').val()+"&pth="+$('#url').val(); });
+ 
 </script>
 </body>
 </html>

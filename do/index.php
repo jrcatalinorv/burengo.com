@@ -1,19 +1,22 @@
 <?php
 session_start(); 
 date_default_timezone_set("America/Santo_Domingo");
+require_once "modelos/data.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <link rel="icon" type="image/png" href="../favicon.ico"/>
   <title>Burengo</title>
   <link rel="stylesheet" href="../dist/css/pagination.css">
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <link rel="stylesheet" href="../plugins/toastr/toastr.min.css"> 
+  <link rel="stylesheet" href="../plugins/flag-icon-css-master/css/flag-icon.css" >
 <style>
 .burengo-img-grid{
 	width: 250px; 
@@ -45,11 +48,7 @@ date_default_timezone_set("America/Santo_Domingo");
 .bgo_mfont{
    font-size:3vW;
 }
-
 }
-
-
-
 </style>  
 </head>
 <body class="hold-transition layout-top-nav layout-navbar-fixed">
@@ -61,6 +60,9 @@ date_default_timezone_set("America/Santo_Domingo");
 	  <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
         <li class="nav-item linkWeb"><a class="nav-link " href="contacto.php">Contacto</a></li>
         <li class="nav-item"><a class="nav-link" href="acceder.php">Iniciar Session</a></li>
+     	
+<li class="nav-item float-right"><a class="nav-link" href="../"><i class="flag-icon flag-icon-do"></i></a></li>
+		
       </ul>
     </div>
 </nav>

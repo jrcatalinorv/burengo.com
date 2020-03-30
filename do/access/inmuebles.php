@@ -25,9 +25,10 @@ if($results = $stmt -> fetch()){
 	}
 	
 	$addr = $results['bgo_addr']; 
-	 
+	$thump = $results['bgo_thumbnail'];
 	$thumpnail = "../../media/thumbnails/".$results['bgo_thumbnail'];
 	$subcat = intval($results['bgo_cat']);
+	$subcat2 = intval($results['bgo_subcat']);
 	$tcp = $results['bgo_uom'];
 	$currency = $results['cur_str']." (".$results['cur_code'].")"; /* Tipo de moneda */
 	$totalPhotos = intval($results['bgo_comp_img']); 
@@ -59,7 +60,17 @@ $email = $rslts["email"];
 $whatsapp = "".$rslts["bgo_whatsapp"]; 
 $instagram ="".$rslts["bgo_instagram"]; 
 $facebook = "".$rslts["bgo_facebook"];  
-  
+ 
+
+//Colocar datos mios 
+$stmt3= Conexion::conectar()->prepare("SELECT * FROM bgo_users WHERE uid = '".$_SESSION['bgo_userId']."'"); 
+$stmt3 -> execute();  
+$rslts3 = $stmt3 -> fetch();
+$mynombre = $rslts3["name"]; 
+$myphone = $rslts3["phone"]; 
+$myemail = $rslts3["email"]; 
+
+ 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,7 +79,7 @@ $facebook = "".$rslts["bgo_facebook"];
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <link rel="icon" type="image/png" href="../../favicon.ico"/>
-  <title>Burengo</title>
+  <title> <?php echo $desc; ?></title>
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="../../dist/css/adminlte.css">
   <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
@@ -118,7 +129,7 @@ $facebook = "".$rslts["bgo_facebook"];
             <i class="far fa-id-badge mr-2"></i> Cuenta    
           </a>
           <div class="dropdown-divider"></div>
-          <a href="mensajes-recibidos.php" class="dropdown-item">
+          <a href="mail/inbox.php" class="dropdown-item">
             <i class="fas fa-envelope mr-2"></i> Mensajes
           </a>
           <div class="dropdown-divider"></div>
@@ -140,6 +151,9 @@ $facebook = "".$rslts["bgo_facebook"];
 		<input id="getHigh" type="hidden" value="<?php echo $pr_high; ?>" />
 		<input id="getsubCat" type="hidden" value="<?php echo $subcat2; ?>" />
 		<input id="getCat" type="hidden" value="<?php echo $subcat; ?>" />
+		<input id="getUsrCode" type="hidden" value="<?php echo $user; ?>" />
+		<input id="mycode" type="hidden" class="form-control"  value="<?php echo $_SESSION['bgo_userId']; ?>" >
+        <input id="usremail" type="hidden" class="form-control" value="<?php echo $email; ?>" >	
 		  <!-- Default box -->
       <div class="card card-solid">
         <div class="card-body">
@@ -222,28 +236,28 @@ $facebook = "".$rslts["bgo_facebook"];
            <?php 
 				if($subcat==1){
 				echo '
-			  <div class="mt-4 buyItem">
-                <div class="btn btn-success btn-lg btn-flat">
+			  <div class="mt-4">
+                <div class="btn btn-success btn-lg btn-flat buyItem">
                   <i class="fas fa-cart-plus fa-lg mr-2"></i> 
                   Comprar 
                 </div>
 
-                <div class="btn btn-info btn-lg btn-flat">
+                <div class="btn btn-info btn-lg btn-flat whishList">
                   <i class="fas fa-heart fa-lg mr-2 text-white"></i> 
-                  Agregar a la lista de deseos
+                  Agregar a favoritos
                 </div>
               </div>';
 				}else{
 				echo '
-			  <div class="mt-4 buyItem">
-                <div class="btn btn-warning btn-lg btn-flat">
+			  <div class="mt-4">
+                <div class="btn btn-warning btn-lg btn-flat buyItem">
                   <i class="far fa-calendar-alt fa-lg mr-2"></i> 
                   Rentar 
                 </div>
 
-                <div class="btn btn-info btn-lg btn-flat">
+                <div class="btn btn-info btn-lg btn-flat whishList">
                   <i class="fas fa-heart fa-lg mr-2 text-white"></i> 
-                  Agregar a la lista de deseos
+                  Agregar a favoritos
                 </div>
               </div>';					
 					
@@ -252,25 +266,20 @@ $facebook = "".$rslts["bgo_facebook"];
 			  
 ?>
 
-              <div class="mt-4 product-share">
-   				<!-- AddToAny BEGIN -->
-<div class="a2a_kit a2a_kit_size_32 a2a_default_style">
-<a class="a2a_dd" href="https://www.addtoany.com/share"></a>
-<a class="a2a_button_whatsapp"></a>
-<a class="a2a_button_facebook"></a>
-<a class="a2a_button_twitter"></a>
-<a class="a2a_button_email"></a>
+<div class="mt-4 product-share">
+	<div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+		<a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+		<a class="a2a_button_whatsapp"></a>
+		<a class="a2a_button_facebook"></a>
+		<a class="a2a_button_twitter"></a>
+		<a class="a2a_button_email"></a>
+	</div>
+	<script async src="https://static.addtoany.com/menu/page.js"></script>
 </div>
-<script async src="https://static.addtoany.com/menu/page.js"></script>
-<!-- AddToAny END -->
-              </div>
 
             </div>
           </div>
-          <div class="row mt-4">
-           
-          
-          </div>
+      
         </div>
         
 		<div class="card-body pt-4">
@@ -284,6 +293,8 @@ $facebook = "".$rslts["bgo_facebook"];
       </div>
 
 <div id="triggerBtnModal" data-toggle="modal" data-target="#modal-default"></div>
+<div id="triggerBtnModalmodal" data-toggle="modal" data-target="#modal-msg"></div>
+<div id="triggerBtnModal2" data-toggle="modal" data-target="#modal-default2"></div>
 
 
 <div class="modal fade" id="modal-default">
@@ -308,40 +319,53 @@ $facebook = "".$rslts["bgo_facebook"];
 					  </ul>
 				</div>
 				<div class="col-md-6 text-center">  <img src="../media/users/<?php echo $use_img; ?>" alt="" class="img-circle img-fluid">  </div>
-				 	</div>
-     
- 
+		 	</div>
             </div>
 			
-			            <div class="modal-footer">
-              <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fas fa-comments"></i> Enviar mensaje</button>
+			 <div class="modal-footer">
+              <button id="sendMsg" type="button" class="btn btn-success" data-dismiss="modal"><i class="fas fa-comments"></i> Enviar mensaje</button>
               <a href="user/publicaciones.php?user=<?php echo $user; ?>" type="button" class="btn btn-info"> <i class="fas fa-th"></i> Ver Publicaciones </a>
             </div>
+          </div>
+        </div>
+ </div>
+<!-- /.modal --> 
+
+
+<div class="modal fade" id="modal-msg">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title text-info"> <i class="fas fa-envelope"></i> Enviar Mensaje </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+				<div class="input-group mb-3">
+                  <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-user"></i></span></div>
+                  <input readonly type="text" class="form-control" placeholder="Nombre Completo" value="<?php echo $mynombre; ?>" >             
+                </div>
+				<div class="form-group">
+                        <label>Mensaje </label>
+                        <textarea id="mcomment" class="form-control" rows="5" placeholder="Escribir comentario"></textarea>
+                      </div>
 			
           </div>
-          <!-- /.modal-content -->
+		  	<div class="modal-footer justify-content-between">
+              <button id="btnCloseModal" type="button" class="btn btn-danger" data-dismiss="modal"> Cancelar </button>
+              <button id="sendMsgConfirm" type="button" class="btn btn-success"> <i class="fab fa-telegram-plane"></i> Enviar </button>
+            </div>
         </div>
-        <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->  
-  
-
-<div style="margin-top:-1.2em;" class="col-lg-9 p-0">
-<div class=" ">
-
- <div class="card-body">
-   <div class="row plist">
-   </div>
- </div>
-</div>  
 </div>
+ 
 
-
-        </div>
-      </div> 
-    </div>
-    <!-- /.content -->
-  </div>
+</div>
+</div> 
+</div>
+<!-- /.content -->
+</div>
 <footer class="main-footer"><div class="float-right d-none d-sm-inline"></div> Burengo &copy; 2020 - Todos los derechos reservados. </footer>
 </div>
 <!-- ./wrapper -->
@@ -349,10 +373,29 @@ $facebook = "".$rslts["bgo_facebook"];
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../../dist/js/adminlte.min.js"></script>
 <script src="../../plugins/toastr/toastr.min.js"></script>
-<script src="../../dist/js/demo.js"></script>
 <script type="text/javascript">
 $('.buyItem').click(function(){ $('#triggerBtnModal').click(); });
-
+$('#sendMsg').click(function(){ $('#triggerBtnModalmodal').click(); $('#closeMeBtn').click(); });
+$('.whishList').click(function(){
+	
+var img   = "<?php echo $thump; ?>";
+var post  = $('#getMe').val();
+var name  = "<?php echo $desc; ?>"; 
+var user  = "<?php echo $_SESSION['bgo_userId']; ?>"; 
+ 
+$.getJSON('../ajax/burengo_whishlist.php',{			  	 
+			user: user,	    	 
+			post: post, 	 
+			name: name,	 
+			thump: img 
+	},function(data){
+	   switch(data['ok'])
+		{
+			case 0: toastr.success(' El inmueble fue Agregado  a la lista de favoritos. '); /* toastr.error('ERROR! No se pudo almacenar los datos: '+ data['err']); */ break;
+			case 1: toastr.success(' El inmueble fue Agregado  a la lista de favoritos. ');  break;		
+		 }
+	});
+});
 
  
 $('.similars').load("../ajax/burengo_select_similars_acc.php?sp="+$('#getsubCat').val()+"&tp="+$('#getCat').val()+"&lw="+$('#getLow').val()+"&hg="+$('#getHigh').val()+"&me="+$('#getMe').val()); 
@@ -366,6 +409,38 @@ $('.similars').on("click", "div.itemSelection", function(){
 		case '2': location.href="inmuebles.php?dtcd="+id; break;
 	} 
 }); 
+
+
+
+$('#sendMsgConfirm').click(function(){
+if( !isEmpty($('#mcomment').val() ) ){
+	var rp = "0";
+	
+	$.getJSON('../ajax/burengo_send_message.php',{			  	 
+			from: $('#mycode').val(),	    	 
+			to: $('#getUsrCode').val(), 	 
+			email: $('#usremail').val(),	 
+			msg: $('#mcomment').val(),	 
+			post: $('#getMe').val(),
+			reply: rp 				
+	},function(data){
+	   switch(data['ok'])
+		{
+			case 0: toastr.error('ERROR! No se pudo almacenar los datos: '+ data['err']); break;
+			case 1: toastr.success('El mensaje fue enviado de forma correcta'); $('#btnCloseModal').click();  break;		
+		 }
+	});
+	
+	}else{
+		toastr.error('Debe completar el campo mensaje.');
+	}
+});
+
+
+function isEmpty(str) {
+    return (!str || 0 === str.length);
+}
+
 </script>
 </body>
 </html>

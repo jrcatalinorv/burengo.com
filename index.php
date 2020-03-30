@@ -39,29 +39,29 @@ date_default_timezone_set("America/Santo_Domingo");
 			 </div>
 			 
 				<div class="col-sm-3">
-					<h3><a class="text-white p-2" href="#"><span class="flag-icon flag-icon-ar"></span> Argentina </a></h3>
-                   	<h3><a class="text-white p-2" href="#"><span class="flag-icon flag-icon-bo"></span> Bolivia </a></h3>	 
-                   	<h3><a class="text-white p-2" href="#"><span class="flag-icon flag-icon-br"></span> Brasil  </a></h3>	 
-                   	<h3><a class="text-white p-2" href="#"><span class="flag-icon flag-icon-cl"></span> Chile  </a></h3>	 
-                   	<h3><a class="text-white p-2" href="#"><span class="flag-icon flag-icon-co"></span> Colombia </a></h3>	 
-                   	<h3><a class="text-white p-2" href="#"><span class="flag-icon flag-icon-cr"></span> Costa Rica </a></h3>
-                   	<h3><a class="text-white p-2" href="#"><span class="flag-icon flag-icon-cu"></span> Cuba </a></h3>
+					<h3><a class="text-white p-2" href="ar"><span class="flag-icon flag-icon-ar"></span> Argentina </a></h3>
+                   	<h3><a class="text-white p-2" href="bo"><span class="flag-icon flag-icon-bo"></span> Bolivia </a></h3>	 
+                   	<h3><a class="text-white p-2" href="br"><span class="flag-icon flag-icon-br"></span> Brasil  </a></h3>	 
+                   	<h3><a class="text-white p-2" href="cl"><span class="flag-icon flag-icon-cl"></span> Chile  </a></h3>	 
+                   	<h3><a class="text-white p-2" href="co"><span class="flag-icon flag-icon-co"></span> Colombia </a></h3>	 
+                   	<h3><a class="text-white p-2" href="cr"><span class="flag-icon flag-icon-cr"></span> Costa Rica </a></h3>
+                   	<h3><a class="text-white p-2" href="cu"><span class="flag-icon flag-icon-cu"></span> Cuba </a></h3>
 					<h3><a class="text-white p-2" href="do"><span class="flag-icon flag-icon-do"></span> Dominicana </a></h3>	 			
-                   	<h3><a class="text-white p-2" href="#"><span class="flag-icon flag-icon-ec"></span> Ecuador </a></h3>	 
-                   	<h3><a class="text-white p-2" href="#"><span class="flag-icon flag-icon-gt"></span> Guatemala </a></h3>	 
+                   	<h3><a class="text-white p-2" href="ec"><span class="flag-icon flag-icon-ec"></span> Ecuador </a></h3>	 
+                   	<h3><a class="text-white p-2" href="gt"><span class="flag-icon flag-icon-gt"></span> Guatemala </a></h3>	 
                   </div> 				
 				  
 				  <div class="col-sm-3">
-					<h3><a class="text-white p-2" href="#"><span class="flag-icon flag-icon-hn"></span> Honduras </a></h3>	 
-                   	<h3><a class="text-white p-2" href="#"><span class="flag-icon flag-icon-mx"></span> Mexico </a></h3>	 
-                   	<h3><a class="text-white p-2" href="#"><span class="flag-icon flag-icon-ni"></span> Nicaragua </a></h3>	 
-                   	<h3><a class="text-white p-2" href="#"><span class="flag-icon flag-icon-pa"></span> Panama </a></h3>	 
-                   	<h3><a class="text-white p-2" href="#"><span class="flag-icon flag-icon-py"></span> Paraguay </a></h3>	 
-                   	<h3><a class="text-white p-2" href="#"><span class="flag-icon flag-icon-pe"></span> Peru </a></h3>	 
-                   	<h3><a class="text-white p-2" href="#"><span class="flag-icon flag-icon-pr"></span> Puerto Rico </a></h3>	 
-                   	<h3><a class="text-white p-2" href="#"><span class="flag-icon flag-icon-sv"></span> Salvador </a></h3>	 
-                   	<h3><a class="text-white p-2" href="#"><span class="flag-icon flag-icon-uy"></span> Uruguay </a></h3>	 
-                   	<h3><a class="text-white p-2" href="#"><span class="flag-icon flag-icon-ve"></span> Venezuela </a></h3>	 
+					<h3><a class="text-white p-2" href="hn"><span class="flag-icon flag-icon-hn"></span> Honduras </a></h3>	 
+                   	<h3><a class="text-white p-2" href="mx"><span class="flag-icon flag-icon-mx"></span> Mexico </a></h3>	 
+                   	<h3><a class="text-white p-2" href="ni"><span class="flag-icon flag-icon-ni"></span> Nicaragua </a></h3>	 
+                   	<h3><a class="text-white p-2" href="pa"><span class="flag-icon flag-icon-pa"></span> Panama </a></h3>	 
+                   	<h3><a class="text-white p-2" href="py"><span class="flag-icon flag-icon-py"></span> Paraguay </a></h3>	 
+                   	<h3><a class="text-white p-2" href="pe"><span class="flag-icon flag-icon-pe"></span> Peru </a></h3>	 
+                   	<h3><a class="text-white p-2" href="pr"><span class="flag-icon flag-icon-pr"></span> Puerto Rico </a></h3>	 
+                   	<h3><a class="text-white p-2" href="sv"><span class="flag-icon flag-icon-sv"></span> Salvador </a></h3>	 
+                   	<h3><a class="text-white p-2" href="uy"><span class="flag-icon flag-icon-uy"></span> Uruguay </a></h3>	 
+                   	<h3><a class="text-white p-2" href="ve"><span class="flag-icon flag-icon-ve"></span> Venezuela </a></h3>	 
                   </div>                             
 							
  

@@ -3,6 +3,8 @@ session_start();
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../../../../modelos/conexion.php";
 $code = $_REQUEST["ccdt"];
+$src = $_REQUEST["pth"];
+
 /*Buscar el plan */
  $stmt = Conexion::conectar()->prepare(" SELECT a.profile, b.planmaxf FROM bgo_users a INNER JOIN bgo_planes b
 ON a.profile = b.planid AND a.uid = '".$_SESSION['bgo_userId']."' ");
@@ -33,19 +35,6 @@ if($results = $stmt -> fetch()){
 	$thumpnail = "../../../../media/thumbnails/".$results['bgo_thumbnail'];
 	$totalPhotos = intval($results['bgo_comp_img']);
 	}
-
-
-//$structure = '../../../../media/images/'.$code.'/';
-
-//if(is_dir($structure)){
-	/* No hacer nada */
-//}else{
-	//if (!mkdir($structure, 0777, true)) {
-		//	die('Failed to create folders...');
-	//} 
-//}
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -162,6 +151,8 @@ if($results = $stmt -> fetch()){
 	<div class="col-md-11">
 	<input id="getMaxValAllow" value="<?php echo $max; ?>" type="hidden" />
 	<input id="getUserID" type="hidden" value="<?php echo $_SESSION['bgo_userId']; ?>" />
+	<input id="url" type="hidden" value="<?php echo $src; ?>" />
+    
             <div class="card">
 			  <div class="card-header">
                 <h3 class="card-title">  
@@ -170,57 +161,42 @@ if($results = $stmt -> fetch()){
 				Portada Publicacion 
 				<input id="uploadedCTRL" type="hidden" value="1" />
 				<input id="getCode" type="hidden" value="<?php echo $code; ?>" />
-				
+				<input id="url" type="hidden" value="<?php echo $src; ?>">
 				</h3>
               </div>
             <div class="card-body"> <input id="currentCode" type="hidden" value="<?php echo $code; ?>" />
- 
 			<div class="form-group">
 				<button id="changeImg" class="btn btn-info  "> <i class="far fa-image"></i> Cambiar Imagen de Portada </button>
-				
 				<?php 
 					if($totalPhotos>=1){ 
 						echo '<button id="changeImges" class="btn btn-info  "> <i class="far fa-image"></i> Sustituir Imagenes Complemtarias </button>';
 						}else{
 						echo '<button id="changeImges" class="btn btn-primary  "><i class="fas fa-plus"></i> Anexar Mas imagenes </button>';
 					}
-					
 				?>
-				
-			
-                      <h3 class="Hideme">Seleccione la Imagen de Portada </h3>
-                    <div class="input-group Hideme">
-                      <div class="custom-file">
+             <h3 class="Hideme">Seleccione la Imagen de Portada </h3>
+             <div class="input-group Hideme">
+                    <div class="custom-file">
                         <input type="file" class="custom-file-input" id="file">
                         <label class="custom-file-label" for="file">Choose file</label>
                       </div>
                     </div>
                   </div>
- 
-
 			 <hr/>
 			 
-			 <h3 id="t2" class="Hideme"> <i class="far fa-images"></i> Anexar Mas imagenes  </h3>
-				 
-				 <div id="t3"class="form-group Hideme">
-             
-                    <div class="input-group">
+			<h3 id="t2" class="Hideme"> <i class="far fa-images"></i> Anexar Mas imagenes  </h3>
+			<div id="t3"class="form-group Hideme">
+                <div class="input-group">
                       <div class="custom-file">
                         <input type="file" id="inpFile" multiple />
-                        <label class="custom-file-label" for="inpFile">Seleccione las imagenes </label>  
-						 
+                       <label class="custom-file-label" for="inpFile">Seleccione las imagenes </label>  
                       </div>  
-					  
- 
-					  
                     </div>
                   </div>
 				  
 			<div class="col-md-6">
 				<div style="padding: 10px; height:260px; width:315px;">
-					<span   id="uploaded_image"> <img src="<?php echo $thumpnail; ?>" height="250" width="300" class="img-thumbnail" /></span>
-					
-					 
+					<span   id="uploaded_image"> <img src="<?php echo $thumpnail; ?>" height="250" width="300" class="img-thumbnail" /></span> 
 				</div>
             </div>			
 			<br/>
@@ -233,58 +209,36 @@ if($results = $stmt -> fetch()){
 					 echo '  <img src="../../../../media/images/'.$code.'/'.$code.'-'.$i.'.jpg" height="125" width="150" class="img-thumbnail"> ';
 				  }
 				?>
-					</span>
-					
+					</span>				
 				</div>
-            </div>  
-				  
-				  
-			</div>
+            </div> 
+		</div>
 			
-			<div class="card-footer clearfix ">
-                              <button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> Cancelar </button>
-              
-				<button id="next" type="button" class="btn btn-primary float-right">  Siguiente <i class="fas fa-arrow-alt-circle-right"></i> </button>
-              </div>
-			
-            </div>
-          </div>
-	  	
-
+	 <div class="card-footer clearfix ">
+         <button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> Cancelar </button>
+     	 <button id="next" type="button" class="btn btn-primary float-right">  Siguiente <i class="fas fa-arrow-alt-circle-right"></i> </button>
+      </div>
+	  </div>
+    </div>
   </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
+      </div> 
     </section>
   </div>
-  <!-- /.content-wrapper -->
-
-
- 
-
-  <!-- Main Footer -->
   <footer class="main-footer bg-black"> Burengo &copy; 2020 - Todos los derechos reservados. </footer>
 </div>
 <!-- ./wrapper -->
-
 <script src="../../../../../plugins/jquery/jquery.min.js"></script>
 <script src="../../../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../../../../../plugins/toastr/toastr.min.js"></script>
 <script src="../../../../../dist/js/adminlte.min.js"></script>
-<script src="../../../../../dist/js/demo.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-  
- 
-
-
 $('#changeImg').click(function(){
 	$('#file').click();
 });
-
 $('#changeImges').click(function(){
 	$('#inpFile').click();
 });
-  
 $(document).on('change', '#file', function(){
 	var name = document.getElementById("file").files[0].name;
 	var form_data = new FormData();
@@ -323,21 +277,11 @@ $(document).on('change', '#file', function(){
 			success:function(data){
 			$('#uploaded_image').html(data);
 			$('#uploadedCTRL').val(1);
-			//$('#next').prop('disabled', false);
-			//$('#t2').removeClass('Hideme');
-			//$('#t3').removeClass('Hideme');
 		}
    });
   } //Fin del else 
-	
-		
 	}
  });
- 
- 
-/* -----------------------------------------------------------  */
-//Subir otras fotos:
-/* -----------------------------------------------------------  */
 $(document).on('change', '#inpFile', function(){
  var arr = document.getElementById("inpFile").files;
  var maxAllow = $('#getMaxValAllow').val();
@@ -349,15 +293,10 @@ $(document).on('change', '#inpFile', function(){
 			if(isValid(arr)){
 const inpFile = document.getElementById("inpFile");
 const formData = new FormData();
- 
 for( const file of inpFile.files){
 	formData.append("myFiles[]",file);
   } 
-
-formData.append("code", $('#currentCode').val());;
-
-
-				
+formData.append("code", $('#currentCode').val());;		
 $.ajax({
 		url:"../../uploadMult.php",
 		method:"POST",
@@ -373,36 +312,27 @@ $.ajax({
 			$('#uploaded_images').html(data);
 			//$('#uploadedCTRL').val(1);
 		}
-   });				
-				
+   });							
    }else{toastr.error('Uno o Mas archivos es Invalido. Solo se permite jpg, png & jpeg');} 
 	}else{toastr.error('Uno o Mas archivos sobrepasa el tamano maximo permitido');}  	 	
    }   
 });
-/* -----------------------------------------------------------  */
-
-
-
 });
- 
-
- 
-
-$('#cancel').click(function(){
-	location.href="../../../inicio.php";
+$('#cancel').click(function(){ 
+var ch = $('#url').val();
+switch(ch){
+	case '1':  location.href="confirmacion.php?ccdt="+$('#pcode').val(); break;
+	case '2': location.href="../../../publicaciones.php"; break;
+	default: location.href="../../../inicio.php";  break; 
+}
 });
-
 $('#next').click(function(){
- 
 	if($('#uploadedCTRL').val()==1){
 		location.href="confirmacion.php?ccdt="+$('#getCode').val();
 	}else{
 		toastr.error('Debe elegir al menos una imagen');
 	}
- 	
 });
-
- 
 function isHigher(limit, data){
       for(var k = 0; k < data.length; k++){
         if (data[k].size > limit)
@@ -410,9 +340,6 @@ function isHigher(limit, data){
       }
       return false;
     } 
-
-	
-	
 function isValid(data){
       for(var k = 0; k < data.length; k++){
 		  var n = data[k].name;
@@ -423,8 +350,6 @@ function isValid(data){
       }
       return true;
     }
- 
-
-</script>
+ </script>
 </body>
 </html>

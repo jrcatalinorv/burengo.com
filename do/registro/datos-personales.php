@@ -1,4 +1,6 @@
 <?php 
+require_once "../modelos/data.php";
+date_default_timezone_set("America/Santo_Domingo");
 $code = rand(1000000,9999999) ;
 ?>
 <!DOCTYPE html>
@@ -20,12 +22,12 @@ $code = rand(1000000,9999999) ;
   <!-- Navbar -->
  <nav class="main-header navbar navbar-expand-md navbar-dark bg-navy"> 
     <div class="container">
-      <a href="index.php" class="navbar-brand">
+      <a href="../../<?php echo COUNTRY_CODE; ?>" class="navbar-brand">
           <img src="../../dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8">  
       </a>
       <div class="collapse navbar-collapse order-3" id="navbarCollapse"><ul class="navbar-nav"> </ul></div>
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-        <li class="nav-item"><a class="nav-link" href="../index.php"> Portada </a></li>
+        <li class="nav-item"><a class="nav-link" href="../../<?php echo COUNTRY_CODE; ?>"> Portada </a></li>
         <li class="nav-item"><a class="nav-link" href="../contacto.php"> Contacto  </a></li>
       </ul>
     </div>
@@ -353,13 +355,13 @@ $('#saveNewUsr').click(function(){
 		 ced: $('#identification').val(),
 		 tel: $('#telefono').val(),
 		 provincia: $('#place').val(),
-		 address: $('#address').val()
+		 address: $('#address').val(),
 	},function(data){
 		switch(data['ok']){
 			case 0: toastr.error('ERROR! No se pudo almacenar los datos: '+ data['err']); break;
 			case 1: 
 				var code = <?php echo $code; ?>;
-				location.href="planes.php?code="+code+"&acc="+data['code']+"";
+				location.href="../access/planes.php?code="+code+"&acc="+data['code']+"";
 			break;
 		}
 	});	

@@ -1,6 +1,7 @@
 <?php 
 date_default_timezone_set("America/Santo_Domingo");
 require_once "modelos/conexion.php";
+require_once "modelos/data.php";
 
 $code = $_REQUEST["dtcd"];
 $cdate = date('Y-m-d');
@@ -76,6 +77,12 @@ $use_nombre = $rslts["name"];
 	height:180px;
 }
 
+@media only screen and (max-width: 600px) {
+.linkWeb{
+	display:none;
+}
+}
+
 </style>  
 </head>
 <body class="hold-transition layout-top-nav layout-navbar-fixed">
@@ -83,14 +90,14 @@ $use_nombre = $rslts["name"];
 <!-- Navbar -->
  <nav class="main-header navbar navbar-expand-md navbar-dark bg-navy"> 
     <div class="container">
-      <a href="" class="navbar-brand">
+      <a href="../<?php echo COUNTRY_CODE; ?>" class="navbar-brand">
           <img src="../dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8"> 
       </a>
 	  <div class="collapse navbar-collapse order-3" id="navbarCollapse">
         <ul class="navbar-nav"> </ul>
       </div>
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-        <li class="nav-item"><a class="nav-link" href="index.php">Portada</a></li>
+        <li class="nav-item"><a class="nav-link" href="../<?php echo COUNTRY_CODE; ?>">Portada</a></li>
         <li class="nav-item"><a class="nav-link" href="acceder.php"> Iniciar Session </a></li>
       </ul>
     </div>
@@ -195,7 +202,7 @@ $use_nombre = $rslts["name"];
 
                 <div class="btn btn-info btn-lg btn-flat whishList">
                   <i class="fas fa-heart fa-lg mr-2 text-white"></i> 
-                  Agregar a la lista de deseos
+                  Agregar a favoritos
                 </div>
               </div>';
 				}else{
@@ -208,7 +215,7 @@ $use_nombre = $rslts["name"];
 
                 <div class="btn btn-info btn-lg btn-flat whishList">
                   <i class="fas fa-heart fa-lg mr-2 text-white"></i> 
-                  Agregar a la lista de deseos
+                  Agregar a favoritos
                 </div>
               </div>';					
 					
@@ -368,7 +375,7 @@ $use_nombre = $rslts["name"];
 			<div class="row">
 				<div class="col-md-12 pt-4"> 
 				<h2 class="text-info text-center"> <i class="far fa-file-alt fa-2x"></i> </h2>
-				<h5 class="text-info text-center"> Debe Iniciar Session para utilizar la lista de deseos </h5> 
+				<h5 class="text-info text-center"> Debe Iniciar Session para utilizar esta funcionalidad. </h5> 
 				
 				<br/>
 				<br/>

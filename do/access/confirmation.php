@@ -116,7 +116,7 @@ echo '<div class="alert alert-success alert-dismissible">
                   <div class="info-box bg-light">
                     <div class="info-box-content">
                       <span class="info-box-text text-center text-muted"> Publicaciones Permitidas </span>
-                      <span class="info-box-number text-center text-muted mb-0"> <?php if($max_post==0){ echo "Ilimitadas"; }; ?> </span>
+                      <span class="info-box-number text-center text-muted mb-0"> <?php if($max_post==0){ echo "Ilimitadas"; } else{ echo $max_post;  }; ?> </span>
                     </div>
                   </div>
                 </div>
@@ -165,7 +165,7 @@ Acceda a la página de contacto y remítanos la información requerida de su pub
 </p>
 </div>
 <div class="text-center mt-5 mb-3">
- <a href="../inicio.php" class="btn btn-sm btn-primary"> <i class="fas fa-list-alt"></i> Pagina Principal </a>
+ <a href="inicio.php" class="btn btn-sm btn-primary"> <i class="fas fa-list-alt"></i> Pagina Principal </a>
  <a href="profile.php" type="button"  class="btn btn-sm btn-success"> <i class="fas fa-user"></i> Mi cuenta </a>
  </div>
 </div>

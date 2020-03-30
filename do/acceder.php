@@ -1,5 +1,7 @@
 <?php 
 session_start();
+date_default_timezone_set("America/Santo_Domingo");
+require_once "modelos/data.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +19,7 @@ session_start();
 <div class="wrapper">
  <nav class="main-header navbar navbar-expand-md navbar-dark bg-navy"> 
     <div class="container">
-      <a href="" class="navbar-brand">
+      <a href="../<?php echo COUNTRY_CODE; ?>" class="navbar-brand">
             <img src="../dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8">  
       
       </a>    
@@ -27,7 +29,7 @@ session_start();
 
      <!-- Right navbar links -->
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-         <li class="nav-item"><a class="nav-link" href="index.php"> Portada </a></li>
+         <li class="nav-item"><a class="nav-link" href="../<?php echo COUNTRY_CODE; ?>"> Portada </a></li>
         <li class="nav-item"><a class="nav-link" href="contacto.php"> Contacto  </a></li>
       </ul>
     </div>
@@ -84,7 +86,7 @@ session_start();
 
       <div class="social-auth-links text-center mb-3">
         <p>-   -</p>
-        <a href="#" class="btn btn-block btn-secondary"> Olvide la Contrasena </a>
+        <a href="recuperar-cuenta.php" class="btn btn-block btn-secondary"> Olvide la Contrasena </a>
         <a href="registro/datos-personales.php" class="btn btn-block btn-info"> Registrarse </a>         
 		</div>  
     </div>

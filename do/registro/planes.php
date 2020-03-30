@@ -1,4 +1,5 @@
 <?php 
+require_once "../modelos/data.php";
 date_default_timezone_set("America/Santo_Domingo");
 $uid = $_REQUEST["acc"];
 ?>
@@ -19,7 +20,7 @@ $uid = $_REQUEST["acc"];
   <!-- Navbar -->
  <nav class="main-header navbar navbar-expand-md navbar-dark bg-navy"> 
     <div class="container">
-      <a href="index.php" class="navbar-brand"> <img src="../../dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8"> </a>
+      <a href="" class="navbar-brand"> <img src="../../dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8"> </a>
       <div class="collapse navbar-collapse order-3" id="navbarCollapse"><ul class="navbar-nav"> </ul></div>
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto"> </ul>
     </div>

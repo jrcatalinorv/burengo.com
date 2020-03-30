@@ -34,10 +34,10 @@ $total_pages = ceil($total_rows["totalR"] / $no_of_records_per_page);
 $stmt2 -> execute();
 while($results = $stmt2 -> fetch()){
 
-echo '<div  class="col-lg-3 visit itemSelection" itemId="'.$results['bgo_code'].'" itemCat="'.$results['bgo_subcat'].'" data-aos="fade-up">';
+echo '<div  class="col-lg-3 burengo_case visit itemSelection" itemId="'.$results['bgo_code'].'" itemCat="'.$results['bgo_subcat'].'" data-aos="fade-up">';
       
 
-	  echo '<div  class=" p-2 burengo_case"><img src="media/thumbnails/'.$results['bgo_thumbnail'].'" alt="Image placeholder" class="img-fluid burengo-img-grid"> 
+	  echo '<div  class=" p-2 "><img src="media/thumbnails/'.$results['bgo_thumbnail'].'" alt="Image placeholder" class="img-fluid burengo-img-grid"> 
       <div style="z-index:999; margin-top:-2em;">'; 
 if($results['bgo_cat']==1){	  
 	 echo '<span class="badge bg-success bgo_mfont">$'.number_format($results['bgo_price'],2).' '.convert($results['bgo_uom']).' </span></div>';

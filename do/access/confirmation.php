@@ -23,8 +23,6 @@ $_SESSION['bgo_perfil'] = $plan;
 
 $up_expdate =  date('Y-m-d', strtotime($date. ' + 30 days'));
 
-/* verificar si ya se ha completado la transacción */
-
 /* Actualizar los datos */
 $stmt0 = Conexion::conectar()->prepare("UPDATE bgo_user_plan SET up_planid = ".$plan." , up_maxp =".$max_post." , up_maxf =".$max_fotos." , up_expdate = '".$up_expdate."' WHERE up_uid = '".$uid."'");
 $stmt0 -> execute();

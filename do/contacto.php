@@ -30,14 +30,10 @@ $results = $stmt -> fetch();
 <div class="wrapper">
  <nav class="main-header navbar navbar-expand-md navbar-dark bg-navy"> 
     <div class="container">
-      <a href="../<?php echo COUNTRY_CODE; ?>" class="navbar-brand">
-            <img src="../dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8">  
-      </a>    
+      <a href="../<?php echo COUNTRY_CODE; ?>" class="navbar-brand"><img src="../dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8"></a>    
       <div class="collapse navbar-collapse order-3" id="navbarCollapse">
         <ul class="navbar-nav"> </ul>
       </div>
-
-     <!-- Right navbar links -->
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
          <li class="nav-item linkWeb"><a class="nav-link" href="../<?php echo COUNTRY_CODE; ?>"> Portada </a></li>
         <li class="nav-item"><a class="nav-link" href="acceder.php">Iniciar Session</a></li>
@@ -52,8 +48,6 @@ $results = $stmt -> fetch();
     <div class="content-header">
       <div class="container">
         <div class="row mb-2">
-          
-    
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
@@ -117,7 +111,7 @@ $results = $stmt -> fetch();
                       </div>
                       <div class="form-group row">
                         <div class="offset-sm-2 col-sm-10">
-                          <button type="button" class="btn btn-success"> <i class="fab fa-telegram-plane"></i> Enviar </button>
+                          <button id="sendData" type="button" class="btn btn-success"> <i class="fab fa-telegram-plane"></i> Enviar </button>
                         </div>
                       </div>
               </div><!-- /.card-body -->
@@ -147,6 +141,12 @@ $results = $stmt -> fetch();
 <script src="../plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
 <script type="text/javascript">
 $('[data-mask]').inputmask();
+
+$('#sendData').click(function(){
+	
+	
+});
+
 
 function isEmpty(str) {
     return (!str || 0 === str.length);

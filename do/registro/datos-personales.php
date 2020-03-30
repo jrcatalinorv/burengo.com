@@ -117,7 +117,16 @@ $code = rand(1000000,9999999) ;
               <span class="fas fa-phone"></span>  
             </div>
           </div>
-        </div>			
+        </div>	
+
+		<div class="input-group mb-3">
+          <input  id="wa" type="text" class="form-control" placeholder="Whatsapp" data-inputmask='"mask": "(999) 999-9999"' data-mask  >
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fab fa-whatsapp"></span>  
+            </div>
+          </div>
+        </div>		
 		
 		<div class="input-group mb-3">
           <select id="place" class="form-control">
@@ -356,12 +365,13 @@ $('#saveNewUsr').click(function(){
 		 tel: $('#telefono').val(),
 		 provincia: $('#place').val(),
 		 address: $('#address').val(),
+		 whatsapp: $('#wa').val()
 	},function(data){
 		switch(data['ok']){
 			case 0: toastr.error('ERROR! No se pudo almacenar los datos: '+ data['err']); break;
 			case 1: 
 				var code = <?php echo $code; ?>;
-				location.href="../access/planes.php?code="+code+"&acc="+data['code']+"";
+				location.href="planes.php?code="+code+"&acc="+data['code']+"";
 			break;
 		}
 	});	

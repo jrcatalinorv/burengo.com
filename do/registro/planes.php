@@ -9,7 +9,7 @@ $uid = $_REQUEST["acc"];
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <link rel="icon" type="image/png" href="favicon.ico"/>
+  <link rel="icon" type="image/png" href="../../favicon.ico"/>
   <title>Burengo</title>
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
@@ -53,7 +53,6 @@ $uid = $_REQUEST["acc"];
 	  
     </div>
   </div>
-  
    <div id="triggerPM" data-toggle="modal" data-target="#modal-pm"></div>
 <div class="modal fade" id="modal-pm">
         <div class="modal-dialog">
@@ -65,9 +64,10 @@ $uid = $_REQUEST["acc"];
               </button>
             </div>
             <div class="modal-body">
-				<div class="row tf"> <button id="transfer" type="button" class="btn btn-block bg-gradient-info btn-lg"> Trasnferencia Bancaria </button></div>
+				<input type="hidden" id="mdlPlanValue"  />
+				<div class="row tf"> <button id="transfer" type="button" class="btn btn-block bg-gradient-info btn-lg"> Trasnferencia Bancaria / Deposito  </button></div>
 				<br/>
-				<div class="row pp"></div>
+				<div id="paypal-button-container" class="row pp"></div>
             </div>
           
           </div>
@@ -78,9 +78,34 @@ $uid = $_REQUEST["acc"];
   
   
 <footer class="main-footer"> Burengo &copy; 2020 - Todos los derechos reservados. </footer>
-
-<script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
-<script>paypal.Buttons().render('div.pp');</script>
+<script src="https://www.paypal.com/sdk/js?client-id=Ac87nE2RADPU10SpCPPzs7lsaHCwimpGPCETweXQ7tQ5owHaOasfaa21i8OwP7yQOh1PvZhp36axHUGE"></script>
+ 
+ 
+ <script>
+  paypal.Buttons({
+    createOrder: function(data, actions) {
+      // This function sets up the details of the transaction, including the amount and line item details.
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: $('#mdlPlanValue').val()
+          }
+        }]
+      });
+    },
+    onApprove: function(data, actions) {
+      // This function captures the funds from the transaction.
+      return actions.order.capture().then(function(details) {
+        	var idPlan = $('#getPlan').val();
+			location.href="confirmation.php?p="+idPlan+"&acc="+$('#getCode').val();
+		
+		// This function shows a transaction success message to your buyer.
+        //alert('Transaction completed by ' + details.payer.name.given_name);
+      });
+    }
+  }).render('#paypal-button-container');
+  //This function displays Smart Payment Buttons on your web page.
+</script>
 
 
 </div>
@@ -94,12 +119,13 @@ $('.panList').load("../ajax/planes_disponibles.php");
 $('.panList').on("click", "a.planselection", function(){
 	var idPlan = $(this).attr('idPlan');
 	var code = $('#getCode').val();
-    var price  =  parseInt($(this).attr('pricePlan'));
+    var price  =  parseFloat($(this).attr('pricePlan'));
 	if(price == 0 ){
 		 $('#getPlan').val(idPlan);
 		 location.href="confirmation.php?p="+idPlan+"&acc="+code;
 	}else{
 		$('#getPlan').val(idPlan);
+		$('#mdlPlanValue').val(price);
 		$('#triggerPM').click();
 	}
 });

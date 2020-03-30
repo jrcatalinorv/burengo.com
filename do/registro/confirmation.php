@@ -1,6 +1,7 @@
 <?php 
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../modelos/conexion.php";
+ $date = date('Y-m-d');
 $plan = $_REQUEST["p"];
 $uid = $_REQUEST["acc"];
 
@@ -8,21 +9,49 @@ $uid = $_REQUEST["acc"];
 
 /* Actualizar los datos */
 /* Insertar datos en la tabla factura */ 
-$stmt = Conexion::conectar()->prepare(" UPDATE bgo_users SET profile = ".$plan.", status = 1 WHERE uid = '".$uid."'");
-$stmt -> execute();	
+$stmt0 = Conexion::conectar()->prepare(" UPDATE bgo_users SET profile = ".$plan.", status = 1 WHERE uid = '".$uid."'");
+$stmt0 -> execute();	
 
 /* Colocar datos del plan */
 $stmt2 = Conexion::conectar()->prepare("SELECT * FROM bgo_planes WHERE planid = ".$plan."");
 $stmt2 -> execute();
+
 if($results = $stmt2 -> fetch()){
+
 $nombre_plan   = $results['planname'];
 $precio_plan   = number_format($results['planprice'],2).' '.$results['plancurrency'];
 $duracion_plan = $results['planduration'];
 $max_fotos = $results['planmaxf'];
 $max_post = $results['planmaxp'];
+
+$_SESSION['bgo_maxP'] = $max_post;
+$_SESSION['bgo_planName'] = $nombre_plan;
+$_SESSION['bgo_perfil'] = $plan;
+
+$up_expdate =  date('Y-m-d', strtotime($date. ' + 30 days'));
+$up_status = 1;
+$up_planxtra = 0;
+
+/* Insertar Datos en la tabla Plan User */
+$stmt = Conexion::conectar()->prepare("INSERT INTO bgo_user_plan(up_uid,up_planid,up_planxtra,up_maxp,up_maxf,up_expdate,up_status)
+VALUES(:up_uid,:up_planid,:up_planxtra,:up_maxp,:up_maxf,:up_expdate,:up_status)");
+
+$stmt->bindParam(":up_uid",$uid, PDO::PARAM_STR);
+$stmt->bindParam(":up_planid",$plan, PDO::PARAM_INT);
+$stmt->bindParam(":up_planxtra",$up_planxtra, PDO::PARAM_INT);
+$stmt->bindParam(":up_maxp",$max_post, PDO::PARAM_INT);
+$stmt->bindParam(":up_maxf",$max_fotos, PDO::PARAM_INT);
+$stmt->bindParam(":up_expdate",$up_expdate, PDO::PARAM_STR);
+$stmt->bindParam(":up_status",$up_status, PDO::PARAM_INT);
+
+$stmt->execute();
+
 }else{
 	print_r($stmt2->errorInfo());
-}
+	print_r($stmt0->errorInfo());
+	print_r($stmt->errorInfo());
+} 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -93,7 +122,7 @@ echo '<div class="alert alert-success alert-dismissible">
                   <div class="info-box bg-light">
                     <div class="info-box-content">
                       <span class="info-box-text text-center text-muted"> Publicaciones Permitidas </span>
-                      <span class="info-box-number text-center text-muted mb-0"> <?php echo $max_post; ?> </span>
+                      <span class="info-box-number text-center text-muted mb-0"> <?php if($max_post==99999){ echo "Ilimitadas"; }else{ echo $max_post; } ?> </span>
                     </div>
                   </div>
                 </div>

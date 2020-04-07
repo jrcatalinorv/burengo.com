@@ -15,38 +15,24 @@ require_once "modelos/data.php";
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <link rel="stylesheet" href="../plugins/toastr/toastr.min.css"> 
-  <link rel="stylesheet" href="../plugins/flag-icon-css-master/css/flag-icon.css" >
+  <link rel="stylesheet" href="../plugins/flag-icon-css-master/css/flag-icon.css" > 
 <style>
+@media only screen and (min-width: 992px) {	
 .burengo-img-grid{
 	width: 250px; 
 	height:180px;
-}
-
+  }
 .bgo_font{
 	font-size:1vW;
 }
-
 .bgo_mfont{
    font-size:0.8vW;
+}
 }
 
 @media only screen and (max-width: 600px) {
 .linkWeb{
 	display:none;
-}
-
-.burengo-img-grid{
-	width: 100%; 
-	height:100%;
-}
-
-.bgo_font{
-	font-size:4vW;
-}
-
-.bgo_mfont{
-   font-size:3vW;
-}
 }
 </style>  
 </head>
@@ -55,13 +41,11 @@ require_once "modelos/data.php";
 <nav class="main-header navbar navbar-expand-md navbar-dark bg-navy"> 
     <div class="container">
       <a href="" class="navbar-brand"><img src="../dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8"></a>
-       <div class="collapse navbar-collapse order-3" id="navbarCollapse"><ul class="navbar-nav"> </ul></div>
+      <div class="collapse navbar-collapse order-3" id="navbarCollapse"><ul class="navbar-nav"> </ul></div>
 	  <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-        <li class="nav-item linkWeb"><a class="nav-link " href="contacto.php">Contacto</a></li>
-        <li class="nav-item"><a class="nav-link" href="acceder.php">Iniciar Session</a></li>
-     	
-<li class="nav-item float-right"><a class="nav-link" href="../"><i class="flag-icon flag-icon-do"></i></a></li>
-		
+		<li class="nav-item linkWeb"><a class="nav-link " href="contacto.php"><?php echo burengo_contact; ?></a></li>
+		<li class="nav-item"><a class="nav-link" href="acceder.php"> <?php echo burengo_login; ?></a></li>
+		<li class="nav-item float-right"><a class="nav-link" href="../"><i class="flag-icon flag-icon-<?php echo COUNTRY_CODE; ?>"></i></a></li>
       </ul>
     </div>
 </nav>
@@ -79,9 +63,8 @@ require_once "modelos/data.php";
           </div>
         </div>
       </div>
-</div>
-
-<div class="content">
+	</div>
+	<div class="content">
       <div class="">
         <div class="row">
           <div class="col-lg-3">
@@ -89,24 +72,23 @@ require_once "modelos/data.php";
               <div class="card-body p-0">
               <div class="btn-group col-lg-12 p-0 viewFilter">
 				  <button style="display:none;" id="op0" name="op0" class="btn btn-lg btn-warning viewOption" view="0"><i class="fas fa-th"></i> Todos </button>
-				  <button id="op1" name="op1" class="btn btn-lg btn-default viewOption" view="1"><i class="fas fa-car"></i> Vehiculos </button>
-				  <button id="op2" name="op2" class="btn btn-lg btn-default viewOption" view="2"><i class="fas fa-home"></i> Inmuebles </button>
+				  <button id="op1" name="op1" class="btn btn-lg btn-default viewOption" view="1"><i class="fas fa-car"></i> <?php echo burengo_vehiculos; ?> </button>
+				  <button id="op2" name="op2" class="btn btn-lg btn-default viewOption" view="2"><i class="fas fa-home"></i> <?php echo burengo_inmuebles; ?> </button>
                </div>
               </div>
             </div> 
 			
-			 
             <div id="btnCompras" class="info-box bg-gradient-success">
               <span class="info-box-icon"><i class="fas fa-wallet"></i></span>
               <div class="info-box-content">
-                <span class="info-box-number"> <br/> <h4>Comprar</h4></span><br/>
+                <span class="info-box-number"> <br/> <h4><?php echo burengo_buy; ?></h4></span><br/>
               </div>
             </div>
 		  
 	         <div id="btnRentas"class="info-box bg-gradient-warning">
               <span class="info-box-icon"><i class="far fa-calendar-alt"></i> </span>
               <div class="info-box-content">
-                <span class="info-box-number"><br/> <h4>Rentar</h4> </span><br/>
+                <span class="info-box-number"><br/> <h4><?php echo burengo_rent; ?></h4> </span><br/>
               </div>
             </div>
           </div>
@@ -117,20 +99,16 @@ require_once "modelos/data.php";
    <div class="row plist"></div>
  </div>
 </div>  
+</div> 
+     </div>
+    </div><!-- /.container-fluid -->
+   </div>
+  <!-- /.content -->
 </div>
-  
-        </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-
-   <div id="modalTriggerComprar" data-toggle="modal" data-target="#modal-comprar" ></div>
-   <div id="modalTriggerRentar" data-toggle="modal" data-target="#modal-rentar" ></div>
-
-   <div class="modal fade" id="modal-comprar">
+<!-- /.content-wrapper -->
+<div id="modalTriggerComprar" data-toggle="modal" data-target="#modal-comprar" ></div>
+<div id="modalTriggerRentar" data-toggle="modal" data-target="#modal-rentar" ></div>
+<div class="modal fade" id="modal-comprar">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -139,43 +117,28 @@ require_once "modelos/data.php";
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
-			
-			 <h3><center> ¿Qué deseas comprar? </center></h3>
-		 <br/>
+
+<div class="modal-body">
+ <h3><center> <?php echo burengo_qBuy; ?></center></h3><br/>
 		 <div class="row">
 			<div class="col-md-6">
-				
-				<div id="btnBuyVh" class="info-box bg-gradient-success">
+			<div id="btnBuyVh" class="info-box bg-gradient-success">
               <span class="info-box-icon"><i class="fas fa-car"></i></span>
-              <div class="info-box-content">
-                <span class="info-box-number"> <br/> <h4> Vehiculos</h4></span><br>
-              </div>
+              <div class="info-box-content"><span class="info-box-number"> <br/> <h4> <?php echo burengo_vehiculos; ?> </h4></span><br></div>
             </div>				
-			
-		 
-			 
 			</div>			
-			<div class="col-md-6">
-				
+			<div class="col-md-6">	
 				<div id="btnBuyIm" class="info-box bg-gradient-success">
-              <span class="info-box-icon"><i class="fas fa-home"></i></span>
-              <div class="info-box-content">
-                <span class="info-box-number"> <br> <h4> Inmuebles </h4></span><br>
-              </div>
+                <span class="info-box-icon"><i class="fas fa-home"></i></span>
+                <div class="info-box-content"><span class="info-box-number"> <br> <h4> <?php echo burengo_inmuebles; ?> </h4></span><br></div>
             </div>				
 			</div>
-			</div>
-	 
-			
-            </div>
-		 
-			
-          </div>
-        </div>
-      </div>
-   
-   <div class="modal fade" id="modal-rentar">
+		</div>
+	</div>	 
+       </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-rentar">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -185,20 +148,20 @@ require_once "modelos/data.php";
               </button>
           </div>
          <div class="modal-body">	
-		 <h3><center> ¿Qué deseas rentar? </center></h3>
+		 <h3><center><?php echo burengo_qRent; ?> </center></h3>
 		 <br/>
 		 <div class="row">
 			<div class="col-md-6">	
 			  <div id="btnRentVh" class="info-box bg-gradient-warning">
               <span class="info-box-icon"><i class="fas fa-car"></i></span>
-              <div class="info-box-content"><span class="info-box-number"> <br/> <h4> Vehiculos</h4></span><br></div>
+              <div class="info-box-content"><span class="info-box-number"> <br/> <h4> <?php echo burengo_vehiculos; ?> </h4></span><br></div>
             </div>				
 			</div>
 			
 			<div class="col-md-6">
 				<div id="btnRentIm" class="info-box bg-gradient-warning">
 				<span class="info-box-icon"><i class="fas fa-home"></i></span>
-				<div class="info-box-content"><span class="info-box-number"> <br> <h4> Inmuebles </h4></span><br></div>
+				<div class="info-box-content"><span class="info-box-number"> <br> <h4> <?php echo burengo_inmuebles; ?> </h4></span><br></div>
 				</div>				
 			</div>
 		</div>
@@ -206,17 +169,8 @@ require_once "modelos/data.php";
   </div>
   </div>
 </div>
-
- 
-
-
-
-<footer class="main-footer">
-    <div class="float-right d-none d-sm-inline"></div>
-    Burengo &copy; 2020 - Todos los derechos reservados.  
-  </footer>
+<footer class="main-footer"> Burengo &copy; 2020 - <?php echo burengo_copyright; ?>  </footer>
 </div>
-
 <script src="../plugins/jquery/jquery.min.js"></script>
 <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../plugins/toastr/toastr.min.js"></script>
@@ -228,8 +182,6 @@ $('.plist').load('ajax/burengo_select.php?typo='+$('#route01').val()+'&pageno='+
 getopPages();
 first();
 });
-
-
 function explode(){
 var top = parseInt($('#pageTop').val());
 var current = parseInt($('#pageCant').val());	
@@ -244,9 +196,7 @@ if(next>top){
 	first();	
   }
 }
-
 function first(){setTimeout(explode, 5000);}
-
 function getopPages(){
 	$.getJSON('ajax/burengo_page_stats.php',{			  	 
 	value: $('#route01').val() 	 
@@ -258,9 +208,6 @@ function getopPages(){
 		 }
 	});		
 }
- 
-
-/* Filtro Vehiculos / Inmuhebles */
 $('.viewFilter').on('click', 'button.viewOption', function(){
 	var option = $(this).attr('view');
 	var active = $('#route01').val();
@@ -278,7 +225,6 @@ $('.viewFilter').on('click', 'button.viewOption', function(){
 	$('.plist').load('ajax/burengo_select.php?typo='+$('#route01').val()+'&pageno='+$('#pageCant').val());		
 	getopPages();
 });
- 
 $('.plist').on("click", "div.itemSelection", function(){ 
 	var id = $(this).attr('itemId');
 	var cat = $(this).attr('itemCat');
@@ -288,7 +234,6 @@ $('.plist').on("click", "div.itemSelection", function(){
 		case '2': location.href="inmuebles.php?dtcd="+id; break;
 	} 
 }); 
-
 $('#btnCompras').click(function(){
 var rt = $('#route01').val();
 switch(rt){
@@ -297,7 +242,6 @@ switch(rt){
 	default:  $('#modalTriggerComprar').click(); break;
 }	
 });
-
 $('#btnRentas').click(function(){
 var rt = $('#route01').val();
 switch(rt){
@@ -306,7 +250,6 @@ switch(rt){
 	default: $('#modalTriggerRentar').click(); break;
 }	
 });
-
 $('#btnBuyVh').click(function(){ location.href="vehiculos/filtro.php?cat=1"; });
 $('#btnRentVh').click(function(){location.href="vehiculos/filtro.php?cat=2"; });
 $('#btnBuyIm').click(function(){ location.href="inmuebles/filtro.php?cat=1"; });

@@ -2,10 +2,7 @@
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../modelos/conexion.php";
 require_once "../modelos/data.php";
-
 $tp = $_REQUEST['cat'];
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,103 +16,79 @@ $tp = $_REQUEST['cat'];
     <link rel="stylesheet" href="../../plugins/bootstrap-slider/css/bootstrap-slider.min.css">
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 <style>
+@media only screen and (min-width: 992px) {	
 .burengo-img-grid{
-	width: 250px; 
+	width: 300px; 
 	height:180px;
-}
-
+  }
 .bgo_font{
 	font-size:1vW;
 }
-
 .bgo_mfont{
    font-size:0.8vW;
+}
 }
 
 @media only screen and (max-width: 600px) {
 .linkWeb{
 	display:none;
 }
-
-.burengo-img-grid{
-	width: 100%; 
-	height:100%;
-}
-
-.bgo_font{
-	font-size:4vW;
-}
-
-.bgo_mfont{
-   font-size:3vW;
-}
-
-}
 </style>  
- 
 </head>
 <body class="hold-transition layout-top-nav">
 <div class="wrapper">
  <nav class="main-header navbar navbar-expand-md navbar-dark bg-navy"> 
     <div class="container">
-      <a href="../../<?php echo COUNTRY_CODE; ?>" class="navbar-brand">
-          <img src="../../dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8">  
-      </a>
+      <a href="../../<?php echo COUNTRY_CODE; ?>" class="navbar-brand"><img src="../../dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8"></a>
       <div class="collapse navbar-collapse order-3" id="navbarCollapse">
         <ul class="navbar-nav"> </ul>
       </div>
 
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-        <li class="nav-item"><a class="nav-link" href="../../<?php echo COUNTRY_CODE; ?>"> Portada </a></li>
-        <li class="nav-item"><a class="nav-link" href="../acceder.php"> Iniciar Session </a></li>
+        <li class="nav-item"><a class="nav-link" href="../../<?php echo COUNTRY_CODE; ?>"> <?php echo burengo_portada; ?> </a></li>
+        <li class="nav-item"><a class="nav-link" href="../acceder.php"> <?php echo burengo_login; ?> </a></li>
       </ul>
     </div>
   </nav>
   <!-- /.navbar -->
-
-
-
-
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper bg-white">
     <!-- Main content -->
     <div class="content ">
       <div class=" ">
         <div class="row pt-2 ">
-		
-          <div class="col-lg-3 ">
-		  <input id="tipocarro"  type="hidden" value="0" />
-		  <input id="string"     type="hidden" />
-		  <input id="getCat"       type="hidden" value="<?php echo $tp; ?>" />
+          <div class="col-lg-3 ">	  
+		  <input id="oldSelected" value="0" type="hidden" />
+		  <input id="tpm2" value="<?php echo $tp; ?>"  type="hidden" />
+		  <input id="tipocarro" type="hidden" value="0" />
+		  <input id="string" type="hidden" />
+		  <input id="getCat" type="hidden" value="<?php echo $tp; ?>" />
 		  	<div class="card">
               <div class="card-body p-1 opFilters">
 			       <div class="pt-2">
-                        <select id="tpm2" class="form-control opSelector" variable="condition">
-                          <option <?php if($tp==1){ echo "selected"; } ?> value="1"> Comprar </option>
-                          <option <?php if($tp==2){ echo "selected"; } ?> value="2"> Rentar / Alquilar  </option>
-                        </select>                    
+			    <div class="btn-group col-lg-12 p-0 viewFilter">
+				  <button id="btn1" class="btn btn-lg btn-default"><i class="fas fa-car"></i> <?php echo burengo_buy; ?> </button>
+				  <button id="btn2" class="btn btn-lg btn-default"><i class="fas fa-car"></i> <?php echo burengo_rent; ?></button>
+               </div>
 					</div>
-			  
-			  
                   <div class="pt-2">
                         <select id="condition" class="form-control opSelector" variable="condition">
-                          <option value="0"> Condicion del vehiculo </option>
-                          <option value="0"> Todas </option>
-                          <option value="Nuevo"> Nuevo </option>
-                          <option value="Usado"> Usado </option>
+                          <option value="0"> <?php echo burengo_carCondition; ?> </option>
+                          <option value="0"> <?php echo burengo_all; ?> </option>
+                          <option value="Nuevo"><?php echo burengo_new; ?> </option>
+                          <option value="Usado"> <?php echo burengo_used; ?> </option>
                         </select>                    
 					</div>
 				  <div class="pt-2">
 						<select id="brands" class="form-control opSelector" variable="marca"> 
-						<option value="0"> Marcas </option> </select>
+						<option value="0"> <?php echo burengo_carBrands; ?> </option> </select>
 						</select> 
 				</div> 
                 <div class="pt-2"><select id="models" class="form-control"> 
-					<option value="0"> Modelos </option> </select></div> 
+					<option value="0"> <?php echo burengo_carModels; ?> </option> </select></div> 
              	
 				<div class="card-header">
-            <h3 class="card-title"> Tipos de Vehiculos</h3>
+            <h3 class="card-title"> <?php echo burengo_carType; ?></h3>
 
             <div class="card-tools">
               <a id="ctpBtn" href="#" class="btn-tool" optp="show" ></a>
@@ -124,99 +97,95 @@ $tp = $_REQUEST['cat'];
 			 
 				<div id="ctp"  class="row pt-0 Hideme">
 		
-				<div class="col-sm-4 border-right border-top carTypeTxt" cttlabel="1">
+				<div class="col-sm-4 border-right border-top carTypeTxt ch1" cttlabel="1">
                     <div class="description-block">
                       <h5 class="description-header"><img class="img-circle" style="width:50px;" src="../media/icons/sedan.png" alt="User Image"> </h5>
-                      <span class="description-text">Sedan</span>
+                      <span class="description-text"><?php echo burengo_sedan; ?></span>
                     </div>             
                   </div>				
 				  
-				  <div class="col-sm-4 border-right border-top carTypeTxt" cttlabel="2">
+				  <div class="col-sm-4 border-right border-top carTypeTxt ch2" cttlabel="2">
                     <div class="description-block">
                       <h5 class="description-header"><img class="" style="width:50px;" src="../media/icons/todoterreno.png" alt="User Image"> </h5>
-                      <span class="description-text">Jeepeta</span>
+                      <span class="description-text"><?php echo  burengo_jeepeta; ?></span>
                     </div>         
                   </div>				  
 				  
-				  <div class="col-sm-4 border-top carTypeTxt" cttlabel="3">
+				  <div class="col-sm-4 border-top carTypeTxt ch3" cttlabel="3">
                     <div class="description-block ">
                       <h5 class="description-header"><img class="" style="width:50px;" src="../media/icons/camioneta.png" alt="User Image"> </h5>
-                      <span class="description-text">Camioneta</span>
+                      <span class="description-text"><?php echo  burengo_camioneta; ?></span>
                     </div>
                   </div>				  
 				  <!------ Row 2-------->
-				  <div class="col-sm-4 border-right border-top carTypeTxt" cttlabel="4">
+				  <div class="col-sm-4 border-right border-top carTypeTxt ch4" cttlabel="4">
                     <div class="description-block">
                       <h5 class="description-header"><img style="width:50px;" src="../media/icons/limusina.png" alt="User Image"> </h5>
-                      <span class="description-text">Limosinas</span>
+                      <span class="description-text"><?php echo  burengo_limo; ?></span>
                     </div>
                   </div>				  
 				  
-				  <div class="col-sm-4 border-right border-top carTypeTxt" cttlabel="5">
+				  <div class="col-sm-4 border-right border-top carTypeTxt ch5" cttlabel="5">
                     <div class="description-block">
                       <h5 class="description-header"><img style="width:50px;" src="../media/icons/sport-car.png" alt="User Image"> </h5>
-                      <span class="description-text">Coupe/Sport</span>
+                      <span class="description-text"><?php echo  burengo_coupe; ?></span>
                     </div>
                   </div>				  
 				  
-				  <div class="col-sm-4 border-top carTypeTxt" cttlabel="6">
+				  <div class="col-sm-4 border-top carTypeTxt ch6" cttlabel="6">
                     <div class="description-block">
                       <h5 class="description-header"><img style="width:50px;" src="../media/icons/motocicleta.png" alt="User Image"> </h5>
-                      <span class="description-text">  Motores </span>
+                      <span class="description-text"> <?php echo  burengo_moto; ?> </span>
                     </div>
                   </div>
 				  	  <!------ Row 3 -------->
-				  <div class="col-sm-4 border-right border-top carTypeTxt" cttlabel="7">
+				  <div class="col-sm-4 border-right border-top carTypeTxt ch7" cttlabel="7">
                     <div class="description-block">
                       <h5 class="description-header"><img style="width:50px;" src="../media/icons/bus-electrico.png" alt="User Image"> </h5>
-                      <span class="description-text">Autobuses</span>
+                      <span class="description-text"><?php echo  burengo_bus; ?></span>
                     </div>
                   </div>				  
 				  
-				  <div class="col-sm-4 border-right border-top carTypeTxt" cttlabel="8">
+				  <div class="col-sm-4 border-right border-top carTypeTxt ch8" cttlabel="8">
                     <div class="description-block">
                       <h5 class="description-header"><img style="width:50px;" src="../media/icons/barco.png" alt="User Image"> </h5>
-                      <span class="description-text"> Barcos </span>
+                      <span class="description-text"><?php echo  burengo_boat; ?> </span>
                     </div>
                   </div>				  
 				  
-				  <div class="col-sm-4 border-top carTypeTxt" cttlabel="9">
+				  <div class="col-sm-4 border-top carTypeTxt ch9" cttlabel="9">
                     <div class="description-block">
                       <h5 class="description-header"><img style="width:50px;" src="../media/icons/moto-acuatica.png" alt="User Image"> </h5>
-                      <span class="description-text"> Jet Ski </span>
+                      <span class="description-text"> <?php echo  burengo_jetski; ?> </span>
                     </div>
                   </div>
 				  
 				  <!------ Row 4-------->
-				  <div class="col-sm-4 border-right border-top border-bottom carTypeTxt" cttlabel="10">
+				  <div class="col-sm-4 border-right border-top border-bottom carTypeTxt ch10" cttlabel="10">
                     <div class="description-block">
                       <h5 class="description-header"><img class="img-circle" style="width:50px;" src="../media/icons/camion.png" alt="User Image"> </h5>
-                      <span class="description-text">Caminoes</span>
+                      <span class="description-text"><?php echo  burengo_truck; ?></span>
                     </div>
                   </div>				  
 				  
-				  <div class="col-sm-4 border-right border-top border-bottom carTypeTxt" cttlabel="11">
+				  <div class="col-sm-4 border-right border-top border-bottom carTypeTxt ch11" cttlabel="11">
                     <div class="description-block">
                       <h5 class="description-header"><img style="width:50px;" src="../media/icons/mezclador.png" alt="User Image"> </h5>
-                      <span class="description-text">V. Pesados </span>
+                      <span class="description-text"><?php echo  burengo_pesados; ?> </span>
                     </div>
                   </div>				  
 				  
-				  <div class="col-sm-4 border-top border-bottom carTypeTxt" cttlabel="12">
+				  <div class="col-sm-4 border-top border-bottom carTypeTxt ch12" cttlabel="12">
                     <div class="description-block">
                       <h5 class="description-header"><img style="width:50px;" src="../media/icons/generador.png" alt="User Image"> </h5>
-                      <span class="description-text"> Otros </span>
+                      <span class="description-text"> <?php echo  burengo_otros; ?> </span>
                     </div>
                   </div>
-			 
-          
-                 
-                  </div>
-				<div class="row pt-2">
-                 
+           </div>
+				<div class="row pt-2">                 
                   <div class="col-6">
                     <select id="pricefrom" class="form-control">
-						<option value="0"> Precio Min.  </option>
+						<option value="0"> <?php echo burengo_precioMin; ?>  </option>
 						<option value="25000"> $25,000  </option>
 						<option value="50000"> $50,000  </option>
 						<option value="75000"> $75,000  </option>
@@ -246,7 +215,7 @@ $tp = $_REQUEST['cat'];
                   </div>
                   <div class="col-6">
 					<select id="priceto" class="form-control">
-						<option value="9000000"> Precio Max.  </option>
+						<option value="9000000"> <?php echo burengo_precioMax; ?>  </option>
 						<option value="50000"> $50,000  </option>
 						<option value="75000"> $75,000  </option>
 						<option value="100000"> $100,000  </option>
@@ -278,60 +247,48 @@ $tp = $_REQUEST['cat'];
 				<div class="row pt-2">
                   <div class="col-6">
                     <select id="yearfrom" class="form-control">
-						 <option value="0"> Año Desde </option>
+						 <option value="0"> <?php echo burengo_yearfrom; ?> </option>
                     </select>
                   </div>
                   <div class="col-6">
                        <select id="yearto" class="form-control">
-						 <option value="0"> Año Hasta </option>
+						 <option value="0"> <?php echo burengo_yearto; ?> </option>
                     </select>
                   </div>
                 </div>
 				 
                <div class="pt-2">
 					<select id="fuel" class="form-control"> 
-						<option value="0"> Combustible </option>
-						<option value="1"> Gasolina </option>
-						<option value="2"> Gas/GLP </option>
-						<option value="3"> Gasoil/Diesel </option>						
+						<option value="0"> <?php echo burengo_fuel; ?> </option>
+						<option value="1"> <?php echo burengo_gas; ?> </option>
+						<option value="2"> <?php echo burengo_glp; ?> </option>
+						<option value="3"> <?php echo burengo_diessel; ?> </option>						
 					</select>
 				</div> 
 				
                <div class="pt-2">
 					<select id="color" class="form-control"> 
-							<option value="0"> Color </option> 
+							<option value="0"> <?php echo burengo_color; ?> </option> 
 					</select>
 				</div> 
                
 			   <div class="pt-2">
 			   <select id="transmision" class="form-control"> 
-					<option value="0"> Transmision </option>
-                    <option value="1"> Automatica </option>
-                    <option value="2"> Manual </option>
-                    <option value="3"> Triptonica </option>
+					<option value="0"> <?php echo burengo_transmition; ?> </option>
+                    <option value="1"> <?php echo burengo_auto; ?> </option>
+                    <option value="2"> <?php echo burengo_manual; ?> </option>
+                    <option value="3"> <?php echo burengo_triptonic; ?> </option>
 					</select>
 				</div> 
                <div class="pt-2">
 					<select id="place" class="form-control"> 
-							<option value="0"> Lugar </option> 
+							<option value="0">  <?php echo burengo_place; ?> </option> 
 					</select>
 			   </div> 
-             	
-			 
-						
+        </div>
+      </div> 
+</div>
 
-               
-              </div>
-            </div> 
-			
-		 
-		  
-	  
-         
-			 
-
-          </div>
-          <!-- /.col-md-6 -->
 <div class="col-lg-9">
 <div class="p-0">
  <div class="card-body p-0">
@@ -340,29 +297,12 @@ $tp = $_REQUEST['cat'];
    </div>
   </div>  
 </div>
-          <!-- /.col-md-6 -->
-  
         </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
+      </div>
     </div>
-    <!-- /.content -->
   </div>
-  <!-- /.content-wrapper -->
-
- 
-
-  <!-- Main Footer -->
-  <footer class="main-footer">
-    <!-- To the right -->
-    <div class="float-right d-none d-sm-inline">
-    
-    </div>
-    <!-- Default to the left -->
-    Burengo &copy; 2020 - Todos los derechos reservados.  
-  </footer>
+  <footer class="main-footer"> Burengo &copy; 2020 - <?php echo burengo_copyright; ?>  </footer>
 </div>
-<!-- ./wrapper -->
 
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -383,14 +323,20 @@ $('.plist').load("../ajax/burengo_select_conditionals.php?t0="+$('#getCat').val(
 					+$('#pricefrom').val()+"&t3="+$('#priceto').val()+"&t4="
 					+$('#yearfrom').val()+"&t5="+$('#yearto').val()+"");
 
+
+
+
+switch($('#tpm2').val()){
+ case '1': $('#btn1').addClass("bg-default"); $('#btn1').addClass("bg-warning"); break;
+ case '2': $('#btn2').addClass("bg-default"); $('#btn2').addClass("bg-warning"); break;
+}
+
 });
 
+$('#btn1').click(function(){ $('#btn2').removeClass("bg-warning"); $('#btn1').addClass("bg-warning"); location.href="?cat=1";  });
+$('#btn2').click(function(){ $('#btn1').removeClass("bg-warning"); $('#btn2').addClass("bg-warning"); location.href="?cat=2"; });
 
-$('#tpm2').change(function(){
-	var url = $('#tpm2').val();
-	location.href="?cat="+url;
-});
-
+ 
 
 $('#condition').change(function(){SendData();});
 $('#brands').change(function(){SendData();});
@@ -417,6 +363,10 @@ $('.plist').on("click", "div.itemSelection", function(){
 
 $('#ctp').on("click","div.carTypeTxt", function(){
 	var myVal = $(this).attr("cttlabel");
+	var old = $('#oldSelected').val();
+	if(old==0){ /* Do Nothing */ }else{  $('.ch'+old).removeClass('bg-warning'); }
+	$(this).addClass('bg-warning');
+	$('#oldSelected').val(myVal); 
 	$('#tipocarro').val(myVal);
 	 SendData();
 });
@@ -472,6 +422,9 @@ $('.plist').on("click", "div.itemSelection", function(){
 		case '2': location.href="../inmuebles.php?dtcd="+id; break;
 	} 
 }); 
+
+
+
 
 </script>
 </body>

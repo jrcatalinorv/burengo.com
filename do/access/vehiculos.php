@@ -2,6 +2,7 @@
 session_start();
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../modelos/conexion.php";
+require_once "../modelos/data.php";
 
 $code = $_REQUEST["dtcd"];
 $cdate = date('Y-m-d');
@@ -45,13 +46,22 @@ if($results = $stmt -> fetch()){
 	$subcat = intval($results['bgo_cat']);
 	$subcat2 = intval($results['bgo_subcat']);
 	$tcp = $results['bgo_uom'];
+	$map = $results['bgo_mapURL'];
 	$currency = $results['cur_str']." (".$results['cur_code'].")"; /* Tipo de moneda */
+	$cur_sign = $results["cur_sign"];	
 	$img = array($thumpnail,'0000.jpg','0000.jpg','0000.jpg','0000.jpg');
 	
 	$pr_low  = intval($precio) - ( intval($precio) * 0.30 ); 
-	$pr_high = intval($precio) + ( intval($precio) * 0.50 );  
+	$pr_high = intval($precio) + ( intval($precio) * 0.50 ); 
+	
+	
   }
-  
+ 
+$dest="";
+$iconDesc="";
+if( $results['bgo_stdesc'] == 9 ){ $dest = 'style="border: solid 4px #ffc926"'; $iconDesc=' <span class="text-warning"> <i class="fas fa-star"></i> </span>';  }
+ 
+ 
   /*Buscar datos del Usuario del vehiculo  */
 $stmt2 = Conexion::conectar()->prepare("SELECT * FROM bgo_users WHERE uid = '".$user."'"); 
 $stmt2 -> execute();  
@@ -86,17 +96,25 @@ $myemail = $rslts3["email"];
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="../../dist/css/adminlte.css">
   <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
-<style>  
-.Hideme{
-	display:none;
-}
-
+<style>
+@media only screen and (min-width: 992px) {	
 .burengo-img-grid{
 	width: 250px; 
-	height:160px;
+	height:130px;
+  }
+.bgo_font{
+	font-size:1vW;
+}
+.bgo_mfont{
+   font-size:0.8vW;
+}
 }
 
-</style>  
+@media only screen and (max-width: 600px) {
+.linkWeb{
+	display:none;
+}
+</style>   
 </head>
 <body class="hold-transition layout-top-nav layout-navbar-fixed">
 <div class="wrapper">
@@ -121,22 +139,22 @@ $myemail = $rslts3["email"];
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">	  
 		  <div class="dropdown-divider"></div>	
 		  <a href="inicio.php" class="dropdown-item">
-            <i class="fas fa-th mr-2"></i> Portada  
+            <i class="fas fa-th mr-2"></i> <?php echo burengo_portada; ?> 
           </a>
           <div class="dropdown-divider"></div>		  
           <a href="publicaciones.php" class="dropdown-item">
-            <i class="far fa-list-alt mr-2"></i> Mis publicaciones 
+            <i class="far fa-list-alt mr-2"></i> <?php echo burengo_Mypost; ?> 
           </a>
           <div class="dropdown-divider"></div>
           <a href="profile.php" class="dropdown-item">
-            <i class="far fa-id-badge mr-2"></i> Cuenta    
+            <i class="far fa-id-badge mr-2"></i> <?php echo burengo_Account; ?>    
           </a>
           <div class="dropdown-divider"></div>
           <a href="mail/inbox.php"" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> Mensajes
+            <i class="fas fa-envelope mr-2"></i> <?php echo burengo_msg; ?>
           </a>
           <div class="dropdown-divider"></div>
-          <a href="salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> Cerrar Session </a>
+          <a href="salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> <?php echo burengo_logout; ?> </a>
         </div>
       </li>
         
@@ -158,13 +176,13 @@ $myemail = $rslts3["email"];
 		<input id="mycode" type="hidden" class="form-control"  value="<?php echo $_SESSION['bgo_userId']; ?>" >
         <input id="usremail" type="hidden" class="form-control" value="<?php echo $email; ?>" >		
 		  <!-- Default box -->
-      <div class="card card-solid">
+      <div class="card card-solid col-12">
         <div class="card-body">
           <div class="row">
             <div class="col-12 col-sm-6">
               <h3 class="d-inline-block d-sm-none"> </h3>
               <div class="col-12">
-                <img src="../media/vehiculos/<?php echo $img[0]; ?>" class="product-image" alt="Product Image">
+                <img <?php echo $dest; ?> src="../media/vehiculos/<?php echo $img[0]; ?>" class="product-image" alt="Product Image">
               </div>
               <div class="col-12 product-image-thumbs">
                 <div class="product-image-thumb active"><img src="../media/vehiculos/<?php echo $img[0]; ?>" alt="Product Image"></div>
@@ -176,38 +194,38 @@ $myemail = $rslts3["email"];
               </div>
             </div>
             <div class="col-12 col-sm-6">
-              <h3 class="my-3"> <?php echo $desc; ?> </h3>
+              <h3 class="my-3"> <?php echo $iconDesc.' '.$desc; ?> </h3>
               <p>  </p>
  
 			 <div class="p-0">
 			<div class="p-0">
 					<table class="table table-sm">
 					   <tbody>
-							<tr><td><label> Marca:</label></td><td><?php echo $fullbrand; ?></td><td><label> Modelo:</label></td><td><?php echo $modelo; ?></td></tr>							
-							<tr><td><label> Condicion:</label></td><td> <?php echo $condition; ?></td><td><label> Año:</label></td><td><?php echo $year; ?></td></tr>
-							<tr><td><label>Color:</label></td><td><?php echo $color; ?></td><td><label>Tipo:</label></td><td><?php echo $tipo; ?></td></tr>
-							<tr><td><label>Interior:</label></td><td><?php echo $color2; ?></td><td><label>Combustible: </label></td><td><?php echo $fuel; ?></td></tr>
-							<tr><td><label>Transmisión:</label></td><td><?php echo $transmission; ?></td><td><label>Puertas:</label></td><td><?php echo $doors; ?></td></tr>
-							<tr><td><label>Tracción:</label></td><td><?php echo $tracsion; ?></td><td><label>Pasajeros:</label></td><td><?php echo $passengers; ?></td></tr>                                        
-							<tr><td><label>Lugar:</label></td><td><?php echo $place; ?></td><td><label>Direccion:</label></td><td><?php echo $addr; ?></td></tr>										
-							<tr><td><label>Precio:</label></td><td><?php echo number_format($precio,2).' '.convert($tcp);  ?></td><td><label>Moneda:</label></td><td><?php echo $currency; ?></td></tr>
+							<tr><td><label> <?php echo burengo_marca; ?>:</label></td><td><?php echo $fullbrand; ?></td><td><label> <?php echo burengo_model; ?>:</label></td><td><?php echo $modelo; ?></td></tr>							
+							<tr><td><label> <?php echo burengo_condicion; ?>:</label></td><td> <?php echo $condition; ?></td><td><label> <?php echo burengo_year; ?>:</label></td><td><?php echo $year; ?></td></tr>
+							<tr><td><label> <?php echo burengo_color; ?>:</label></td><td><?php echo $color; ?></td><td><label><?php echo burengo_tipo;?>:</label></td><td><?php echo $tipo; ?></td></tr>
+							<tr><td><label> <?php echo burengo_int; ?>:</label></td><td><?php echo $color2; ?></td><td><label><?php echo burengo_fuel; ?>: </label></td><td><?php echo $fuel; ?></td></tr>
+							<tr><td><label> <?php echo burengo_transmition; ?>:</label></td><td><?php echo $transmission; ?></td><td><label><?php echo burengo_doors; ?>:</label></td><td><?php echo $doors; ?></td></tr>
+							<tr><td><label> <?php echo burengo_tranccion; ?>:</label></td><td><?php echo $tracsion; ?></td><td><label><?php echo burengo_passenger; ?>:</label></td><td><?php echo $passengers; ?></td></tr>                                        
+							<tr><td><label> <?php echo burengo_place; ?>:</label></td><td><?php echo $place; ?></td><td><label><?php echo burengo_addr; ?>:</label></td><td><?php echo $addr; ?></td></tr>										
+							<tr><td><label> <?php echo burengo_price; ?>:</label></td><td><?php echo number_format($precio,2).' '.convert($tcp);  ?></td><td><label><?php echo burengo_currency; ?>:</label></td><td><?php echo $currency; ?></td></tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
-			<div class="bg-gray py-2 px-3 mt-4"><h2 class="mb-0"> RD$ <?php echo number_format($precio,2).' '.convert($tcp); ?></h2></div>
+			<div class="bg-gray py-2 px-3 mt-4"><h2 class="mb-0"> <?php echo $cur_sign; ?>  <?php echo number_format($precio,2).' '.convert($tcp); ?></h2></div>
            <?php 
 				if($subcat==1){
 				echo '
 			  <div class="mt-4">
                 <div class="btn btn-success btn-lg btn-flat buyItem">
                   <i class="fas fa-cart-plus fa-lg mr-2"></i> 
-                  Comprar 
+                 '.burengo_buy.' 
                 </div>
 
                 <div class="btn btn-info btn-lg btn-flat whishList">
                   <i class="fas fa-heart fa-lg mr-2 text-white"></i> 
-                  Agregar a Favoritos
+                  '.burengo_fav.'
                 </div>
               </div>';
 				}else{
@@ -215,12 +233,12 @@ $myemail = $rslts3["email"];
 			  <div class="mt-4">
                 <div class="btn btn-warning btn-lg btn-flat buyItem">
                   <i class="far fa-calendar-alt fa-lg mr-2"></i> 
-                  Rentar 
+                  '.burengo_rent.'
                 </div>
 
                 <div class="btn btn-info btn-lg btn-flat whishList">
                   <i class="fas fa-heart fa-lg mr-2 text-white"></i> 
-                  Agregar a Favoritos
+                  '.burengo_fav.'
                 </div>
               </div>';					
 			}   
@@ -241,15 +259,28 @@ $myemail = $rslts3["email"];
 
             </div>
           </div>
-          <div class="row mt-4">
-          </div>
+      
         </div>
         
-		<div class="card-body pt-4">
-			<h4> Anuncios Similares </h4>
-			<hr/>
-		   <div class="row similars">
-		   </div>
+			
+		<div class="card-body pt-1">
+			 <div class="row">
+			 	<div class="col-12 col-sm-8">
+				<h4> <?php echo burengo_similars; ?> </h4> 	<hr/>
+				<div class="row similars"> </div>
+				</div>
+				
+				<div class="col-12 col-sm-4">
+				
+				<h4> &nbsp; </h4> 	<hr/>
+				<div class="map"> 
+				 <?php echo $map; ?>
+				</div>
+			 
+				</div>
+			 </div>
+			
+
 		</div>
 		
 		<!-- /.card-body -->
@@ -263,7 +294,7 @@ $myemail = $rslts3["email"];
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Informacion del Vendedor </h5>
+              <h5 class="modal-title"> <?php echo burengo_sellerInfo; ?> </h5>
               <button id="closeMeBtn" type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -287,8 +318,8 @@ $myemail = $rslts3["email"];
             </div>
 			
 			 <div class="modal-footer">
-              <button id="sendMsg" type="button" class="btn btn-success" data-dismiss="modal"><i class="fas fa-comments"></i> Enviar mensaje</button>
-              <a href="user/publicaciones.php?user=<?php echo $user; ?>" type="button" class="btn btn-info"> <i class="fas fa-th"></i> Ver Publicaciones </a>
+              <button id="sendMsg" type="button" class="btn btn-success" data-dismiss="modal"><i class="fas fa-comments"></i> <?php echo burengo_usrMsgSend; ?> </button>
+              <a href="user/publicaciones.php?user=<?php echo $user; ?>" type="button" class="btn btn-info"> <i class="fas fa-th"></i> <?php echo burengo_allPost; ?> </a>
             </div>
 			
           </div>
@@ -300,7 +331,7 @@ $myemail = $rslts3["email"];
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title text-info"> <i class="fas fa-envelope"></i> Enviar Mensaje </h5>
+              <h5 class="modal-title text-info"> <i class="fas fa-envelope"></i> <?php echo burengo_usrMsgSend; ?> </h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -311,14 +342,14 @@ $myemail = $rslts3["email"];
                   <input readonly type="text" class="form-control" placeholder="Nombre Completo" value="<?php echo $mynombre; ?>" >             
                 </div>
 				<div class="form-group">
-                        <label>Mensaje </label>
+                        <label> <?php echo burengo_send; ?> </label>
                         <textarea id="mcomment" class="form-control" rows="5" placeholder="Escribir comentario"></textarea>
                       </div>
 			
           </div>
 		  	<div class="modal-footer justify-content-between">
-              <button id="btnCloseModal" type="button" class="btn btn-danger" data-dismiss="modal"> Cancelar </button>
-              <button id="sendMsgConfirm" type="button" class="btn btn-success"> <i class="fab fa-telegram-plane"></i> Enviar </button>
+              <button id="btnCloseModal" type="button" class="btn btn-danger" data-dismiss="modal"> <?php echo burengo_cancel; ?> </button>
+              <button id="sendMsgConfirm" type="button" class="btn btn-success"> <i class="fab fa-telegram-plane"></i> <?php echo burengo_send; ?> </button>
             </div>
         </div>
 </div>
@@ -329,7 +360,7 @@ $myemail = $rslts3["email"];
     </div>
     <!-- /.content -->
   </div>
-<footer class="main-footer"><div class="float-right d-none d-sm-inline"></div> Burengo &copy; 2020 - Todos los derechos reservados. </footer>
+<footer class="main-footer"><div class="float-right d-none d-sm-inline"></div> Burengo &copy; 2020 - <?php echo burengo_copyright; ?> </footer>
 </div>
 <!-- ./wrapper -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
@@ -411,11 +442,11 @@ function isEmpty(str) {
 function convert($id){
 	switch($id){
 		case 0: return ""; break;
-		case 1: return " x dia "; break;
-		case 2: return " x Noche "; break;
-		case 3: return " x Hora"; break;
-		case 4: return " - Semanal"; break;
-		case 5: return " - Mensual"; break;
+		case 1: return " x ".burengo_day; break;
+		case 2: return " x ".burengo_night; break;
+		case 3: return " x ".burengo_hour; break;
+		case 4: return " - ".burengo_week; break;
+		case 5: return " - ".burengo_month; break;
 		default: return ""; break;
 	}
 }

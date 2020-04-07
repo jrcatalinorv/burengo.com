@@ -1,6 +1,7 @@
 <?php 
 session_start();
 date_default_timezone_set("America/Santo_Domingo");
+require_once "../../../../modelos/data.php";
 $postCode = 'BGS'.date('YmdHis').rand(1000,9999); /*Codigo de 20 caracteres */
 $codeFake = $_REQUEST["ccdt"];
 
@@ -61,22 +62,22 @@ $strcat = "Venta";
           <div class="dropdown-divider"></div>
 		  
 		  <a href="../../../inicio.php" class="dropdown-item">
-            <i class="fas fa-th mr-2"></i> Portada  
+            <i class="fas fa-th mr-2"></i><?php echo burengo_portada; ?> 
           </a>
           <div class="dropdown-divider"></div>		  
           <a href="../../../publicaciones.php" class="dropdown-item">
-            <i class="far fa-list-alt mr-2"></i> Mis publicaciones 
+            <i class="far fa-list-alt mr-2"></i> <?php echo burengo_Mypost; ?> 
           </a>
           <div class="dropdown-divider"></div>
           <a href="../../../profile.php" class="dropdown-item">
-            <i class="far fa-id-badge mr-2"></i> Cuenta    
+            <i class="far fa-id-badge mr-2"></i>  <?php echo burengo_Account; ?>     
           </a>
           <div class="dropdown-divider"></div>
           <a href="mensajes-recibidos.php" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> Mensajes
+            <i class="fas fa-envelope mr-2"></i> <?php echo burengo_msg; ?>
           </a>
           <div class="dropdown-divider"></div>
-          <a href="../../../salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> Cerrar Session </a>
+          <a href="../../../salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> <?php echo burengo_logout; ?> </a>
         </div>
       </li>		
       </ul>
@@ -100,9 +101,9 @@ $strcat = "Venta";
 			<div class="bgo-dot bgo-three">3</div>
 			<div class="bgo-progress-bar bgo-first"></div>
 			<div class="bgo-progress-bar bgo-second"></div>
-			<div class="bgo-message bgo-message-1">Datos Generales <div>
-			<div class="bgo-message bgo-message-2">Subir Imagenes  <div>
-			<div class="bgo-message bgo-message-3">Confirmar Datos <div>
+			<div class="bgo-message bgo-message-1"> <?php echo burengo_gral; ?> <div>
+			<div class="bgo-message bgo-message-2"> <?php echo burengo_upImg; ?>  <div>
+			<div class="bgo-message bgo-message-3"> <?php echo burengo_confirmData; ?> <div>
 			</div></div></div></div></div></div>
 			</div>
 			</div>
@@ -116,17 +117,18 @@ $strcat = "Venta";
 		<div class="col-md-11">
             <div class="card">
 			 <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-car"></i> <?php echo $strcat;?> de Vehiculos | Informaciones Generales  </h3>
+                <h3 class="card-title"><i class="fas fa-car"></i>   <?php echo burengo_sellCarTitle; ?>  </h3>
 				<input id="pcode" type="hidden" value="<?php echo $postCode; ?>">
 				<input id="cat" type="hidden" value="<?php echo $cat; ?>">
 				<input id="subcat" type="hidden" value="<?php echo $subcat; ?>">
 				<input id="userId" type="hidden" value="<?php echo $_SESSION['bgo_userId']; ?>">
+				<input id="userProfile" type="hidden" value="<?php echo $_SESSION['bgo_perfil']; ?>">
               </div>
             <div class="card-body">
 		    <div class="row">
                     <div class="col-sm-12">
                       <div class="form-group">
-						<input id="title" maxlength="25" type="text" class="form-control" placeholder="Titulo de Publicacion (Ejemplo: Honda Civic EX 2014)">
+						<input id="title" maxlength="25" type="text" class="form-control" placeholder="<?php echo burengo_saleCarT1a; ?>">
                       </div>
                     </div>
             </div>
@@ -160,9 +162,9 @@ $strcat = "Venta";
 					<div class="col-sm-6">
                       <div class="form-group">
                         <select id="condition" class="form-control">
-                          <option value="0"> Condicion del vehiculo </option>
-                          <option value="Nuevo"> Nuevo </option>
-                          <option value="Usado"> Usado </option>
+                          <option value="0"> <?php echo burengo_carCondition; ?> </option>
+                          <option value="Nuevo"> <?php echo burengo_new; ?> </option>
+                          <option value="Usado"> <?php echo burengo_used; ?> </option>
                         </select>                    
 					</div>
                     </div>
@@ -196,17 +198,19 @@ $strcat = "Venta";
                       <div class="form-group">
 					   <div class="input-group mb-3">
                   <select id="cartype" class="form-control">
-                        <option value="0"> Tipo de Vehiculo  </option>
-						<option value="1"> Sedan   </option>
-						<option value="2"> Compacto  </option> 
-						<option value="3"> Jeepeta  </option>
-						<option value="4"> Camioneta  </option>
-						<option value="5"> Coupe/Sport  </option>
-						<option value="6"> Motores  </option>
-						<option value="7"> Camiones  </option>
-						<option value="8"> Autobuses  </option>
-						<option value="9"> Vehiculos Pesados  </option>
-						<option value="10"> Otros  </option>
+                        <option value="0"> <?php echo burengo_carType; ?>  </option>
+						<option value="1"> <?php echo burengo_sedan; ?>   </option>
+						<option value="2"> <?php echo burengo_jeepeta; ?>  </option> 
+						<option value="3"> <?php echo burengo_camioneta; ?>  </option>
+						<option value="4"> <?php echo  burengo_limo; ?>    </option>
+						<option value="5"> <?php echo  burengo_coupe; ?>    </option>
+						<option value="6"> <?php echo  burengo_moto; ?>  </option>
+						<option value="7"> <?php echo  burengo_bus; ?>  </option>
+						<option value="8"> <?php echo  burengo_boat; ?>  </option>
+						<option value="9"> <?php echo  burengo_jetski; ?>  </option>
+						<option value="10"> <?php echo  burengo_truck; ?>  </option>
+						<option value="11"> <?php echo  burengo_pesados; ?>  </option>
+						<option value="12"> <?php echo  burengo_otros; ?>  </option>						
                     </select> 
                 </div>                     
 					</div>
@@ -217,10 +221,10 @@ $strcat = "Venta";
 					<div class="col-sm-6">
                       <div class="form-group">
                         <select id="trasnmision" class="form-control">
-                          <option value="0"> Transmision </option>
-                          <option value="1"> Automatica </option>
-                          <option value="2"> Manual </option>
-                          <option value="3"> Triptonica </option>
+                        <option value="0"> <?php echo burengo_transmition; ?> </option>
+						<option value="1"> <?php echo burengo_gas; ?> </option>
+						<option value="2"> <?php echo burengo_glp; ?> </option>
+						<option value="3"> <?php echo burengo_diessel; ?> </option>		
                         </select>                    
 					</div>
                     </div>					
@@ -384,7 +388,7 @@ $strcat = "Venta";
 <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="float-right d-none d-sm-inline"></div>
-    Burengo &copy; 2020 - Todos los derechos reservados.  
+    Burengo &copy; 2020 - <?php echo burengo_copyright; ?>  
   </footer>
 </div>
 <!-- ./wrapper -->
@@ -491,6 +495,7 @@ if( !isEmpty($('#passengers').val()) ){  passengers = parseInt($('#passengers').
 	pasajeros_cantidad: passengers,
 	addr: $('#addrs').val(),
 	accesories: $('#accesories').val(),   
+	destacado: $('#userProfile').val(),   
 	notes: $('#notes').val()	
   },function(data){
 		switch(data['ok']){

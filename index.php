@@ -20,7 +20,6 @@ date_default_timezone_set("America/Santo_Domingo");
 	padding-top: 5rem;	
 }
 
-
 @media only screen and (max-width: 600px) {
   .pdo{
 	padding-top: 0rem;	
@@ -53,21 +52,16 @@ date_default_timezone_set("America/Santo_Domingo");
 				  
 				  <div class="col-sm-3">
 					<h3><a class="text-white p-2" href="hn"><span class="flag-icon flag-icon-hn"></span> Honduras </a></h3>	 
-                   	<h3><a class="text-white p-2" href="mx"><span class="flag-icon flag-icon-mx"></span> Mexico </a></h3>	 
+                   	<h3><a class="text-white p-2" href="mx"><span class="flag-icon flag-icon-mx"></span> México </a></h3>	 
                    	<h3><a class="text-white p-2" href="ni"><span class="flag-icon flag-icon-ni"></span> Nicaragua </a></h3>	 
-                   	<h3><a class="text-white p-2" href="pa"><span class="flag-icon flag-icon-pa"></span> Panama </a></h3>	 
+                   	<h3><a class="text-white p-2" href="pa"><span class="flag-icon flag-icon-pa"></span> Panamá </a></h3>	 
                    	<h3><a class="text-white p-2" href="py"><span class="flag-icon flag-icon-py"></span> Paraguay </a></h3>	 
-                   	<h3><a class="text-white p-2" href="pe"><span class="flag-icon flag-icon-pe"></span> Peru </a></h3>	 
+                   	<h3><a class="text-white p-2" href="pe"><span class="flag-icon flag-icon-pe"></span> Perú </a></h3>	 
                    	<h3><a class="text-white p-2" href="pr"><span class="flag-icon flag-icon-pr"></span> Puerto Rico </a></h3>	 
                    	<h3><a class="text-white p-2" href="sv"><span class="flag-icon flag-icon-sv"></span> Salvador </a></h3>	 
                    	<h3><a class="text-white p-2" href="uy"><span class="flag-icon flag-icon-uy"></span> Uruguay </a></h3>	 
                    	<h3><a class="text-white p-2" href="ve"><span class="flag-icon flag-icon-ve"></span> Venezuela </a></h3>	 
-                  </div>                             
-							
- 
-                         
-                      
-                   
+                  </div>                               
          </div>
 	</div>
 <script src="plugins/jquery/jquery.min.js"></script>

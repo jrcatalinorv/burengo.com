@@ -2,8 +2,8 @@
 session_start();
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../modelos/conexion.php";
+require_once "../modelos/data.php";
 
- 
 $fsDt = date("Y-m-d", strtotime("first day of this month")); 
 $lsDt = date("Y-m-d", strtotime("last day of this month")); 
  
@@ -35,9 +35,6 @@ $stmt2 -> execute();
 $results = $stmt2 -> fetch();
 $total_postD = $results['totalpd'];
 
- 
-
-
 
 /* Visitas del mes */
 $stmt4 = Conexion::conectar()->prepare("SELECT COUNT(vstid) as visits FROM bgo_visits WHERE vstdate  
@@ -56,9 +53,12 @@ $stmt6 = Conexion::conectar()->prepare("SELECT * FROM bgo_user_plan WHERE up_uid
 $stmt6 -> execute();
 $rest6 = $stmt6 -> fetch();
 
-
-$pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ; 
-
+if($rest6['up_planid']==7){
+	$pu_rest = "-";
+}else{	
+ if($rest6["up_maxp"]==99999){ $pu_rest = " - "; }else{  $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;    }	
+}
+if($rest6["up_destacadas"]==99999){ $pd_rest = " Ilimitadas "; }else{ $pd_rest =  $total_postD.' de '.intval($rest6["up_destacadas"]); }
 ?>
 
 <!DOCTYPE html>
@@ -73,9 +73,6 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
   <link rel="stylesheet" href="../../dist/css/adminlte.css">
     <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
   <style>
-  .bgo_top{
-	 
-  }
 @media only screen and (max-width: 600px) {
 .bgo_top{
 	margin-top: 2rem; 
@@ -110,22 +107,26 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <div class="dropdown-divider"></div>
           <a href="inicio.php" class="dropdown-item">
-            <i class="fas fa-th mr-2"></i> Portada  
+            <i class="fas fa-th mr-2"></i> <?php echo burengo_portada; ?>
           </a>
           <div class="dropdown-divider"></div>		  
 		  <a href="publicaciones.php" class="dropdown-item">
-            <i class="far fa-list-alt mr-2"></i> Mis publicaciones 
+            <i class="far fa-list-alt mr-2"></i>  <?php echo burengo_Mypost; ?>
           </a>		  
           <div class="dropdown-divider"></div>
           <a href="profile.php" class="dropdown-item">
-            <i class="far fa-id-badge mr-2"></i> Cuenta   
+            <i class="far fa-id-badge mr-2"></i> <?php echo burengo_Account; ?>    
           </a>
           <div class="dropdown-divider"></div>
           <a href="mail/inbox.php" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> Mensajes
+            <i class="fas fa-envelope mr-2"></i> <?php echo burengo_msg; ?>
+          </a>
+		 <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-favorites">
+            <i class="fas fa-heart mr-2"></i> <?php echo burengo_seeFavs; ?>
           </a>
           <div class="dropdown-divider"></div>
-          <a href="salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> Cerrar Session </a>
+          <a href="salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> <?php echo burengo_logout; ?> </a>
         </div>
       </li>
      
@@ -168,11 +169,12 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
 				?>
 				</p>
                 <ul class="list-group list-group-unbordered mb-3">
-                  <li class="list-group-item"><b>Total Publicaciones </b> <a class="float-right"> <?php echo $total_post; ?></a></li>
-				  <li class="list-group-item"><b>Vehiculos </b> <a class="float-right"><?php echo $total_postv; ?></a></li>                     
-				  <li class="list-group-item"><b>Inmnuebles </b> <a class="float-right"><?php echo $total_postin; ?></a></li>                  
-				  <li class="list-group-item"><b> Visitas del mes </b> <a class="float-right"> <?php echo number_format($rest4['visits']); ?>  </a></li>
-                </ul>
+                  <li class="list-group-item"><b> <?php echo burengo_tpots; ?> </b> <a class="float-right"> <?php echo $total_post; ?></a></li>
+				  <li class="list-group-item"><b> <?php echo burengo_vehiculos; ?> </b> <a class="float-right"><?php echo $total_postv; ?></a></li>                     
+				  <li class="list-group-item"><b> <?php echo burengo_inmuebles; ?> </b> <a class="float-right"><?php echo $total_postin; ?></a></li>                  
+				  <li class="list-group-item"><b> <?php echo burengo_visits; ?></b> <a class="float-right"> <?php echo number_format($rest4['visits']); ?>  </a></li>
+				 </ul>
+				 <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-favorites"> <i class="fas fa-heart"></i> <b> <?php echo burengo_seeFavs; ?> </b></a>
 			   </div>
             </div>
           
@@ -180,20 +182,30 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
 		  </div>
           <!-- /.col -->
       <div class="col-md-6">
+	  
+	  <?php 		  
+if(intval($rest5['profile']==7)){
+		  
+echo '<div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                  <h5><i class="icon fas fa-exclamation-triangle"></i> '.burengo_paymentAlertExp.' <a href="planes.php"> '.burengo_MaxOut3. ' </a>. </h5>        
+                </div>'; 
+}	?>
+	  
 		<div class="card">
         <div class="card-body" style="display: block;">
           <div class="row">
             <div class="col-12 col-md-12 col-lg-8 order-1 order-md-1">
-              <h5 class=""> Datos Personales </h5>
+              <h5 class=""> <?php echo burengo_personalData; ?> </h5>
               <div class="text-muted">
-                <p class="text-sm">Nombre Completo:<b class="d-block"> <?php echo $rest5["name"]; ?></b></p>
-                <p class="text-sm">Cedula<b class="d-block"> <?php echo $rest5["ced"]; ?></b></p>                
-				<p class="text-sm">Telefono Principal <b class="d-block"> <?php echo $rest5["phone"]; ?></b></p>                
-				<p class="text-sm">Dirreccion
+                <p class="text-sm"><?php echo burengo_fname; ?>: <b class="d-block"> <?php echo $rest5["name"]; ?></b></p>
+                <p class="text-sm"> <?php echo burengo_id; ?> <b class="d-block"> <?php echo $rest5["ced"]; ?></b></p>                
+				<p class="text-sm"> <?php echo burengo_phone; ?> <b class="d-block"> <?php echo $rest5["phone"]; ?></b></p>                
+				<p class="text-sm"> <?php echo burengo_addr; ?>
                   <b class="d-block"> <?php echo $rest5["addr"]; ?> </b>
                   <b class="d-block"> <?php echo $rest5["pcstr"].', Republica Dominicana '; ?> </b>
                 </p>				
-				<p class="text-sm">Email<b class="d-block"> <?php echo $rest5["email"]; ?></b></p>
+				<p class="text-sm"><?php echo burengo_email; ?> <b class="d-block"> <?php echo $rest5["email"]; ?></b></p>
 				<p class="text-sm"><i class="fab fa-lg fa-whatsapp"></i> Whatsapp <b class="d-block"><?php echo $rest5["bgo_whatsapp"]; ?></b></p>
 				<p class="text-sm"><i class="fab fa-lg fa-instagram"></i> Instagram <b class="d-block"><?php echo $rest5["bgo_instagram"]; ?></b></p>
 				<p class="text-sm"><i class="fab fa-lg fa-facebook"></i> Facebook <b class="d-block"><?php echo $rest5["bgo_facebook"]; ?></b></p>
@@ -201,34 +213,34 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
           </div>
 		
 		<div class="col-12 col-md-12 col-lg-4 order-2 order-md-2 float-right">
-			 <h5 class="bgo_top"> Informacion de Cuenta  </h5>
+			 <h5 class="bgo_top"> <?php echo burengo_accInfo; ?>  </h5>
               <div class="row">
                 <div class="col-12 col-sm-12 bgo_top">
                   <div class="info-box bg-light">
                     <div class="info-box-content">
-                      <span class="info-box-text text-center text-muted"> Plan </span>
+                      <span class="info-box-text text-center text-muted"> <?php echo burengo_plan; ?> </span>
                       <span class="info-box-number text-center text-muted mb-0"> <?php echo $rest5["planname"]; ?> <span>
                     </div>
                   </div>
                 </div>
                 </div>
 				
-				       <div class="row">
+			 <div class="row">
                 <div class="col-12 col-sm-12">
                   <div class="info-box bg-light">
                     <div class="info-box-content">
-                      <span class="info-box-text text-center text-muted"> Fecha de Expiracion </span>
-                      <span class="info-box-number text-center text-muted mb-0"> <?php echo $rest6["up_expdate"]; ?> <span>
-                    </div>
+                      <span class="info-box-text text-center text-muted"> <?php echo burengo_exDate; ?> </span>
+                      <span class="info-box-number text-center text-muted mb-0"> <?php echo date("d/m/Y", strtotime($rest6["up_expdate"])); ?> <span>
+                    </div>  
                   </div>
                 </div>
-                </div>
+             </div>
 				
-				 <div class="row">
+			<div class="row">
                 <div class="col-12 col-sm-12">
                   <div class="info-box bg-light">
                     <div class="info-box-content">
-                      <span class="info-box-text text-center text-muted"> Publicaciones Permitidas </span>
+                      <span class="info-box-text text-center text-muted"> <?php echo burengo_maxP; ?> </span>
                       <span class="info-box-number text-center text-muted mb-0"> <?php if($rest6["up_maxp"]==99999){ echo "Ilimitadas"; }else{ echo $rest6["up_maxp"]; }  ?> </span>
                     </div>
                   </div>
@@ -236,44 +248,35 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
                 <div class="col-12 col-sm-12">
                   <div class="info-box bg-light">
                     <div class="info-box-content">
-                      <span class="info-box-text text-center text-muted"> Plublicaciones Pend. </span>
-                      <span class="info-box-number text-center text-muted mb-0"> <?php if($rest6["up_maxp"]==99999){ echo " - "; }else{ echo $pu_rest; }  ?> <span>
+                      <span class="info-box-text text-center text-muted"> <?php echo burengo_pendP; ?> </span>
+                      <span class="info-box-number text-center text-muted mb-0"> <?php echo $pu_rest;  ?> <span>
                     </span></span></div>
                   </div>
                 </div>                
 				<div class="col-12 col-sm-12">
                   <div class="info-box bg-light">
                     <div class="info-box-content">
-                      <span class="info-box-text text-center text-muted"> Publicaciones Destacadas </span>
-                      <span class="info-box-number text-center text-muted mb-0"> <?php if($rest6["up_destacadas"]==99999){ echo " Ilimitadas "; }else{ echo $total_postD.' de '.intval($rest6["up_destacadas"]); }  ?>  <span>
+                      <span class="info-box-text text-center text-muted"> <?php echo burengo_descP; ?> </span>
+                      <span class="info-box-number text-center text-muted mb-0"> <?php echo $pd_rest;  ?>  <span>
                     </span></span></div>
                   </div>
                 </div>
-              </div>
+            </div>
            </div>
-			
-			
           </div>
         </div>
         <!-- /.card-body -->
 		
-		
 		<div class="card-footer">
-                <button  type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-pass"> <i class="fas fa-lock"></i> Cambiar Clave </button>
-			  	<a href="profile-edit.php" type="button" class="btn btn-warning btn-sm"> <i class="fas fa-user"></i> Editar datos </a>
-			  	<a href="planes.php" type="button" class="btn btn-success btn-sm" > <i class="fas fa-trophy"></i>  <?php if($_SESSION['bgo_perfil'] > 1){ echo " Ver Planes Disponibles";  } else{ echo "Cambiar a Premium";  }   ?> </a>
-			  	<a href="destacar.php" type="button" class="btn btn-primary btn-sm" > <i class="fas fa-star"></i>  Destacar Publicación </a>
-           
-                </div>
-		
+           <button  type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-pass"> <i class="fas fa-lock"></i> <?php echo burengo_changePass; ?> </button>
+		   <a href="profile-edit.php" type="button" class="btn btn-warning btn-sm"> <i class="fas fa-user"></i> <?php echo burengo_edit; ?></a>
+		   <a href="planes.php" type="button" class="btn btn-success btn-sm" > <i class="fas fa-trophy"></i>  <?php if($_SESSION['bgo_perfil'] > 1){ echo burengo_availPlan;  } else{ echo burengo_cpremium;  }   ?> </a>
+		   <a href="destacar.php" type="button" class="btn btn-primary btn-sm" > <i class="fas fa-star"></i>  <?php echo burengo_descPost; ?> </a>
+          </div>
       </div> 
-
  </div>
           <!-- /.col -->
         </div>
-       
-
-
 	   <!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>
@@ -284,35 +287,56 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Cambiar Contraseña </h4>
+              <h4 class="modal-title"> <?php echo burengo_changePass; ?> </h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
-				<div class="form-group"><input type="password" class="form-control" id="password0" placeholder="Clave Actual"></div>
-				<div class="form-group"><input type="password" class="form-control" id="password1" placeholder="Nueva Clave"></div>
-				<div class="form-group"><input type="password" class="form-control" id="password2" placeholder="Confirmar Clave"></div> 
+            <div class="modal-body"> 
+				<div class="form-group"><input type="password" class="form-control" id="password0" placeholder="<?php echo burengo_accPass; ?>"></div>
+				<div class="form-group"><input type="password" class="form-control" id="password1" placeholder="<?php echo burengo_newPass; ?>"></div>
+				<div class="form-group"><input type="password" class="form-control" id="password2" placeholder="<?php echo burengo_conPass; ?>"></div> 
             </div>
 			 <div class="modal-footer justify-content-between">
-              <button id="closeMeBtn" type="button" class="btn btn-danger" data-dismiss="modal"> Cerrar </button>
-              <button id="changePass" type="button" class="btn btn-success"> Aceptar </button>
+              <button id="closeMeBtn" type="button" class="btn btn-danger" data-dismiss="modal"> <?php echo burengo_close; ?> </button>
+              <button id="changePass" type="button" class="btn btn-success"> <?php echo burengo_accept; ?>  </button>
             </div>
           </div>
         </div>
       </div>
    <!-- /.modal -->
+   
+<div class="modal fade" id="modal-favorites">
+ <div class="modal-dialog">
+   <div class="modal-content">
+      <div class="modal-header">
+       <h4 class="modal-title">   </h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+<div class="modal-body p-0 whlist" style="height:400px;   overflow-y: auto; overflow-x: hidden;"> 
+<!----------------------------------->
+		
+<!----------------------------------->
+</div>
+   </div>
+    </div>
+      </div>
+   <!-- /.modal -->
 
-<footer class="main-footer"> Burengo &copy; 2020 - Todos los derechos reservados. </footer>
+<footer class="main-footer"> Burengo &copy; 2020 -  <?php echo burengo_copyright; ?> </footer>
 </div>
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../../dist/js/adminlte.min.js"></script>
 <script src="../../plugins/toastr/toastr.min.js"></script>
-<script type="text/javascript">
+<script type="text/javascript"> 
+$('.whlist').load("../ajax/burengo_select_favorites.php?id="+$('#currentCode').val());
+
+
  
- 
- function isEmpty(str) {
+function isEmpty(str) {
     return (!str || 0 === str.length);
 }
 
@@ -320,8 +344,6 @@ function isEmail(email) {
   var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   return regex.test(email);
 }
- 
- 
  
 $('#changePass').click(function(){
 
@@ -357,19 +379,53 @@ if( !isEmpty($("#password0").val())){
 
  
 });
+
+
+$('.whlist').on("click","span.itemSelection",function(){
+	var id = $(this).attr('itemId');
+	var cat = $(this).attr('stid');
+	switch(cat){
+		case '1': location.href="vehiculos.php?dtcd="+id; break;
+		case '2': location.href="inmuebles.php?dtcd="+id; break;
+	}
+});
+
+
+$('.whlist').on("click","img.itemSelection",function(){
+	var id = $(this).attr('itemId');
+	var cat = $(this).attr('stid');
+	switch(cat){
+		case '1': location.href="vehiculos.php?dtcd="+id; break;
+		case '2': location.href="inmuebles.php?dtcd="+id; break;
+	}
+});
+
+$('.whlist').on("click","a.itemSelection",function(){
+	var id = $(this).attr('itemId');
+	var cat = $(this).attr('stid');
+	switch(cat){
+		case '1': location.href="vehiculos.php?dtcd="+id; break;
+		case '2': location.href="inmuebles.php?dtcd="+id; break;
+	}
+});
+
+$('.whlist').on("click","a.itemDelete",function(){
+   var pid = $(this).attr('itemId');
+   var uid = $(this).attr('userId');
+   
+   $.getJSON('../ajax/burengo_delete_fav.php',{
+		pid: pid,
+		uid: uid
+	},function(data){
+		switch(data['ok']){
+			case 0: toastr.error('ERROR! No se guardaron los cambios los datos: '+ data['err']); break;
+			case 1: $('.whlist').load("../ajax/burengo_select_favorites.php?id="+uid);  break;
+		}
+	});	
+ 
+});
+
+
 </script>
 </body>
 </html>
-<?php 
-function convert($id){
-	switch($id){
-		case 0: return ""; break;
-		case 1: return " x dia "; break;
-		case 2: return " x Noche "; break;
-		case 3: return " x Hora"; break;
-		case 4: return " - Semanal"; break;
-		case 5: return " - Mensual"; break;
-		default: return ""; break;
-	}
-}
-?>

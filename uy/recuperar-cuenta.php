@@ -111,19 +111,18 @@ require_once "modelos/data.php";
      
   </div>
   <!-- /.login-logo -->
-  <div class="card">
-    <div class="card-body login-card-body">
-      <p class=""> <h3> <?php echo burengo_lostPass; ?></h3> </p>
-
-      <div action="#"><br/>
-        <div class="input-group mb-3 pt-3">
-          <input id="email" type="email" class="form-control" placeholder="<?php echo burengo_mailtext; ?>" />
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
-            </div>
-          </div>
-        </div>
+<div class="card">
+<div class="card-body login-card-body">
+<p class=""> <h3> <?php echo burengo_lostPass; ?></h3> </p>
+<div action="#"><br/>
+<div class="input-group mb-3 pt-3">
+<input id="email" type="email" class="form-control" placeholder="<?php echo burengo_mailtext; ?>" />
+<div class="input-group-append">
+<div class="input-group-text">
+<span class="fas fa-envelope"></span>
+</div>
+</div>
+</div>
  
         <div class="row pt-3">
           <div class="col-12">
@@ -138,22 +137,20 @@ require_once "modelos/data.php";
     </div>
   </div>
 </div>
- </center>
-	 </div> 
-    </div>
-  </div>
+</center>
+</div> 
+</div>
+</div>
   
-<!--modals-->
-  <div id="messageSend" class="modalDialog">
-      <div>
-         <h2> </h2>
-        <center><i class="fas fa-envelope fa-4x text-info"></i>
-		<p class="text-info" style="font-size:2em;"> Se ha enviado un mensaje a su cuenta de correo.  </p>
-		<p class="text-primary" style="font-size:1.4em;"> <a href="../<?php echo COUNTRY_CODE; ?>"> Volver a la portada</a>  </p>
-		</center>
-		</div>
+<div id="messageSend" class="modalDialog">
+<div>
+<h2> </h2>
+<center><i class="fas fa-envelope fa-4x text-info"></i>
+<p class="text-info" style="font-size:2em;"> <?php echo burengo_emailSendAlert; ?>  </p>
+<p class="text-primary" style="font-size:1.4em;"> <a href="../<?php echo COUNTRY_CODE; ?>"> <?php echo burengo_back2Home; ?></a></p>
+</center>
+</div>
 </div>  
-  
 <footer class="main-footer"> Burengo &copy; 2020 - <?php echo burengo_copyright; ?>   </footer>
 </div>
 <script src="../plugins/jquery/jquery.min.js"></script>
@@ -171,19 +168,14 @@ input.addEventListener("keyup", function(event) {
 });
 
 
-$('#login').click(function(){
-$.getJSON('ajax/login.php',{			  	 
-	usr: $('#user').val(),	    	 
-	pass: $('#pass').val() 	 
+$('#send').click(function(){
+$.getJSON('ajax/send_recover_email.php',{			  	 
+	email: $('#email').val()    	 	 
 	},function(data){
 	   switch(data['ok'])
 		{
-			case 0: 
-				 toastr.error('Usuario o Clave Incorrectos ');
-				 $('#user').val("");
-				 $('#pass').val("");
-			  break;
-			case 1:  window.location = "access/"+data['url']; break;		
+			case 0: toastr.error('Digite una cuenta de correo válida');  $('#email').val("");  break;
+			case 1: location.href="#messageSend"; break;		
 		 }
 	});				 
 }); 

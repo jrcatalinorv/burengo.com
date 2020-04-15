@@ -3,7 +3,6 @@ session_start();
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../../modelos/conexion.php";
 require_once "../../modelos/data.php";
-
 $tp = $_REQUEST['cat'];
 ?>
 <!DOCTYPE html>
@@ -220,60 +219,11 @@ $tp = $_REQUEST['cat'];
                   <div class="col-6">
                     <select id="pricefrom" class="form-control">
 						<option value="0"> <?php echo burengo_precioMin; ?>  </option>
-						<option value="25000"> $25,000  </option>
-						<option value="50000"> $50,000  </option>
-						<option value="75000"> $75,000  </option>
-						<option value="100000"> $100,000  </option>
-						<option value="150000"> $150,000  </option>
-						<option value="200000"> $200,000  </option>
-						<option value="250000"> $250,000  </option>
-						<option value="300000"> $300,000  </option>
-						<option value="350000"> $350,000  </option>
-						<option value="400000"> $400,000  </option>
-						<option value="450000"> $450,000  </option>
-						<option value="500000"> $500,000  </option>
-						<option value="550000"> $550,000  </option>
-						<option value="600000"> $600,000  </option>
-						<option value="650000"> $650,000  </option>
-						<option value="700000"> $700,000  </option>
-						<option value="750000"> $750,000  </option>
-						<option value="800000"> $800,000  </option>
-						<option value="850000"> $850,000  </option>
-						<option value="900000"> $900,000  </option>
-						<option value="950000"> $950,000  </option>
-						<option value="1000000"> $1,000,000  </option>
-						<option value="1500000"> $1,500,000  </option>
-						<option value="2000000"> $2,000,000  </option>
-						<option value="2500000"> $2,500,000  </option>
 					</select>
                   </div>
                   <div class="col-6">
 					<select id="priceto" class="form-control">
 						<option value="9000000"> <?php echo burengo_precioMax; ?>   </option>
-						<option value="50000"> $50,000  </option>
-						<option value="75000"> $75,000  </option>
-						<option value="100000"> $100,000  </option>
-						<option value="150000"> $150,000  </option>
-						<option value="200000"> $200,000  </option>
-						<option value="250000"> $250,000  </option>
-						<option value="300000"> $300,000  </option>
-						<option value="350000"> $350,000  </option>
-						<option value="400000"> $400,000  </option>
-						<option value="450000"> $450,000  </option>
-						<option value="500000"> $500,000  </option>
-						<option value="550000"> $550,000  </option>
-						<option value="600000"> $600,000  </option>
-						<option value="650000"> $650,000  </option>
-						<option value="700000"> $700,000  </option>
-						<option value="750000"> $750,000  </option>
-						<option value="800000"> $800,000  </option>
-						<option value="850000"> $850,000  </option>
-						<option value="900000"> $900,000  </option>
-						<option value="950000"> $950,000  </option>
-						<option value="1000000"> $1,000,000  </option>
-						<option value="1500000"> $1,500,000  </option>
-						<option value="2000000"> $2,000,000  </option>
-						<option value="2500000"> $2,500,000  </option>
 					</select>
                   </div>
                 </div>				
@@ -352,7 +302,11 @@ $('#brands').load('../../ajax/bgo_select_car_brands.php');
 $('#yearfrom').load('../../ajax/bgo_select_active_years2.php');	
 $('#yearto').load('../../ajax/bgo_select_active_years3.php');
 $('#color').load('../../ajax/burengo_select_color.php');
-$('#place').load('../../ajax/burengo_select_places.php');	
+$('#place').load('../../ajax/burengo_select_places.php');
+
+$('#pricefrom').load('../../ajax/burengo_select_pricefrom.php');
+$('#priceto').load('../../ajax/burengo_select_priceto.php');
+
 SendData();
 $("#ctp").hide();
 document.getElementById('ctpBtn').innerHTML='<i class="fas fa-plus"></i>';

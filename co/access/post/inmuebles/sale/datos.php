@@ -1,6 +1,7 @@
 <?php 
 session_start();
 date_default_timezone_set("America/Santo_Domingo");
+require_once "../../../../modelos/data.php";
 $postCode = 'BGS'.date('YmdHis').rand(1000,9999); /*Codigo de 20 caracteres */
 $codeFake = $_REQUEST["ccdt"];
 $cat = 1;
@@ -58,14 +59,11 @@ $strcat = "Venta";
   </nav>
   <!-- /.navbar -->
 
-  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Main content -->
  <section class="content">
       <div class="container-fluid">
         <div class="row">
          <div class="col-md-12">
-	<!------------------------------> 
 	<center>
 			<div class="bgo-wrapper">
 			<div class="bgo-margin-area">
@@ -74,194 +72,142 @@ $strcat = "Venta";
 			<div class="bgo-dot bgo-three">3</div>
 			<div class="bgo-progress-bar bgo-first"></div>
 			<div class="bgo-progress-bar bgo-second"></div>
-			<div class="bgo-message bgo-message-1">Datos Generales <div>
-			<div class="bgo-message bgo-message-2">Subir Imagenes  <div>
-			<div class="bgo-message bgo-message-3">Confirmar Datos <div>
+			<div class="bgo-message bgo-message-1"> <?php echo burengo_gral; ?> <div>
+			<div class="bgo-message bgo-message-2"> <?php echo burengo_upImg; ?>  <div>
+			<div class="bgo-message bgo-message-3"> <?php echo burengo_confirmData; ?> <div>
 			</div></div></div></div></div></div>
 			</div>
 			</div>
-		 
 	</center>			
-			<!------------------------------>
-		</div>
+  </div>
 </div>
 		
-		<div class="row">	
-		<div class="col-md-11">
-            <div class="card">
-			 <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-home"></i> <?php echo $strcat;?> de Inmuebles | Informaciones Generales  </h3>
-				<input id="pcode" type="hidden" value="<?php echo $postCode; ?>">
-				<input id="cat" type="hidden" value="<?php echo $cat; ?>">
-				<input id="subcat" type="hidden" value="<?php echo $subcat; ?>">
-				<input id="userId" type="hidden" value="<?php echo $_SESSION['bgo_userId']; ?>">
-				<input id="userProfile" type="hidden" value="<?php echo $_SESSION['bgo_perfil']; ?>">
-              </div>
-            <div class="card-body">
-			<!-- Titulo -->	
-		    <div class="row">
-                    <div class="col-sm-12">
-                      <div class="form-group">
-						<input id="title" maxlength="25" type="text" class="form-control" placeholder="Titulo de Publicacion (Ej: Casa Completa, Apartamento, etc...)">
-                      </div>
-                    </div>
-            </div>
-			<!-- Marca / Modelo -->				
-			<div class="row">
-                    <div class="col-sm-6">
-					<div class="form-group">
-						<select id="types" class="form-control"> 
-						    <option value="0"> Tipo de Prodiedad </option>
-							<option value="13">  Casas </option>
-							<option value="14">  Apartamentos </option>
-							<option value="15">  Villas </option>
-							<option value="16">  Solares </option>
-							<option value="17">  Fincas </option>
-							<option value="18">  Naves </option>
-							<option value="19">  Oficinas </option>
-							<option value="20">  Edificios </option>
-							<option value="21">  Penthouse </option>
-							<option value="22">  Local Comercial </option>
-							<option value="23">  Salon para Eventos </option>
-							<option value="24"> Otros Inmuebles </option>									
-						  </select> 
-						</div>
-						</div>
-                <div class="col-sm-6">
-				          <div class="form-group">
-                        <select id="niveles" class="form-control">
-                          <option value="0"> Pisos / Niveles </option>
-                          <option value="1"> 1 </option>
-                          <option value="2"> 2 </option>
-                          <option value="3"> 3 </option>
-                          <option value="4"> 4 </option>
-                          <option value="5"> 5 </option>
-                          <option value="6"> 6 </option>
-                          <option value="7"> 7 </option>
-                          <option value="8"> 8 </option>
-                          <option value="9"> 9 </option>
-                          <option value="10"> 10 </option>
-                          <option value="11"> 11 </option>
-                          <option value="12"> 12 </option>
-                        </select>                    
-					</div>
-					
-					</div>
-             </div>
-			 <div class="row">
-	
-			<div class="col-sm-6">
-				<div class="form-group">
-							<select id="place" class="form-control">
-                          <option value="0"> Provincia </option>
-					 
-						</select> 
-						</div>
-						</div>
-							<div class="col-sm-6"><div class="form-group">
-							<input id="addrs" type="text" class="form-control" placeholder="Direccion">
-					</div>
-			</div>
-			
-			</div>
-			
-			 
-		 
-		 
-			<!-- Precio / Tipo de Moneda -->	
-				<div class="row">
-                    <div class="col-sm-6">
-						<div class="form-group">
-								<input id="price" type="text" class="form-control" placeholder="Precio">
-						</div>
-					</div>				
-					<div class="col-sm-6">
-             	<div class="form-group">
-								<select id="currency" class="form-control"> 
-										<option option="0"> Tipo de Moneda </option></select>
-						</div>
-                    </div>	
-                 </div>
-		 
-			<!-- Transmision / Traccion -->			 	
-			<div class="row">
-								
-					
-					<div class="col-sm-4">
-                      <div class="form-group"> 
-							<input id="rooms" type="number" class="form-control" placeholder="Cantidad de Habitaciones" />              
-					</div>
-                    </div>
-					
-					<div class="col-sm-4">
-                      <div class="form-group">
-                      	<input id="baths" type="number" class="form-control" placeholder="Cantidad de Baños " />
-                    
-					</div>
-                    </div>	
-					
-						<div class="col-sm-4">
-                      <div class="form-group">
-					   <div class="input-group mb-3">
-						<input id="garage" type="number" class="form-control" placeholder="Cantidad de Parqueos / Marquecinas" /> 
-                  
-                </div>                     
-					</div>
-                    </div>
-					
-                  </div>
-			<!-- Color -->		
-			<div class="row">
-									
-					
-				
-                  </div>
-			 
-		 	  <div class="row">
-					<div class="col-sm-6">
-                      <div class="form-group">
-                      		<input id="terreno" class="form-control" placeholder="Terreno en Metros - Ej: 200 mts " />
-                    
-					</div>
-                    </div>					
-					
-					<div class="col-sm-6">
-                      <div class="form-group">
-					   <div class="input-group mb-3">
-						<input id="construccion" class="form-control" placeholder="Construccion en Metros Cuadrados - Ej 250 mts " /> 
-                  
-                </div>                     
-					</div>
-                    </div>
-                  </div>
-				  
-				  	  	<div class="row">
-				  	<div class="col-md-12">
-                     
-					  <textarea id="notes" class="form-control" rows="4" placeholder="Descripcion, Observaciones u Otros detalles"></textarea>
-                  </div>
-                  </div>
-				  
-		 
-	 </div> <!-- Card Body -->
-          <div class="card-footer">
-              <button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> Cancelar </button>
-              <button id="next" type="button" class="btn btn-primary float-right"> Siguente <i class="fas fa-arrow-alt-circle-right"></i> </button>
-          </div>	 
-   </div>
- </div>
- <!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </section>
-  </div>
-<!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="float-right d-none d-sm-inline"></div>
-    Burengo &copy; 2020 - Todos los derechos reservados.  
-  </footer>
+<div class="row">	
+<div class="col-md-11">
+<div class="card">
+<div class="card-header">
+<h3 class="card-title"><i class="fas fa-home"></i> <?php echo burengo_sellHouseTitle; ?>  </h3>
+<input id="pcode" type="hidden" value="<?php echo $postCode; ?>">
+<input id="cat" type="hidden" value="<?php echo $cat; ?>">
+<input id="subcat" type="hidden" value="<?php echo $subcat; ?>">
+<input id="userId" type="hidden" value="<?php echo $_SESSION['bgo_userId']; ?>">
+<input id="userProfile" type="hidden" value="<?php echo $_SESSION['bgo_perfil']; ?>">
 </div>
-<!-- ./wrapper -->
+<div class="card-body">
+<div class="row">
+<div class="col-sm-12">
+<div class="form-group">
+<input id="title" maxlength="25" type="text" class="form-control" placeholder="<?php echo burengo_saleHouseT1a; ?>">
+</div>
+</div>
+</div>
+		
+<div class="row">
+<div class="col-sm-6"><div class="form-group">
+<select id="types" class="form-control"> 
+<option value="0">  <?php echo burengo_ptype; ?> </option>
+<option value="13"> <?php echo burengo_homes; ?>  </option>
+<option value="14"> <?php echo burengo_apartment; ?> </option>
+<option value="15"> <?php echo burengo_villas; ?> </option>
+<option value="16"> <?php echo burengo_solares; ?> </option>
+<option value="17"> <?php echo burengo_finca; ?> </option>
+<option value="18"> <?php echo burengo_naves; ?> </option>
+<option value="19"> <?php echo burengo_oficinas; ?> </option>
+<option value="20"> <?php echo burengo_edf; ?> </option>
+<option value="21"> <?php echo burengo_penthouse; ?> </option>
+<option value="22"> <?php echo burengo_comercial; ?> </option>
+<option value="23"> <?php echo burengo_events; ?> </option>
+<option value="24"> <?php echo burengo_otros; ?> </option>									
+</select> 
+</div>
+</div>
 
+<div class="col-sm-6">
+<div class="form-group">
+<select id="niveles" class="form-control">
+<option value="0"><?php echo burengo_levels; ?> </option>
+<option value="1"> 1 </option>
+<option value="2"> 2 </option>
+<option value="3"> 3 </option>
+<option value="4"> 4 </option>
+<option value="5"> 5 </option>
+<option value="6"> 6 </option>
+<option value="7"> 7 </option>
+<option value="8"> 8 </option>
+<option value="9"> 9 </option>
+<option value="10"> 10 </option>
+<option value="11"> 11 </option>
+<option value="12"> 12 </option>
+</select>                    
+</div>
+</div>
+</div>
+
+<div class="row">
+<div class="col-sm-6">
+<div class="form-group">
+<select id="place" class="form-control">
+   <option value="0"> <?php echo burengo_place; ?> </option>
+</select> 
+</div>
+</div>
+<div class="col-sm-6">
+<div class="form-group"><input id="addrs" type="text" class="form-control" placeholder="<?php echo burengo_addr; ?>"></div>
+</div>
+</div>
+
+<div class="row">
+<div class="col-sm-6">
+<div class="form-group"><input id="price" type="text" class="form-control" placeholder="<?php echo burengo_price; ?>"></div>
+</div>				
+<div class="col-sm-6">
+<div class="form-group">
+<select id="currency" class="form-control"> 
+<option option="0"> <?php echo burengo_currencyType; ?> </option></select>
+</div>
+</div>	
+</div>
+<div class="row">
+<div class="col-sm-4">
+<div class="form-group"><input id="rooms" type="number" class="form-control" placeholder="<?php echo burengo_roomQty; ?>" /></div>
+</div>
+					
+<div class="col-sm-4">
+<div class="form-group"><input id="baths" type="number" class="form-control" placeholder="<?php echo burengo_bathQty; ?>" /></div>
+</div>	
+					
+<div class="col-sm-4"><div class="form-group">
+<div class="input-group mb-3"><input id="garage" type="number" class="form-control" placeholder="<?php echo burengo_parkQty; ?>" /> </div>                     
+</div>
+</div>				
+</div>
+	
+<div class="row">
+<div class="col-sm-6">
+<div class="form-group"><input id="terreno" class="form-control" placeholder="<?php echo burengo_landQty; ?>" /></div>
+</div>					
+					
+<div class="col-sm-6"><div class="form-group">
+<div class="input-group mb-3"><input id="construccion" class="form-control" placeholder="<?php echo burengo_constructionQty ?>" /></div>                     
+</div>
+</div>
+</div>
+				  
+<div class="row">
+<div class="col-md-12"><textarea id="notes" class="form-control" rows="4" placeholder="<?php echo burengo_description; ?>"></textarea></div>
+</div>
+</div> 
+<div class="card-footer">
+<button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> <?php echo burengo_cancel; ?> </button>
+<button id="next" type="button" class="btn btn-primary float-right"> <?php echo burengo_next; ?> <i class="fas fa-arrow-alt-circle-right"></i> </button>
+</div>	 
+</div>
+</div>
+</div>
+</section>
+</div>
+<footer class="main-footer"> Burengo &copy; 2020 - <?php echo burengo_copyright; ?>   </footer>
+</div>
 <script src="../../../../../plugins/jquery/jquery.min.js"></script>
 <script src="../../../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../../../../../dist/js/adminlte.min.js"></script>
@@ -339,7 +285,6 @@ $.getJSON('../../../../ajax/burengo_insert_inmueble.php',{
 function isEmpty(str) {
     return (!str || 0 === str.length);
 }
- 
 </script>
 </body>
 </html>

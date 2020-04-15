@@ -1,7 +1,15 @@
 <?php 
-require_once "../modelos/data.php";
 date_default_timezone_set("America/Santo_Domingo");
+require_once "../modelos/conexion.php";
+require_once "../modelos/data.php";
+
 $uid = $_REQUEST["acc"];
+
+$stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_cpinfo WHERE cpcode = 'bgo'");
+$stmt -> execute();
+$results = $stmt -> fetch();
+$paypalCode = $results["paypal_code"];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,39 +43,28 @@ $uid = $_REQUEST["acc"];
 	        <div class="col-md-12">
             <div class="card card-primary">
         <div class="card-body pb-0 ">
-				<div class="row panList">
-        
-
-		
-		
-				</div>
+			<div class="row panList"> </div>
 		</div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
-  
- 
-	 </div>	  
-	  
-	  
-    </div>
+     </div>
+   </div>
+</div>	  	  
+</div>
   </div>
    <div id="triggerPM" data-toggle="modal" data-target="#modal-pm"></div>
 <div class="modal fade" id="modal-pm">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Metodo de Pago </h4>
+              <h4 class="modal-title"> <?php echo burengo_paymentMode; ?> </h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
 				<input type="hidden" id="mdlPlanValue"  />
-				<div class="row tf"> <button id="transfer" type="button" class="btn btn-block bg-gradient-info btn-lg"> Trasnferencia Bancaria / Deposito  </button></div>
-				<br/>
+				 <br/>
 				<div id="paypal-button-container" class="row pp"></div>
+				 <br/>
             </div>
           
           </div>
@@ -75,12 +72,8 @@ $uid = $_REQUEST["acc"];
         </div>
         <!-- /.modal-dialog -->
       </div>
-  
-  
-<footer class="main-footer"> Burengo &copy; 2020 - Todos los derechos reservados. </footer>
-<script src="https://www.paypal.com/sdk/js?client-id=Ac87nE2RADPU10SpCPPzs7lsaHCwimpGPCETweXQ7tQ5owHaOasfaa21i8OwP7yQOh1PvZhp36axHUGE"></script>
- 
- 
+<footer class="main-footer"> Burengo &copy; 2020 - <?php echo burengo_copyright; ?> </footer>
+<script src="https://www.paypal.com/sdk/js?client-id=<?php echo $paypalCode; ?>"></script>
  <script>
   paypal.Buttons({
     createOrder: function(data, actions) {
@@ -98,7 +91,6 @@ $uid = $_REQUEST["acc"];
       return actions.order.capture().then(function(details) {
         	var idPlan = $('#getPlan').val();
 			location.href="confirmation.php?p="+idPlan+"&acc="+$('#getCode').val();
-		
 		// This function shows a transaction success message to your buyer.
         //alert('Transaction completed by ' + details.payer.name.given_name);
       });
@@ -106,8 +98,6 @@ $uid = $_REQUEST["acc"];
   }).render('#paypal-button-container');
   //This function displays Smart Payment Buttons on your web page.
 </script>
-
-
 </div>
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -115,7 +105,6 @@ $uid = $_REQUEST["acc"];
 <script src="../../plugins/toastr/toastr.min.js"></script>
 <script type="text/javascript">
 $('.panList').load("../ajax/planes_disponibles.php");
-
 $('.panList').on("click", "a.planselection", function(){
 	var idPlan = $(this).attr('idPlan');
 	var code = $('#getCode').val();
@@ -128,12 +117,6 @@ $('.panList').on("click", "a.planselection", function(){
 		$('#mdlPlanValue').val(price);
 		$('#triggerPM').click();
 	}
-});
-
-$('#transfer').click(function(){
-	var code = $('#getCode').val();
-	var plan = $('#getPlan').val();
-	location.href="confirmation.php?p="+plan+"&acc="+code;
 });
 </script>
 </body>

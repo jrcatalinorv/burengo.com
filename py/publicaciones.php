@@ -47,30 +47,19 @@ $use_nombre = $rslts["name"];
 			 <img alt="Avatar"  class="user-image" src="media/users/<?php echo $use_img; ?>">
 			 <?php echo $use_nombre; ?></a>
 		</li>
-		
-   
       </ul>
     </div>
   </nav>
-  <!-- /.navbar -->
 
-  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
- 
-
-    <!-- Main content -->
  <section class="content">
       <div class="container-fluid">
-      
-	 
-	   
 	   <div class="row">
          <div class="col-md-12 pt-2">
             <div class="card">
               <div class="card-body">
            <div class="row plist">
 		   		 <?php
-
 $stmt = Conexion::conectar()->prepare(" SELECT p.*, pl.* FROM bgo_posts p 
 INNER JOIN bgo_places pl ON p.bgo_lugar = pl.pcid AND p.bgo_status = 1 AND 
 bgo_usercode = '".$usr."'");
@@ -115,13 +104,11 @@ if($results['bgo_cat']==1){
       <div class="reviews-star float-left">   
       </div>
  </div> </div>'; 	
- 
 }		 
- 
- ?>
-  </div>
- </div><!-- /.card-body -->
-            </div>
+?>
+</div>
+</div><!-- /.card-body -->
+        </div>
             <!-- /.nav-tabs-custom -->
           </div>
           <!-- /.col -->
@@ -132,37 +119,7 @@ if($results['bgo_cat']==1){
   </div>
   <!-- /.content-wrapper -->
 
-   <div class="modal fade" id="modal-default">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Nueva Publicacion </h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-            <div class="col-md-12">
-			<div class="btn-group btn-group-lg col-md-12">
-				<button id="opv1" class="btn btn-sm btn-warning"><i class="fas fa-wallet"></i> Vender </button>
-				<button id="opv2" class="btn btn-sm btn-default"> <i class="far fa-calendar-alt"></i> Rentar </button>
-			</div>
-			<hr/>
-			<div class="btn-group btn-group-lg col-md-12">
-				<button id="op1" class="btn btn-sm btn-warning"><i class="fa fa-car"></i> Vehiculos </button>
-				<button id="op2" class="btn btn-sm btn-default"> <i class="fa fa-th"></i> Inmuebles </button>
-			</div>
-		</div>
-			
-            </div>
-			 <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-danger" data-dismiss="modal"> Cerrar </button>
-              <button id="uploadFiles" type="button" class="btn btn-success"> Aceptar </button>
-            </div>
-			
-          </div>
-        </div>
-      </div>
+ 
  <footer class="main-footer"> Burengo &copy; 2020 - <?php echo burengo_copyright; ?>  </footer>
 </div>
 <script src="../plugins/jquery/jquery.min.js"></script>

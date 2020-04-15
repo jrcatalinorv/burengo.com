@@ -93,7 +93,8 @@ $results = $stmt -> fetch();
                       <div class="form-group row">
                         <label for="inputName2" class="col-sm-2 col-form-label"><?php echo burengo_phone; ?></label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputName2" placeholder="<?php echo burengo_phone; ?>" data-inputmask='"mask": "(999) 999-9999"' data-mask />
+                          <input type="text" class="form-control" id="inputName2" placeholder="<?php echo burengo_phone; ?>" 
+						  data-inputmask='"mask": "<?php echo burengo_phoneMask; ?>"' data-mask />
                         </div>
                       </div>
                       <div class="form-group row">
@@ -104,7 +105,8 @@ $results = $stmt -> fetch();
                       </div>
                       <div class="form-group row">
                         <div class="offset-sm-2 col-sm-10">
-                          <button id="sendData" type="button" class="btn btn-success"> <i class="fab fa-telegram-plane"></i> <?php echo burengo_send; ?> </button>
+                          <button id="sendData" type="button" class="btn btn-success"> <i class="fab fa-telegram-plane"></i> 
+						  <?php echo burengo_send; ?> </button>
                         </div>
                       </div>
               </div><!-- /.card-body -->
@@ -134,18 +136,14 @@ $results = $stmt -> fetch();
 <script src="../plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
 <script type="text/javascript">
 $('[data-mask]').inputmask();
-
 $('#sendData').click(function(){
 	
 	
 });
 
-
 function isEmpty(str) {
     return (!str || 0 === str.length);
 }
-
-
 </script>
 </body>
 </html>

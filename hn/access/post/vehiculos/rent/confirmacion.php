@@ -3,6 +3,7 @@ session_start();
 date_default_timezone_set("America/Santo_Domingo");
 $code = $_REQUEST["ccdt"];
 require_once "../../../../modelos/conexion.php";
+require_once "../../../../modelos/data.php";
 
 
 $stmt = Conexion::conectar()->prepare("SELECT p.*, c.*, i.*, m.*,n.*, l.*, cr.*, ts.*, tc.*, fl.*, vt.* FROM bgo_posts p 
@@ -148,9 +149,9 @@ if($results = $stmt -> fetch()){
 			<div class="bgo-dot bgo-three">3</div>
 			<div class="bgo-progress-bar bgo-first"></div>
 			<div class="bgo-progress-bar bgo-second"></div>
-			<div class="bgo-message bgo-message-1">Datos Generales <div>
-			<div class="bgo-message bgo-message-2">Subir Imagenes  <div>
-			<div class="bgo-message bgo-message-3">Confirmar Datos <div>
+			<div class="bgo-message bgo-message-1"> <?php echo burengo_gral; ?> <div>
+			<div class="bgo-message bgo-message-2"> <?php echo burengo_upImg; ?>  <div>
+			<div class="bgo-message bgo-message-3"> <?php echo burengo_confirmData; ?>  <div>
 			</div></div></div></div></div></div>
 			</div>
 			</div>
@@ -197,77 +198,50 @@ if($results = $stmt -> fetch()){
 					<table class="table table-sm">
                          <tbody>
 							<tr>
-                                <td><label> Marca:</label></td>
-                                <td> <?php echo $fullbrand; ?></td> 
-								<td><label> Modelo:</label></td>
-                                <td><?php echo $modelo; ?></td> 											
+                                <td><label> <?php echo burengo_marca;?>:</label></td><td> <?php echo $fullbrand; ?></td> 
+								<td><label> <?php echo burengo_model;?>:</label></td><td><?php echo $modelo; ?></td> 											
                             </tr>							
 							<tr>
-                                <td><label> Condicion:</label></td>
-                                <td> <?php echo $condition; ?></td> 
-								<td><label> Año:</label></td>
-                                <td><?php echo $year; ?></td> 											
+                                <td><label> <?php echo burengo_condicion;?>:</label></td><td> <?php echo $condition; ?></td> 
+								<td><label> <?php echo burengo_year;?>:</label></td><td><?php echo $year; ?></td> 											
                             </tr>
-                                        <tr>
-                                            <td><label>Color:</label></td>
-                                            <td><?php echo $color; ?></td> 
-                                            <td><label>Tipo:</label></td>
-                                            <td><?php echo $tipo; ?></td> 
-                                        </tr>
-                                        <tr>
-                                            <td><label>Interior:</label></td>
-                                            <td><?php echo $color2; ?></td> 
-                                            <td><label>Combustible: </label></td>
-                                            <td><?php echo $fuel; ?></td>
-                                        </tr>
-                                      
-                                        <tr>
-                                            <td><label>Transmisión:</label></td>
-                                            <td><?php echo $transmission; ?></td> 
-
-                                            <td><label>Puertas:</label></td>
-                                            <td><?php echo $doors; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td><label>Tracción:</label></td>
-                                            <td><?php echo $tracsion; ?></td>   
-                                            <td><label>Pasajeros:</label></td>
-                                            <td><?php echo $passengers; ?></td>                                
-                                        </tr>                                        
-										<tr>
-                                            <td><label>Lugar:</label></td>
-                                            <td><?php echo $place; ?></td>   
-                                            <td><label>Direccion:</label></td>
-                                            <td><?php echo $addr; ?></td>                                
-                                        </tr>										
-										<tr>
-                                            <td><label>Precio:</label></td>
-                                            <td><?php echo number_format($precio,2).' '.convert($tcp);  ?></td>   
-                                            <td><label>Moneda:</label></td>
-                                            <td><?php echo $currency; ?></td>                                
-                                        </tr>
-										
-									 
-										
-                                    </tbody></table>
-
-                            </div>
-
-             
-            
-             
-			 
-
+                            <tr>
+                                <td><label><?php echo burengo_color;?>:</label></td><td><?php echo $color; ?></td> 
+                                <td><label><?php echo burengo_tipo;?>:</label></td><td><?php echo $tipo; ?></td> 
+                            </tr>
+                            <tr>
+                               <td><label><?php echo burengo_int;?>:</label></td><td><?php echo $color2; ?></td> 
+                               <td><label><?php echo burengo_fuel;?>: </label></td><td><?php echo $fuel; ?></td>
+                            </tr>
+                            <tr>
+                               <td><label><?php echo burengo_transmition;?>:</label></td><td><?php echo $transmission; ?></td> 
+                               <td><label><?php echo burengo_doorQty;?>:</label></td><td><?php echo $doors; ?></td>
+                           </tr>
+                           <tr>
+                               <td><label><?php echo burengo_tranccion;?>:</label></td><td><?php echo $tracsion; ?></td>   
+                               <td><label><?php echo burengo_passengerQty;?>:</label></td><td><?php echo $passengers; ?></td>                                
+                           </tr>                                        
+							<tr>
+                                <td><label><?php echo burengo_place;?>:</label></td><td><?php echo $place; ?></td>   
+                                <td><label><?php echo burengo_addr;?>:</label></td><td><?php echo $addr; ?></td>                                
+                            </tr>										
+							<tr>
+                               <td><label><?php echo burengo_price;?>:</label></td><td><?php echo number_format($precio,2).' '.convert($tcp);  ?></td>   
+                               <td><label><?php echo burengo_currency;?>:</label></td><td><?php echo $currency; ?></td>                                
+                             </tr>
+                       </tbody>
+					</table>
+               </div>
             </div>
           </div>
        </div>
         
 			
 			<div class="card-footer clearfix">
-                <button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> Cancelar </button>
+                <button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> <?php echo burengo_cancel; ?> </button>
               	<div class="float-right" >
-					<button id="btnEdit" type="button" class="btn btn-warning">  <i class="fas fa-edit"></i> Editar Datos  </button>
-					<button id="btnSave" type="button" class="btn btn-success">  Finalizar <i class="fas fa-check-circle"></i> </button>
+					<button id="btnEdit" type="button" class="btn btn-warning">  <i class="fas fa-edit"></i> <?php echo burengo_edit; ?>  </button>
+					<button id="btnSave" type="button" class="btn btn-success">  <?php echo burengo_finish; ?> <i class="fas fa-check-circle"></i> </button>
                 </div>
 			  </div>
 			
@@ -280,20 +254,8 @@ if($results = $stmt -> fetch()){
       </div><!-- /.container-fluid -->
     </section>
   </div>
-  <!-- /.content-wrapper -->
-
-
- 
-
   <!-- Main Footer -->
-  <footer class="main-footer">
-    <!-- To the right -->
-    <div class="float-right d-none d-sm-inline">
-    
-    </div>
-    <!-- Default to the left -->
-    Burengo &copy; 2020 - Todos los derechos reservados.  
-  </footer>
+  <footer class="main-footer"> Burengo &copy; 2020 - <?php echo burengo_copyright; ?> </footer>
 </div>
 <!-- ./wrapper -->
 

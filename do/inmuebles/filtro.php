@@ -40,13 +40,10 @@ $tp = $_REQUEST['cat'];
 <div class="wrapper">
  <nav class="main-header navbar navbar-expand-md navbar-dark bg-navy"> 
     <div class="container">
-      <a href="../../<?php echo COUNTRY_CODE; ?>" class="navbar-brand">
-          <img src="../../dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8">  
-      </a>
+      <a href="../../<?php echo COUNTRY_CODE; ?>" class="navbar-brand"><img src="../../dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8"></a>
       <div class="collapse navbar-collapse order-3" id="navbarCollapse">
         <ul class="navbar-nav"> </ul>
       </div>
-
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
         <li class="nav-item"><a class="nav-link" href="../../<?php echo COUNTRY_CODE; ?>"> <?php echo burengo_portada; ?> </a></li>
         <li class="nav-item"><a class="nav-link" href="../acceder.php"> <?php echo burengo_login; ?> </a></li>
@@ -74,26 +71,21 @@ $tp = $_REQUEST['cat'];
 				  <button id="btn1" class="btn btn-lg btn-default"><i class="fas fa-home"></i> <?php echo burengo_buy; ?> </button>
 				  <button id="btn2" class="btn btn-lg btn-default"><i class="fas fa-home"></i> <?php echo burengo_rent; ?></button>
                </div>                  
-					</div>
-			 
-			    <div class="pt-2">
-					<select id="place" class="form-control"> 
-							<option value="0"> <?php echo burengo_place; ?> </option> 
-					</select>
-			   </div> 
-			 
-              
-             	
-				<div class="card-header">
+			</div>
+		<div class="pt-2">
+			<select id="place" class="form-control"> 
+				<option value="0"> <?php echo burengo_place; ?> </option> 
+			</select>
+		</div> 
+		
+		<div class="card-header">
             <h3 class="card-title"> <?php echo burengo_ptype; ?> </h3>
-
             <div class="card-tools">
               <a id="ctpBtn" href="#" class="btn-tool" optp="show" ></a>
             </div>
           </div>
 			 
 				<div id="ctp"  class="row pt-0 Hideme">
-		
 				<div class="col-sm-4 border-right border-top carTypeTxt ch14" cttlabel="14">
                     <div class="description-block">
                       <h5 class="description-header"><img class="" style="width:50px;" src="../media/icons/urbano.png" alt="User Image"> </h5>
@@ -118,7 +110,7 @@ $tp = $_REQUEST['cat'];
 		  <div class="col-sm-4 border-right border-top carTypeTxt ch17" cttlabel="17">
                     <div class="description-block">
                       <h5 class="description-header"><img style="width:50px;" src="../media/icons/bosque.png" alt="User Image"> </h5>
-                      <span class="description-text"> <small> <?php echo burengo_final; ?></small></span>
+                      <span class="description-text"> <small> <?php echo burengo_finca; ?></small></span>
                     </div>
                   </div>				  
 				  
@@ -187,46 +179,11 @@ $tp = $_REQUEST['cat'];
                   <div class="col-6">
                     <select id="pricefrom" class="form-control">
 						<option value="0"> <?php echo burengo_precioMin; ?>  </option>
-						<option value="500000"> $500,000  </option>
-						<option value="600000"> $600,000  </option>
-						<option value="700000"> $700,000  </option>
-						<option value="800000"> $800,000  </option>
-						<option value="900000"> $900,000  </option>
-						<option value="1000000"> $1,000,000  </option>
-						<option value="1500000"> $1,500,000  </option>
-						<option value="2000000"> $2,000,000  </option>
-						<option value="2500000"> $2,500,000  </option>
-						<option value="3000000"> $3,000,000  </option>
-						<option value="4000000"> $4,000,000  </option>
-						<option value="5000000"> $5,000,000  </option>
-						<option value="7000000"> $7,000,000  </option>
-						<option value="10000000"> $10,000,000  </option>
-						<option value="15000000"> $15,000,000  </option>
-						<option value="25000000"> $25,000,000  </option>
-						<option value="50000000"> $50,000,000  </option>
 					</select>
                   </div>
                   <div class="col-6">
 					<select id="priceto" class="form-control">
 						<option value="9000000"> <?php echo burengo_precioMax; ?>  </option>
-						<option value="500000"> $500,000  </option>
-						<option value="600000"> $600,000  </option>
-						<option value="700000"> $700,000  </option>
-						<option value="800000"> $800,000  </option>
-						<option value="900000"> $900,000  </option>
-						<option value="1000000"> $1,000,000  </option>
-						<option value="1500000"> $1,500,000  </option>
-						<option value="2000000"> $2,000,000  </option>
-						<option value="2500000"> $2,500,000  </option>
-						<option value="3000000"> $3,000,000  </option>
-						<option value="4000000"> $4,000,000  </option>
-						<option value="5000000"> $5,000,000  </option>
-						<option value="7000000"> $7,000,000  </option>
-						<option value="10000000"> $10,000,000  </option>
-						<option value="15000000"> $15,000,000  </option>
-						<option value="25000000"> $25,000,000  </option>
-						<option value="50000000"> $50,000,000  </option>
-						<option value="1500000000"> $50,000,000+  </option>
 					</select>
                   </div>
                 </div>				
@@ -259,6 +216,8 @@ $tp = $_REQUEST['cat'];
                     <option value="1"> 1 </option>
                     <option value="2"> 2 </option>
                     <option value="3"> 3 </option>
+					<option value="4"> 4 </option>
+                    <option value="5"> 5 </option>
 					</select>
 				</div> 
             
@@ -297,7 +256,19 @@ $tp = $_REQUEST['cat'];
 <script src="../../plugins/bootstrap-slider/bootstrap-slider.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-$('#place').load('../ajax/burengo_select_places.php');	
+$('#place').load('../ajax/burengo_select_places.php');
+$('#pricefrom').load('../ajax/burengo_select_pricefrom.php');
+$('#priceto').load('../ajax/burengo_select_priceto.php');
+
+
+$('#pisos').change(function(){SendData();});
+$('#park').change(function(){SendData();});
+$('#banos').change(function(){SendData();});
+$('#rooms').change(function(){SendData();});
+$('#place').change(function(){SendData();});
+$('#pricefrom').change(function(){SendData();});
+$('#priceto').change(function(){SendData();});
+ 	
 SendData();
 $("#ctp").hide();
 document.getElementById('ctpBtn').innerHTML='<i class="fas fa-plus"></i>';
@@ -313,14 +284,7 @@ switch($('#tpm2').val()){
 $('#btn1').click(function(){ $('#btn2').removeClass("bg-warning"); $('#btn1').addClass("bg-warning"); location.href="?cat=1";  });
 $('#btn2').click(function(){ $('#btn1').removeClass("bg-warning"); $('#btn2').addClass("bg-warning"); location.href="?cat=2"; });
 
-$('#pisos').change(function(){SendData();});
-$('#park').change(function(){SendData();});
-$('#banos').change(function(){SendData();});
-$('#rooms').change(function(){SendData();});
-$('#place').change(function(){SendData();});
-$('#pricefrom').change(function(){SendData();});
-$('#priceto').change(function(){SendData();});
- 
+
 
 $('.plist').on("click", "div.itemSelection", function(){ 
 	var id = $(this).attr('itemId');

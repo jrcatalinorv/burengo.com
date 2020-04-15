@@ -190,8 +190,6 @@ $use_nombre = $rslts["name"];
 				</div>
 			</div>
 
-             
-            
               <div class="bg-gray py-2 px-3 mt-4">
                 <h2 class="mb-0"> <?php echo $cur_sign; ?> <?php echo number_format($precio,2).' '.convert($tcp); ?> </h2>
                 <h4 class="mt-0">
@@ -227,10 +225,7 @@ $use_nombre = $rslts["name"];
                   '.burengo_fav.'
                 </div>
               </div>';					
-					
-					
-				} 
-			  
+		} 	  
 ?>
 
 <div class="mt-4 product-share">

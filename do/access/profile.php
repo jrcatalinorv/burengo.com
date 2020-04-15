@@ -4,7 +4,6 @@ date_default_timezone_set("America/Santo_Domingo");
 require_once "../modelos/conexion.php";
 require_once "../modelos/data.php";
 
- 
 $fsDt = date("Y-m-d", strtotime("first day of this month")); 
 $lsDt = date("Y-m-d", strtotime("last day of this month")); 
  
@@ -54,9 +53,12 @@ $stmt6 = Conexion::conectar()->prepare("SELECT * FROM bgo_user_plan WHERE up_uid
 $stmt6 -> execute();
 $rest6 = $stmt6 -> fetch();
 
-
-$pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ; 
-
+if($rest6['up_planid']==7){
+	$pu_rest = "-";
+}else{	
+ if($rest6["up_maxp"]==99999){ $pu_rest = " - "; }else{  $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;    }	
+}
+if($rest6["up_destacadas"]==99999){ $pd_rest = " Ilimitadas "; }else{ $pd_rest =  $total_postD.' de '.intval($rest6["up_destacadas"]); }
 ?>
 
 <!DOCTYPE html>
@@ -71,9 +73,6 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
   <link rel="stylesheet" href="../../dist/css/adminlte.css">
     <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
   <style>
-  .bgo_top{
-	 
-  }
 @media only screen and (max-width: 600px) {
 .bgo_top{
 	margin-top: 2rem; 
@@ -121,6 +120,10 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
           <div class="dropdown-divider"></div>
           <a href="mail/inbox.php" class="dropdown-item">
             <i class="fas fa-envelope mr-2"></i> <?php echo burengo_msg; ?>
+          </a>
+		 <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-favorites">
+            <i class="fas fa-heart mr-2"></i> <?php echo burengo_seeFavs; ?>
           </a>
           <div class="dropdown-divider"></div>
           <a href="salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> <?php echo burengo_logout; ?> </a>
@@ -170,7 +173,8 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
 				  <li class="list-group-item"><b> <?php echo burengo_vehiculos; ?> </b> <a class="float-right"><?php echo $total_postv; ?></a></li>                     
 				  <li class="list-group-item"><b> <?php echo burengo_inmuebles; ?> </b> <a class="float-right"><?php echo $total_postin; ?></a></li>                  
 				  <li class="list-group-item"><b> <?php echo burengo_visits; ?></b> <a class="float-right"> <?php echo number_format($rest4['visits']); ?>  </a></li>
-                </ul>
+				 </ul>
+				 <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-favorites"> <i class="fas fa-heart"></i> <b> <?php echo burengo_seeFavs; ?> </b></a>
 			   </div>
             </div>
           
@@ -178,6 +182,16 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
 		  </div>
           <!-- /.col -->
       <div class="col-md-6">
+	  
+	  <?php 		  
+if(intval($rest5['profile']==7)){
+		  
+echo '<div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                  <h5><i class="icon fas fa-exclamation-triangle"></i> '.burengo_paymentAlertExp.' <a href="planes.php"> '.burengo_MaxOut3. ' </a>. </h5>        
+                </div>'; 
+}	?>
+	  
 		<div class="card">
         <div class="card-body" style="display: block;">
           <div class="row">
@@ -211,18 +225,18 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
                 </div>
                 </div>
 				
-				       <div class="row">
+			 <div class="row">
                 <div class="col-12 col-sm-12">
                   <div class="info-box bg-light">
                     <div class="info-box-content">
                       <span class="info-box-text text-center text-muted"> <?php echo burengo_exDate; ?> </span>
-                      <span class="info-box-number text-center text-muted mb-0"> <?php echo $rest6["up_expdate"]; ?> <span>
-                    </div>
+                      <span class="info-box-number text-center text-muted mb-0"> <?php echo date("d/m/Y", strtotime($rest6["up_expdate"])); ?> <span>
+                    </div>  
                   </div>
                 </div>
-                </div>
+             </div>
 				
-				 <div class="row">
+			<div class="row">
                 <div class="col-12 col-sm-12">
                   <div class="info-box bg-light">
                     <div class="info-box-content">
@@ -235,7 +249,7 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
                   <div class="info-box bg-light">
                     <div class="info-box-content">
                       <span class="info-box-text text-center text-muted"> <?php echo burengo_pendP; ?> </span>
-                      <span class="info-box-number text-center text-muted mb-0"> <?php if($rest6["up_maxp"]==99999){ echo " - "; }else{ echo $pu_rest; }  ?> <span>
+                      <span class="info-box-number text-center text-muted mb-0"> <?php echo $pu_rest;  ?> <span>
                     </span></span></div>
                   </div>
                 </div>                
@@ -243,24 +257,21 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
                   <div class="info-box bg-light">
                     <div class="info-box-content">
                       <span class="info-box-text text-center text-muted"> <?php echo burengo_descP; ?> </span>
-                      <span class="info-box-number text-center text-muted mb-0"> <?php if($rest6["up_destacadas"]==99999){ echo " Ilimitadas "; }else{ echo $total_postD.' de '.intval($rest6["up_destacadas"]); }  ?>  <span>
+                      <span class="info-box-number text-center text-muted mb-0"> <?php echo $pd_rest;  ?>  <span>
                     </span></span></div>
                   </div>
                 </div>
-              </div>
+            </div>
            </div>
-			
-			
           </div>
         </div>
         <!-- /.card-body -->
 		
-		
 		<div class="card-footer">
-                <button  type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-pass"> <i class="fas fa-lock"></i> <?php echo burengo_changePass; ?> </button>
-			  	<a href="profile-edit.php" type="button" class="btn btn-warning btn-sm"> <i class="fas fa-user"></i> <?php echo burengo_edit; ?></a>
-			  	<a href="planes.php" type="button" class="btn btn-success btn-sm" > <i class="fas fa-trophy"></i>  <?php if($_SESSION['bgo_perfil'] > 1){ echo burengo_availPlan;  } else{ echo burengo_cpremium;  }   ?> </a>
-			  	<a href="destacar.php" type="button" class="btn btn-primary btn-sm" > <i class="fas fa-star"></i>  <?php echo burengo_descPost; ?> </a>
+           <button  type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-pass"> <i class="fas fa-lock"></i> <?php echo burengo_changePass; ?> </button>
+		   <a href="profile-edit.php" type="button" class="btn btn-warning btn-sm"> <i class="fas fa-user"></i> <?php echo burengo_edit; ?></a>
+		   <a href="planes.php" type="button" class="btn btn-success btn-sm" > <i class="fas fa-trophy"></i>  <?php if($_SESSION['bgo_perfil'] > 1){ echo burengo_availPlan;  } else{ echo burengo_cpremium;  }   ?> </a>
+		   <a href="destacar.php" type="button" class="btn btn-primary btn-sm" > <i class="fas fa-star"></i>  <?php echo burengo_descPost; ?> </a>
           </div>
       </div> 
  </div>
@@ -294,6 +305,25 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
         </div>
       </div>
    <!-- /.modal -->
+   
+<div class="modal fade" id="modal-favorites">
+ <div class="modal-dialog">
+   <div class="modal-content">
+      <div class="modal-header">
+       <h4 class="modal-title">   </h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+<div class="modal-body p-0 whlist" style="height:400px;   overflow-y: auto; overflow-x: hidden;"> 
+<!----------------------------------->
+		
+<!----------------------------------->
+</div>
+   </div>
+    </div>
+      </div>
+   <!-- /.modal -->
 
 <footer class="main-footer"> Burengo &copy; 2020 -  <?php echo burengo_copyright; ?> </footer>
 </div>
@@ -301,10 +331,12 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../../dist/js/adminlte.min.js"></script>
 <script src="../../plugins/toastr/toastr.min.js"></script>
-<script type="text/javascript">
+<script type="text/javascript"> 
+$('.whlist').load("../ajax/burengo_select_favorites.php?id="+$('#currentCode').val());
+
+
  
- 
- function isEmpty(str) {
+function isEmpty(str) {
     return (!str || 0 === str.length);
 }
 
@@ -312,8 +344,6 @@ function isEmail(email) {
   var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   return regex.test(email);
 }
- 
- 
  
 $('#changePass').click(function(){
 
@@ -349,19 +379,53 @@ if( !isEmpty($("#password0").val())){
 
  
 });
+
+
+$('.whlist').on("click","span.itemSelection",function(){
+	var id = $(this).attr('itemId');
+	var cat = $(this).attr('stid');
+	switch(cat){
+		case '1': location.href="vehiculos.php?dtcd="+id; break;
+		case '2': location.href="inmuebles.php?dtcd="+id; break;
+	}
+});
+
+
+$('.whlist').on("click","img.itemSelection",function(){
+	var id = $(this).attr('itemId');
+	var cat = $(this).attr('stid');
+	switch(cat){
+		case '1': location.href="vehiculos.php?dtcd="+id; break;
+		case '2': location.href="inmuebles.php?dtcd="+id; break;
+	}
+});
+
+$('.whlist').on("click","a.itemSelection",function(){
+	var id = $(this).attr('itemId');
+	var cat = $(this).attr('stid');
+	switch(cat){
+		case '1': location.href="vehiculos.php?dtcd="+id; break;
+		case '2': location.href="inmuebles.php?dtcd="+id; break;
+	}
+});
+
+$('.whlist').on("click","a.itemDelete",function(){
+   var pid = $(this).attr('itemId');
+   var uid = $(this).attr('userId');
+   
+   $.getJSON('../ajax/burengo_delete_fav.php',{
+		pid: pid,
+		uid: uid
+	},function(data){
+		switch(data['ok']){
+			case 0: toastr.error('ERROR! No se guardaron los cambios los datos: '+ data['err']); break;
+			case 1: $('.whlist').load("../ajax/burengo_select_favorites.php?id="+uid);  break;
+		}
+	});	
+ 
+});
+
+
 </script>
 </body>
 </html>
-<?php 
-function convert($id){
-	switch($id){
-		case 0: return ""; break;
-		case 1: return " x ".burengo_day; break;
-		case 2: return " x ".burengo_night; break;
-		case 3: return " x ".burengo_hour; break;
-		case 4: return " - ".burengo_week; break;
-		case 5: return " - ".burengo_month; break;
-		default: return ""; break;
-	}
-}
-?>

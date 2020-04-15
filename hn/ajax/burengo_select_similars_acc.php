@@ -1,6 +1,7 @@
 <?php 
 require_once "../modelos/conexion.php";
 require_once "../modelos/functions.php";
+require_once "../modelos/data.php";
 
 $sb = $_REQUEST['sp'];
 $tb = $_REQUEST['tp'];
@@ -11,8 +12,13 @@ $pageno = 1;
 $no_of_records_per_page = 6;
 $offset = ($pageno-1) * $no_of_records_per_page;
 
- $stmt2 = Conexion::conectar()->prepare(" SELECT p.*, pl.* FROM bgo_posts p INNER JOIN bgo_places pl ON p.bgo_lugar = pl.pcid AND p.bgo_status = 1 AND bgo_subcat = ".$sb." AND bgo_cat = ".$tb." 
- AND bgo_price BETWEEN ".$lw." AND ".$hg." AND bgo_code <> '".$ac."' LIMIT ".$offset.", ".$no_of_records_per_page."");			
+ $stmt2 = Conexion::conectar()->prepare(" SELECT p.*, pl.* FROM bgo_posts p 
+ INNER JOIN bgo_places pl ON p.bgo_lugar = pl.pcid AND p.bgo_status = 1 
+ AND p.bgo_subcat = ".$sb." 
+ AND p.bgo_cat = ".$tb." 
+ AND p.bgo_price BETWEEN ".$lw." AND ".$hg." 
+ AND p.bgo_country_code = '".COUNTRY_CODE."'
+ AND p.bgo_code <> '".$ac."' LIMIT ".$offset.", ".$no_of_records_per_page."");			
  
 
 $stmt2 -> execute();

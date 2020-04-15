@@ -105,7 +105,7 @@ if($results = $stmt -> fetch()){
  <div class="col-md-12">
                <div class="card">
 			 <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-car"></i> Editar Publicacion        </h3>
+                <h3 class="card-title"><i class="fas fa-car"></i> <?php echo burengo_editPost; ?> </h3>
 				<input id="pcode" type="hidden" value="<?php echo $code; ?>">
 				<input id="userId" type="hidden" value="<?php echo $user; ?>">
 				<input id="url" type="hidden" value="<?php echo $src; ?>">
@@ -113,14 +113,14 @@ if($results = $stmt -> fetch()){
             <div class="card-body">
 		    <div class="row">
              <div class="col-sm-12">
-              <div class="form-group"><label> Titulo de Publicacion </label><input id="title" maxlength="25" type="text" class="form-control" value="<?php echo $desc; ?>"></div>
+              <div class="form-group"><label> <?php echo burengo_tittle; ?> </label><input id="title" maxlength="25" type="text" class="form-control" value="<?php echo $desc; ?>"></div>
             </div>
             </div>
 			<div class="row">
                  <div class="col-sm-6">
-					<div class="form-group"><label> Marcas </label>
+					<div class="form-group"><label> <?php echo burengo_carBrands; ?> </label>
 						<select id="brands" class="form-control"> 
-							<option value="0"> Marcas </option>
+							<option value="0"> <?php echo burengo_carBrands; ?> </option>
 <?php 
 $stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_marcas_vehiculos WHERE mv_status = 1 ORDER BY mv_marca");
 $stmt -> execute();
@@ -137,9 +137,9 @@ while( $resultado = $stmt -> fetch()){
 				 </div>
 				 
                  <div class="col-sm-6">
-					<div class="form-group"> <label> Modelos  </label>
+					<div class="form-group"> <label> <?php echo burengo_carModels; ?>  </label>
 						<select id="models" class="form-control"> 
-							<option value="0"> Modelos </option>
+							<option value="0">  <?php echo burengo_carModels; ?> </option>
 <?php 
 
 
@@ -161,9 +161,9 @@ while( $resultado = $stmt -> fetch()){
 			<!-- Anio / Condicion -->
 			<div class="row">
                    <div class="col-sm-6"> 
-						<div class="form-group"> <label>  Año del Vehiculo  </label>  
+						<div class="form-group"> <label> <?php echo burengo_carYear; ?>  </label>  
 							<select id="activeYears" class="form-control"> 
-								<option value="0"> Seleccione el Año  </option> 					
+								<option value="0"> <?php echo burengo_selectedYear; ?>  </option> 					
 <?php 
 $stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_active_years WHERE yr_status = 1 ORDER BY yr_id DESC");
 $stmt -> execute();
@@ -179,11 +179,11 @@ while( $resultado = $stmt -> fetch()){
 </div>
 </div>
 					<div class="col-sm-6">
-                      <div class="form-group"><label>  Condicion del vehiculo  </label>
+                      <div class="form-group"><label> <?php echo burengo_carCondition; ?>  </label>
                         <select id="condition" class="form-control"> 
-                          <option value="0"> Condicion del vehiculo </option>
-                          <option <?php if($condition=="Nuevo"){ echo "selected"; } ?> value="Nuevo"> Nuevo </option>
-                          <option <?php if($condition=="Usado"){ echo "selected"; } ?> value="Usado"> Usado </option>
+                          <option value="0"> <?php echo burengo_carCondition; ?>  </option>
+                          <option <?php if($condition=="Nuevo"){ echo "selected"; } ?> value="Nuevo"> <?php echo burengo_new; ?> </option>
+                          <option <?php if($condition=="Usado"){ echo "selected"; } ?> value="Usado"> <?php echo burengo_used; ?> </option>
                         </select>                    
 					</div>
                     </div>
@@ -191,14 +191,14 @@ while( $resultado = $stmt -> fetch()){
 			<!-- Precio / Tipo de Moneda -->	
 				<div class="row">
                     <div class="col-sm-6">
-						<div class="form-group">  <label> Precio   </label>
+						<div class="form-group">  <label> <?php echo burengo_price; ?>   </label>
 							<input id="price" type="text" class="form-control" value="<?php echo $precio; ?>">
 						</div>
 					</div>				
 						<div class="col-sm-6">
-						<div class="form-group"> <label> Tipo de Moneda </label>
+						<div class="form-group"> <label> <?php echo burengo_currencyType; ?> </label>
 							<select id="currency" class="form-control"> 
-								<option value="0"> Tipo de Moneda </option>
+								<option value="0"> <?php echo burengo_currencyType; ?> </option>
 								<?php 
 $stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_currency WHERE cur_status = 1");
 $stmt -> execute();
@@ -219,9 +219,9 @@ while( $resultado = $stmt -> fetch()){
 			<!-- Combustible / Tipo de Vehiculo -->					
 			<div class="row">
 <div class="col-sm-6">
-<div class="form-group"> <label> Combustible </label>
+<div class="form-group"> <label> <?php echo burengo_fuel; ?> </label>
 <select id="fuel" class="form-control">
-<option value="0"> Combustible </option>
+<option value="0"> <?php echo burengo_fuel; ?> </option>
 <?php 
 $stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_fuel WHERE fstatus = 1");
 $stmt -> execute();
@@ -241,20 +241,22 @@ while( $resultado = $stmt -> fetch()){
 </div>				
 					
 <div class="col-sm-6">
-   <div class="form-group">  <label> Tipo de Vehiculo   </label>
+   <div class="form-group">  <label> <?php echo burengo_carTypeSingle; ?>   </label>
 		<div class="input-group mb-3">
                   <select id="cartype" class="form-control">
-                        <option <?php if($vtype==0){ echo "selected"; } ?> value="0"> Tipo de Vehiculo  </option>
-						<option <?php if($vtype==1){ echo "selected"; } ?> value="1"> Sedan   </option>
-						<option <?php if($vtype==2){ echo "selected"; } ?> value="2"> Compacto  </option> 
-						<option <?php if($vtype==3){ echo "selected"; } ?> value="3"> Jeepeta  </option>
-						<option <?php if($vtype==4){ echo "selected"; } ?> value="4"> Camioneta  </option>
-						<option <?php if($vtype==5){ echo "selected"; } ?> value="5"> Coupe/Sport  </option>
-						<option <?php if($vtype==6){ echo "selected"; } ?> value="6"> Motores  </option>
-						<option <?php if($vtype==7){ echo "selected"; } ?> value="7"> Camiones  </option>
-						<option <?php if($vtype==8){ echo "selected"; } ?> value="8"> Autobuses  </option>
-						<option <?php if($vtype==9){ echo "selected"; } ?> value="9"> Vehiculos Pesados  </option>
-						<option <?php if($vtype==10){ echo "selected"; } ?> value="10"> Otros  </option>
+                        <option <?php if($vtype==0){ echo "selected"; } ?>  value="0"> <?php echo burengo_carTypeSingle; ?> </option>
+						<option <?php if($vtype==1){ echo "selected"; } ?>  value="1"> <?php echo burengo_sedan; ?> </option>
+						<option <?php if($vtype==2){ echo "selected"; } ?>  value="2"> <?php echo burengo_jeepeta;?> </option>
+						<option <?php if($vtype==3){ echo "selected"; } ?>  value="3"> <?php echo burengo_camioneta;?> </option>
+						<option <?php if($vtype==4){ echo "selected"; } ?>  value="4"> <?php echo burengo_limo;?> </option>
+						<option <?php if($vtype==5){ echo "selected"; } ?>  value="5"> <?php echo burengo_coupe;?> </option>
+						<option <?php if($vtype==6){ echo "selected"; } ?>  value="6"> <?php echo burengo_moto;?>  </option>
+						<option <?php if($vtype==7){ echo "selected"; } ?>  value="7"> <?php echo burengo_bus;?> </option>
+						<option <?php if($vtype==8){ echo "selected"; } ?>  value="8"> <?php echo burengo_boat;?> </option>
+						<option <?php if($vtype==9){ echo "selected"; } ?>  value="9"> <?php echo burengo_jetski;?> </option>
+						<option <?php if($vtype==10){ echo "selected"; } ?> value="10"> <?php echo burengo_truck;?> </option>
+						<option <?php if($vtype==11){ echo "selected"; } ?> value="11"> <?php echo burengo_pesados;?> </option>
+						<option <?php if($vtype==12){ echo "selected"; } ?> value="12"> <?php echo burengo_otros;?> </option>
                     </select> 
                 </div>                     
 					</div>
@@ -263,20 +265,20 @@ while( $resultado = $stmt -> fetch()){
 			<!-- Transmision / Traccion -->			 	
 			<div class="row">
 					<div class="col-sm-6">
-                      <div class="form-group"> <label> Transmision </label>
+                      <div class="form-group"> <label> <?php echo burengo_transmition; ?> </label>
                         <select id="trasnmision" class="form-control">
-                          <option <?php if($transmissionc==0){ echo "selected"; } ?> value="0"> Transmision </option>
-                          <option <?php if($transmissionc==1){ echo "selected"; } ?> value="1"> Automatica </option>
-                          <option <?php if($transmissionc==2){ echo "selected"; } ?> value="2"> Manual </option>
-                          <option <?php if($transmissionc==3){ echo "selected"; } ?> value="3"> Triptonica </option>
+                          <option <?php if($transmissionc==0){ echo "selected"; } ?> value="0"> <?php echo burengo_transmition; ?> </option>
+                          <option <?php if($transmissionc==1){ echo "selected"; } ?> value="1"> <?php echo burengo_auto; ?> </option>
+                          <option <?php if($transmissionc==2){ echo "selected"; } ?> value="2"> <?php echo burengo_manual; ?> </option>
+                          <option <?php if($transmissionc==3){ echo "selected"; } ?> value="3"> <?php echo burengo_triptonic; ?> </option>
                         </select>                    
 					</div>
                     </div>					
 					
 					<div class="col-sm-6">
-                      <div class="form-group"> <label> Traccion </label>
+                      <div class="form-group"> <label> <?php echo burengo_tranccion; ?> </label>
 						<select id="traccion" class="form-control">
-                          <option value="0"> Traccion </option>
+                          <option value="0"> <?php echo burengo_tranccion; ?> </option>
 <?php 
 $stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_traccion_vehiculo WHERE tv_status = 1");
 $stmt -> execute();
@@ -297,9 +299,9 @@ while( $resultado = $stmt -> fetch()){
 			<!-- Color -->		
 			<div class="row">
 					<div class="col-sm-6">
-                      <div class="form-group">  <label> Color Exterior </label>
+                      <div class="form-group">  <label> <?php echo burengo_color; ?> </label>
                         <select id="color" class="form-control"> 
-						 <option value="0"> Color </option>
+						 <option value="0"> <?php echo burengo_color; ?> </option>
 <?php 
 $stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_colores WHERE clrs_status = 1");
 $stmt -> execute();
@@ -316,10 +318,10 @@ while( $resultado = $stmt -> fetch()){
                     </div>					
 					
 					<div class="col-sm-6">
-                      <div class="form-group"> <label> Color Interior </label> 
+                      <div class="form-group"> <label> <?php echo burengo_intColor; ?> </label> 
 					   <div class="input-group mb-3"> 
 						<select id="interior" class="form-control">
-                          <option value="0"> Color Interior </option>
+                          <option value="0"> <?php echo burengo_intColor; ?> </option>
 <?php 
 $stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_colores_int WHERE clrs_int_status = 1");
 $stmt -> execute();
@@ -339,9 +341,9 @@ while( $resultado = $stmt -> fetch()){
 			<!-- Puertas / Pasajeros --> 					
 			<div class="row">
     			<div class="col-sm-6">
-                      <div class="form-group">  <label> Cantidad de Puertas </label>
+                      <div class="form-group">  <label> <?php echo burengo_doorQty; ?> </label>
                         <select id="doors" class="form-control">
-                          <option <?php if($doors==0){ echo "selected"; } ?> value="0"> Cantidad de Puertas </option>
+                          <option <?php if($doors==0){ echo "selected"; } ?> value="0"> <?php echo burengo_doorQty; ?> </option>
                           <option <?php if($doors==1){ echo "selected"; } ?>  value="0">0</option>
 						  <option <?php if($doors==2){ echo "selected"; } ?>  value="2">2</option>
 						  <option <?php if($doors==3){ echo "selected"; } ?>  value="3">3</option>
@@ -350,7 +352,7 @@ while( $resultado = $stmt -> fetch()){
 						</select>                    
 					</div>
 				</div>					 
-				<div class="col-sm-6"><div class="form-group"> <label> Cantidad de Pasajeros </label>
+				<div class="col-sm-6"><div class="form-group"> <label> <?php echo burengo_passengerQty; ?> </label>
 					<input id="passengers" type="number" min="1" class="form-control" value="<?php echo $passengers; ?>" > 
 					</div>
 					</div>	
@@ -358,9 +360,9 @@ while( $resultado = $stmt -> fetch()){
 	 
 			<div class="row">
 			<div class="col-sm-6"> 
-				<div class="form-group"> <label> Provincia  </label>
+				<div class="form-group"> <label> <?php echo burengo_place; ?> </label>
 					<select id="place" class="form-control">
-                         <option value="0"> Provincia </option>
+                         <option value="0"> <?php echo burengo_place; ?> </option>
 						 <?php 
 							$stmt2 = Conexion::conectar()->prepare("SELECT * FROM bgo_places WHERE pcstatus = 1");
 							$stmt2 -> execute();
@@ -375,7 +377,7 @@ while( $resultado = $stmt -> fetch()){
 						</select> 
 						</div>
 						</div>	
-							<div class="col-sm-6"><div class="form-group">  <label> Dirección  </label>
+							<div class="col-sm-6"><div class="form-group">  <label> <?php echo burengo_addr; ?>  </label>
 							<input id="addrs" type="text" class="form-control" value="<?php echo $addr; ?>">
 					</div>
 			</div>
@@ -385,7 +387,7 @@ while( $resultado = $stmt -> fetch()){
 			<div class='row'>
 			<div class="col-sm-12">
 				 <div class="card-header">
-                <h3 class="card-title"> <i class="fas fa-list"></i> Descripcion, Observaciones u Otros detalles </h3>
+                <h3 class="card-title"> <i class="fas fa-list"></i> <?php echo burengo_description; ?> </h3>
               </div>
             </div>
             </div>
@@ -399,13 +401,12 @@ while( $resultado = $stmt -> fetch()){
             </div>
 		</div> <!-- Card Body -->
           <div class="card-footer">
-              <button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> Cancelar </button>
+              <button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> <?php echo burengo_cancel; ?> </button>
    <div class="float-right">
-	 <button id="updPic" type="button" class="btn btn-info"> <i class="far fa-edit"> Cambiar Imagenes </i> </button>
-	 <button id="updateData" type="button" class="btn btn-warning"> <i class="fas fa-retweet"> Actualizar </i> </button>
-	 
-	</div>
-          </div>	 
+	 <button id="updPic" type="button" class="btn btn-info"> <i class="far fa-edit"> <?php echo burengo_changeImg; ?> </i> </button>
+	 <button id="updateData" type="button" class="btn btn-warning"> <i class="fas fa-retweet"> <?php echo burengo_update; ?> </i> </button>
+</div>
+  </div>	 
    </div>
  
  </div>
@@ -414,7 +415,7 @@ while( $resultado = $stmt -> fetch()){
     </section>
   </div>
 <!-- /.content-wrapper -->
-<footer class="main-footer"> Burengo &copy; 2020 - Todos los derechos reservados. </footer>
+<footer class="main-footer"> Burengo &copy; 2020 - <?php echo burengo_copyright; ?> </footer>
 </div>
 <!-- ./wrapper -->
 

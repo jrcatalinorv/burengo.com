@@ -2,6 +2,7 @@
 session_start();
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../../../../modelos/conexion.php";
+require_once "../../../../modelos/data.php";
 
 $code = $_REQUEST["ccdt"];
 $src = $_REQUEST["pth"];
@@ -75,7 +76,7 @@ if($results = $stmt -> fetch()){
  <div class="col-md-12">
    <div class="card">
 			 <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-home"></i> Editar  Publicación </h3>
+                <h3 class="card-title"><i class="fas fa-home"></i> <?php echo burengo_editPost; ?> </h3>
 				<input id="pcode" type="hidden" value="<?php echo $code; ?>">
 				<input id="url" type="hidden" value="<?php echo $src; ?>">	
               </div>
@@ -83,27 +84,27 @@ if($results = $stmt -> fetch()){
 			<!-- Titulo -->	
 		    <div class="row">
                     <div class="col-sm-6">
-                      <div class="form-group"> <label> Título Publicación  </label>
+                      <div class="form-group"> <label> <?php echo burengo_tittle; ?>  </label>
 						<input id="title" maxlength="25" type="text" class="form-control" value="<?php echo $desc; ?>">
                       </div>
                     </div>
 					
 					       <div class="col-sm-6">
-					<div class="form-group">   <label> Tipo de Prodiedad  </label>
+					<div class="form-group">   <label>  <?php echo burengo_ptype; ?> </label>
 						<select id="types" class="form-control"> 
-						    <option <?php if($tipo==0){ echo "selected"; } ?> value="0"> Tipo de Prodiedad </option>
-							<option <?php if($tipo==13){ echo "selected"; } ?>  value="13"> Casas </option>
-							<option <?php if($tipo==14){ echo "selected"; } ?> value="14">  Apartamentos </option>
-							<option <?php if($tipo==15){ echo "selected"; } ?> value="15">  Villas </option>
-							<option <?php if($tipo==16){ echo "selected"; } ?> value="16">  Solares </option>
-							<option <?php if($tipo==17){ echo "selected"; } ?> value="17">  Fincas </option>
-							<option <?php if($tipo==18){ echo "selected"; } ?> value="18">  Naves </option>
-							<option <?php if($tipo==19){ echo "selected"; } ?> value="19">  Oficinas </option>
-							<option <?php if($tipo==20){ echo "selected"; } ?> value="20">  Edificios </option>
-							<option <?php if($tipo==21){ echo "selected"; } ?> value="21">  Penthouse </option>
-							<option <?php if($tipo==22){ echo "selected"; } ?> value="22">  Local Comercial </option>
-							<option <?php if($tipo==23){ echo "selected"; } ?> value="23">  Salon para Eventos </option>
-							<option <?php if($tipo==24){ echo "selected"; } ?> value="24"> Otros Inmuebles </option>									
+						    <option <?php if($tipo==0){ echo "selected"; } ?> value="0"> <?php echo burengo_ptype; ?> </option>
+							<option <?php if($tipo==13){ echo "selected"; } ?>  value="13"> <?php echo burengo_homes; ?> </option>
+							<option <?php if($tipo==14){ echo "selected"; } ?> value="14">  <?php echo burengo_apartment; ?> </option>
+							<option <?php if($tipo==15){ echo "selected"; } ?> value="15">  <?php echo burengo_villas; ?> </option>
+							<option <?php if($tipo==16){ echo "selected"; } ?> value="16">  <?php echo burengo_solares; ?> </option>
+							<option <?php if($tipo==17){ echo "selected"; } ?> value="17">  <?php echo burengo_finca; ?> </option>
+							<option <?php if($tipo==18){ echo "selected"; } ?> value="18">  <?php echo burengo_naves; ?> </option>
+							<option <?php if($tipo==19){ echo "selected"; } ?> value="19">  <?php echo burengo_oficinas; ?> </option>
+							<option <?php if($tipo==20){ echo "selected"; } ?> value="20">  <?php echo burengo_edf; ?> </option>
+							<option <?php if($tipo==21){ echo "selected"; } ?> value="21">  <?php echo burengo_penthouse; ?> </option>
+							<option <?php if($tipo==22){ echo "selected"; } ?> value="22">  <?php echo burengo_comercial; ?> </option>
+							<option <?php if($tipo==23){ echo "selected"; } ?> value="23">  <?php echo burengo_events; ?> </option>
+							<option <?php if($tipo==24){ echo "selected"; } ?> value="24"> <?php echo burengo_otros; ?> </option>									
 						  </select> 
 						</div>
 						</div>
@@ -112,64 +113,59 @@ if($results = $stmt -> fetch()){
 		 
 			 <div class="row">
 	
-			<div class="col-sm-6"> <label> Provincia  </label>
-				<div class="form-group"> 
-							<select id="place" class="form-control">
-                          <option value="0"> Provincia </option>
-						  <?php 
-							$stmt2 = Conexion::conectar()->prepare("SELECT * FROM bgo_places WHERE pcstatus = 1");
-							$stmt2 -> execute();
+<div class="col-sm-6"> <label> <?php echo burengo_place; ?>  </label>
+<div class="form-group"> 
+<select id="place" class="form-control">
+<option value="0"> <?php echo burengo_place; ?> </option>
+<?php 
+	$stmt2 = Conexion::conectar()->prepare("SELECT * FROM bgo_places WHERE pcstatus = 1");
+	$stmt2 -> execute();
+	while( $resulta2 = $stmt2 -> fetch()){
+		if($place==$resulta2['pcid']){
+			echo '<option selected value="'.$resulta2['pcid'].'"> '.$resulta2['pcstr'].' </option>';	
+		}else{
+			echo '<option value="'.$resulta2['pcid'].'"> '.$resulta2['pcstr'].' </option>';	
+		}
+	}	
+?>
+</select> 
+</div>
+</div>
+<div class="col-sm-6"><div class="form-group">  <label> <?php echo burengo_addr; ?>  </label>
+<input id="addrs" type="text" class="form-control" value="<?php echo $addr; ?>">
+</div>
+</div>
+</div>
 
-							while( $resulta2 = $stmt2 -> fetch()){
-								
-								if($place==$resulta2['pcid']){
-									echo '<option selected value="'.$resulta2['pcid'].'"> '.$resulta2['pcstr'].' </option>';	
-								}else{
-									echo '<option value="'.$resulta2['pcid'].'"> '.$resulta2['pcstr'].' </option>';	
-								}
-									
-								
-								
-								}	
-							?>
-						</select> 
-						</div>
-						</div>
-							<div class="col-sm-6"><div class="form-group">  <label> Dirección  </label>
-							<input id="addrs" type="text" class="form-control" value="<?php echo $addr; ?>">
-					</div>
-			</div>
-			
-			</div>
 <div class="row">
-   <div class="col-sm-6">
-		<div class="form-group">  <label>Precio  </label><input id="price" type="text" class="form-control"  value="<?php echo $price; ?>"></div>
-	</div>	
+<div class="col-sm-6">
+<div class="form-group"> <label> <?php echo burengo_price; ?>  </label><input id="price" type="text" class="form-control"  value="<?php echo $price; ?>"></div>
+</div>	
 			
-	<div class="col-sm-6">
-        <div class="form-group"> <label> Tipo de Moneda </label>
-			<select id="currency" class="form-control"> 
-			<option value="0"> Tipo de Moneda </option>
-			<?php 
-				$stmt3 = Conexion::conectar()->prepare("SELECT * FROM bgo_currency WHERE cur_status = 1");
-				$stmt3 -> execute();
-				while( $resulta3 = $stmt3 -> fetch()){
-					if($currency==$resulta3['cur_id']){
-						echo '<option selected value="'.$resulta3['cur_id'].'"> '.$resulta3['cur_str'].' </option>';		
-					}else{
-						echo '<option value="'.$resulta3['cur_id'].'"> '.$resulta3['cur_str'].' </option>';		
-					   }
-					}	
-				?>
-			</select>
-		</div>
-	</div>
- </div>
+<div class="col-sm-6">
+<div class="form-group"> <label> <?php echo burengo_currencyType; ?> </label>
+<select id="currency" class="form-control"> 
+<option value="0"> <?php echo burengo_currencyType; ?> </option>
+<?php 
+$stmt3 = Conexion::conectar()->prepare("SELECT * FROM bgo_currency WHERE cur_status = 1");
+$stmt3 -> execute();
+while( $resulta3 = $stmt3 -> fetch()){
+	if($currency==$resulta3['cur_id']){
+		echo '<option selected value="'.$resulta3['cur_id'].'"> '.$resulta3['cur_str'].' </option>';		
+	}else{
+		echo '<option value="'.$resulta3['cur_id'].'"> '.$resulta3['cur_str'].' </option>';		
+   }
+}	
+?>
+</select>
+</div>
+</div>
+</div>
 <div class="row">
 	<div class="col-sm-6">
-	   <div class="form-group"><label> Niveles </label>
+	   <div class="form-group"><label> <?php echo burengo_levels; ?> </label>
           <select id="niveles" class="form-control">
-              <option <?php if($level==0){ echo "selected"; } ?> value="0"> Pisos / Niveles </option>
+              <option <?php if($level==0){ echo "selected"; } ?> value="0"> <?php echo burengo_levels; ?> </option>
               <option <?php if($level==1){ echo "selected"; } ?> value="1"> 1 </option>
                <option <?php if($level==2){ echo "selected"; } ?> value="2"> 2 </option>
                           <option <?php if($level==3){ echo "selected"; } ?> value="3"> 3 </option>
@@ -182,49 +178,46 @@ if($results = $stmt -> fetch()){
                           <option <?php if($level==10){ echo "selected"; } ?> value="10"> 10 </option>
                           <option <?php if($level==11){ echo "selected"; } ?> value="11"> 11 </option>
                           <option <?php if($level==12){ echo "selected"; } ?> value="12"> 12 </option>
-                        </select>                    
-					</div>
-					
-					</div>
+        </select>                    
+	</div>
+</div>
 
-                   				
-					
-					<div class="col-sm-6">
-                      <div class="form-group"> <label> Cantidad de Habitaciones </label>
-						<input id="rooms" type="number" class="form-control"  value="<?php echo $rooms; ?>" />               
-					</div>
-                    </div>
-                  </div>
+<div class="col-sm-6">
+   <div class="form-group"> <label> <?php echo burengo_roomQty; ?> </label>
+		<input id="rooms" type="number" class="form-control"  value="<?php echo $rooms; ?>" />               
+	</div>
+   </div>
+</div>
 	 
 	 
 	 
 	 
 <div class="row">
 	<div class="col-sm-6">
-      <div class="form-group"> <label> Cantidad de Baños </label><input id="baths" type="number" class="form-control" value="<?php echo $bath; ?>" /></div>
+      <div class="form-group"> <label> <?php echo burengo_bathQty; ?> </label><input id="baths" type="number" class="form-control" value="<?php echo $bath; ?>" /></div>
     </div>					
 	<div class="col-sm-6">
-       <div class="form-group"> <label> Cantidad de Parqueos / Marquecinas </label><input id="garage" type="number" class="form-control" value="<?php echo $garage; ?>" /> </div>
+       <div class="form-group"> <label> <?php echo burengo_parkQty ?>  </label><input id="garage" type="number" class="form-control" value="<?php echo $garage; ?>" /> </div>
     </div>
 </div>			
 <div class="row">
 	<div class="col-sm-6">
-       <div class="form-group"> <label> Terreno </label> <input id="terreno" class="form-control" value="<?php echo $terr; ?>" /></div>
+       <div class="form-group"> <label> <?php echo burengo_terreno; ?> </label> <input id="terreno" class="form-control" value="<?php echo $terr; ?>" /></div>
     </div>					
 <div class="col-sm-6">
-		<div class="form-group"> <label> Construcción</label><input id="construccion" class="form-control" value="<?php echo $cons; ?>"/></div>
+		<div class="form-group"> <label>  <?php echo burengo_construccion; ?></label><input id="construccion" class="form-control" value="<?php echo $cons; ?>"/></div>
 </div>
 </div>
 <div class="row">
-<label> Descripcion, Observaciones u Otros detalles </label>
+<label> <?php echo burengo_description; ?> </label>
 <textarea id="notes" class="form-control" rows="3"  >  <?php echo  $notes; ?>  </textarea>
 </div>
 </div> <!-- Card Body -->
 <div class="card-footer">
-     <button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> Cancelar </button>
+     <button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> <?php echo burengo_cancel; ?> </button>
     <div class="float-right">
-	 <button id="updPic" type="button" class="btn btn-info"> <i class="far fa-edit"> Cambiar Imagenes </i> </button>
-	 <button id="updateData" type="button" class="btn btn-warning"> <i class="fas fa-retweet"> Actualizar </i> </button>
+	 <button id="updPic" type="button" class="btn btn-info"> <i class="far fa-edit"> <?php echo burengo_changeImg; ?>   </i> </button>
+	 <button id="updateData" type="button" class="btn btn-warning"> <i class="fas fa-retweet"> <?php echo burengo_update; ?> </i> </button>
 
 	</div>
 </div>	 
@@ -235,7 +228,7 @@ if($results = $stmt -> fetch()){
     </section>
   </div>
 <!-- /.content-wrapper -->
-<footer class="main-footer"> Burengo &copy; 2020 - Todos los derechos reservados. </footer>
+<footer class="main-footer"> Burengo &copy; 2020 -  <?php echo burengo_copyright; ?> </footer>
 </div>
 <!-- ./wrapper -->
 

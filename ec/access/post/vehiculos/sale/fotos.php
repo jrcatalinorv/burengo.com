@@ -2,6 +2,7 @@
 session_start();
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../../../../modelos/conexion.php";
+require_once "../../../../modelos/data.php";
 $code = $_REQUEST["ccdt"];
 /*Buscar el plan */
  $stmt = Conexion::conectar()->prepare(" SELECT a.profile, b.planmaxf FROM bgo_users a INNER JOIN bgo_planes b
@@ -126,9 +127,9 @@ if(is_dir($structure)){
 			<div class="bgo-dot bgo-three">3</div>
 			<div class="bgo-progress-bar bgo-first"></div>
 			<div class="bgo-progress-bar bgo-second"></div>
-			<div class="bgo-message bgo-message-1">Datos Generales <div>
-			<div class="bgo-message bgo-message-2">Subir Imagenes  <div>
-			<div class="bgo-message bgo-message-3">Confirmar Datos <div>
+			<div class="bgo-message bgo-message-1"> <?php echo burengo_gral; ?> <div>
+			<div class="bgo-message bgo-message-2"> <?php echo burengo_upImg; ?>  <div>
+			<div class="bgo-message bgo-message-3"> <?php echo burengo_confirmData; ?>  <div>
 			</div></div></div></div></div></div>
 			</div>
 			</div>
@@ -146,7 +147,7 @@ if(is_dir($structure)){
                 <h3 class="card-title">  
 				<i class="far fa-image"></i>
 				
-				Portada Publicacion 
+				<?php echo burengo_portadaPost; ?> 
 				<input id="uploadedCTRL" type="hidden" value="0" />
 				<input id="getCode" type="hidden" value="<?php echo $code; ?>" />
 				
@@ -155,11 +156,11 @@ if(is_dir($structure)){
             <div class="card-body"> <input id="currentCode" type="hidden" value="<?php echo $code; ?>" />
  
 			<div class="form-group">
-                      <h3>Seleccione la Imagen de Portada </h3>
+                      <h3><?php echo burengo_selectPortada; ?> </h3>
                     <div class="input-group">
                       <div class="custom-file">
                         <input type="file" class="custom-file-input" id="file">
-                        <label class="custom-file-label" for="file">Choose file</label>
+                        <label class="custom-file-label" for="file"><?php echo burengo_chooseFile; ?></label>
                       </div>
                     </div>
                   </div>
@@ -167,14 +168,14 @@ if(is_dir($structure)){
 
 			 <hr/>
 			 
-			 <h3 id="t2" class="Hideme"> <i class="far fa-images"></i> Anexar Mas imagenes  </h3>
+			 <h3 id="t2" class="Hideme"> <i class="far fa-images"></i> <?php echo burengo_addMore; ?>  </h3>
 				 
 				 <div id="t3"class="form-group Hideme">
              
                     <div class="input-group">
                       <div class="custom-file">
                         <input type="file" id="inpFile" multiple />
-                        <label class="custom-file-label" for="inpFile">Seleccione las imagenes </label>  
+                        <label class="custom-file-label" for="inpFile">  <?php echo burengo_selectImg; ?> </label>  
 						 
                       </div>  
 					  
@@ -198,13 +199,11 @@ if(is_dir($structure)){
 				  
 			</div>
 			
-			<div class="card-footer clearfix ">
-                              <button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> Cancelar </button>
-              
-				<button id="next" type="button" class="btn btn-primary float-right">  Siguiente <i class="fas fa-arrow-alt-circle-right"></i> </button>
-              </div>
-			
-            </div>
+		<div class="card-footer clearfix ">
+            <button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> <?php echo burengo_cancel; ?> </button>
+          	<button id="next" type="button" class="btn btn-primary float-right"> <?php echo burengo_next; ?> <i class="fas fa-arrow-alt-circle-right"></i> </button>
+        </div>
+		    </div>
           </div>
 	  	
 
@@ -219,7 +218,7 @@ if(is_dir($structure)){
  
 
   <!-- Main Footer -->
-  <footer class="main-footer bg-black"> Burengo &copy; 2020 - Todos los derechos reservados. </footer>
+  <footer class="main-footer bg-black"> Burengo &copy; 2020 - <?php echo burengo_copyright; ?> </footer>
 </div>
 <!-- ./wrapper -->
 

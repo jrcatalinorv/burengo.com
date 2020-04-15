@@ -1,6 +1,7 @@
 <?php 
 require_once "../modelos/conexion.php";
 require_once "../modelos/functions.php";
+require_once "../modelos/data.php";
 
  
 $stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_planes WHERE planstatus = 1");
@@ -20,14 +21,14 @@ if($results["plantypo"]==1){
 				<br/>
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
-                    <b>Precio </b> <a class="float-right">$'.number_format($results["planprice"],2).' '.$results["plancurrency"].' </a>
+                    <b> '.burengo_price.' </b> <a class="float-right">$'.number_format($results["planprice"],2).' '.$results["plancurrency"].' </a>
                   </li>
                   <li class="list-group-item">
-                    <b>Duracion</b> <a class="float-right">'.$results["planduration"].' Dias</a>
+                    <b> '.burengo_duration.' </b> <a class="float-right">'.$results["planduration"].' '.burengo_days.'</a>
                   </li>
                   <li class="list-group-item">
-                    <b>Publicacions </b> <a class="float-right"> ';
-						if($results["planmaxp"]==0){
+                    <b> '.burengo_maxp2.' </b> <a class="float-right"> ';
+						if($results["planmaxp"]==99999){
 							echo "Ilimitadas";
 						}else{
 						  echo $results["planmaxp"];	 	
@@ -35,11 +36,11 @@ if($results["plantypo"]==1){
 						echo ' </a>
                   </li>                  
 				  <li class="list-group-item">
-                    <b>Fotos </b> <a class="float-right"> '.$results["planmaxf"].' </a>
+                    <b> '.burengo_maxf2.' </b> <a class="float-right"> '.$results["planmaxf"].' </a>
                   </li>
                 </ul>
 
-                <a href="#" class="btn btn-primary btn-block planselection" idPlan="'.$results["planid"].'" pricePlan="'.$results["planprice"].'"  ><b> Seleccionar </b></a>
+                <a href="#" class="btn btn-primary btn-block planselection" idPlan="'.$results["planid"].'" pricePlan="'.$results["planprice"].'"  ><b> '.burengo_selectBtn.' </b></a>
               </div>
             </div>      
           </div>

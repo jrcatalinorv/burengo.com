@@ -74,6 +74,10 @@ $total_postv = number_format($results['totalpv']);
           <a href="mail/inbox.php" class="dropdown-item">
             <i class="fas fa-envelope mr-2"></i> <?php echo burengo_msg; ?>
           </a>
+		  <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-favorites">
+            <i class="fas fa-heart mr-2"></i> <?php echo burengo_seeFavs; ?>
+          </a>
           <div class="dropdown-divider"></div>
           <a href="salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> <?php echo burengo_logout; ?> </a>
         </div>
@@ -94,7 +98,8 @@ $total_postv = number_format($results['totalpv']);
 			<input id="pageCant" type="hidden" value="1" />  
 			<input id="pageTop" type="hidden" value="1" />  
 			<input id="planTotalP" type="hidden" value="<?php echo $total_postv; ?>" />  
-			<input id="planMaxP" type="hidden" value="<?php echo $_SESSION['bgo_maxP']; ?>" />  
+			<input id="planMaxP" type="hidden" value="<?php echo $_SESSION['bgo_maxP']; ?>" /> 
+		    <input id="currentCode" class="form-control" type="hidden" value="<?php  echo $_SESSION['bgo_userId']; ?>"/>			
 			<small> </small></h1>
           </div>
         </div>
@@ -174,12 +179,8 @@ $total_postv = number_format($results['totalpv']);
                 <span class="info-box-number"> <br/> <h4> <?php echo burengo_vehiculos; ?> </h4></span><br>
               </div>
             </div>				
-			
-		 
-			 
 			</div>			
 			<div class="col-md-6">
-				
 				<div id="btnBuyIm" class="info-box bg-gradient-success">
               <span class="info-box-icon"><i class="fas fa-home"></i></span>
               <div class="info-box-content">
@@ -188,11 +189,7 @@ $total_postv = number_format($results['totalpv']);
             </div>				
 			</div>
 			</div>
-	 
-			
             </div>
-		 
-			
           </div>
         </div>
       </div>
@@ -233,7 +230,7 @@ $total_postv = number_format($results['totalpv']);
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Nueva Publicacion </h4>
+              <h4 class="modal-title"> <?php echo burengo_newPost; ?> </h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -272,12 +269,35 @@ $total_postv = number_format($results['totalpv']);
             </div>
             <div class="modal-body">
 				<h5 class="text-center"> <i class="fas fa-exclamation-triangle text-danger fa-3x"></i> </h5> <br/>
-				<h5 class="text-center"> Usted ha excedido el máximo de publicaciones permitido de su plan  <span class="text-info"> <?php echo $_SESSION['bgo_planName']; ?></span>. Para adquirir publicaciones extra o un nuevo plan puede acceder a <a href="planes.php" class="text-success"> Ver Planes </a>.</h5>
+				<h5 class="text-center"> <?php echo burengo_MaxOut1; ?> <span class="text-info"> <?php echo $_SESSION['bgo_planName']; ?></span>. <?php echo burengo_MaxOut2; ?> <a href="planes.php" class="text-success"> <?php echo burengo_MaxOut3; ?> </a>.</h5>
 				<h1> &nbsp; </h1>
             </div>
           </div>
         </div>
 </div>
+
+
+
+
+<div class="modal fade" id="modal-favorites">
+ <div class="modal-dialog">
+   <div class="modal-content">
+      <div class="modal-header">
+       <h4 class="modal-title">   </h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+<div class="modal-body p-0 whlist" style="height:400px;   overflow-y: auto; overflow-x: hidden;"> 
+<!----------------------------------->
+		
+<!----------------------------------->
+</div>
+   </div>
+    </div>
+      </div>
+   <!-- /.modal -->
+
 
 <footer class="main-footer">
     <div class="float-right d-none d-sm-inline"></div>
@@ -295,6 +315,9 @@ $(document).ready(function(){
 $('.plist').load('../ajax/burengo_select_acc.php?typo='+$('#route01').val()+'&pageno='+$('#pageCant').val());
 getopPages();
 first();
+$('.whlist').load("../ajax/burengo_select_favorites.php?id="+$('#currentCode').val());
+
+
 });
 
 function explode(){
@@ -431,6 +454,58 @@ $('#btnPublicar').click(function(){
 		$('#modalTriggerMaxOut').click();
 	}		
 });
+
+
+$('.whlist').load("../ajax/burengo_select_favorites.php?id="+$('#currentCode').val());
+
+
+
+$('.whlist').on("click","span.itemSelection",function(){
+	var id = $(this).attr('itemId');
+	var cat = $(this).attr('stid');
+	switch(cat){
+		case '1': location.href="vehiculos.php?dtcd="+id; break;
+		case '2': location.href="inmuebles.php?dtcd="+id; break;
+	}
+});
+
+
+$('.whlist').on("click","img.itemSelection",function(){
+	var id = $(this).attr('itemId');
+	var cat = $(this).attr('stid');
+	switch(cat){
+		case '1': location.href="vehiculos.php?dtcd="+id; break;
+		case '2': location.href="inmuebles.php?dtcd="+id; break;
+	}
+});
+
+$('.whlist').on("click","a.itemSelection",function(){
+	var id = $(this).attr('itemId');
+	var cat = $(this).attr('stid');
+	switch(cat){
+		case '1': location.href="vehiculos.php?dtcd="+id; break;
+		case '2': location.href="inmuebles.php?dtcd="+id; break;
+	}
+});
+
+
+$('.whlist').on("click","a.itemDelete",function(){
+   var pid = $(this).attr('itemId');
+   var uid = $(this).attr('userId');
+   
+   $.getJSON('../ajax/burengo_delete_fav.php',{
+		pid: pid,
+		uid: uid
+	},function(data){
+		switch(data['ok']){
+			case 0: toastr.error('ERROR! No se guardaron los cambios los datos: '+ data['err']); break;
+			case 1: $('.whlist').load("../ajax/burengo_select_favorites.php?id="+uid);  break;
+		}
+	});	
+ 
+});
+
+
 </script>
 </body>
 </html>

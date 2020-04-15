@@ -140,7 +140,7 @@ $tp = $_REQUEST['cat'];
 		         <div class="col-sm-4 border-right border-top carTypeTxt ch17" cttlabel="17">
                     <div class="description-block">
                       <h5 class="description-header"><img style="width:50px;" src="../../media/icons/bosque.png" alt="User Image"> </h5>
-                      <span class="description-text"> <small> <?php echo burengo_final; ?></small></span>
+                      <span class="description-text"> <small> <?php echo burengo_finca; ?></small></span>
                     </div>
                   </div>				  
 				  
@@ -206,47 +206,12 @@ $tp = $_REQUEST['cat'];
                   <div class="col-6">
                     <select id="pricefrom" class="form-control">
 						<option value="0"> <?php echo burengo_precioMin; ?>  </option>
-						<option value="500000"> $500,000  </option>
-						<option value="600000"> $600,000  </option>
-						<option value="700000"> $700,000  </option>
-						<option value="800000"> $800,000  </option>
-						<option value="900000"> $900,000  </option>
-						<option value="1000000"> $1,000,000  </option>
-						<option value="1500000"> $1,500,000  </option>
-						<option value="2000000"> $2,000,000  </option>
-						<option value="2500000"> $2,500,000  </option>
-						<option value="3000000"> $3,000,000  </option>
-						<option value="4000000"> $4,000,000  </option>
-						<option value="5000000"> $5,000,000  </option>
-						<option value="7000000"> $7,000,000  </option>
-						<option value="10000000"> $10,000,000  </option>
-						<option value="15000000"> $15,000,000  </option>
-						<option value="25000000"> $25,000,000  </option>
-						<option value="50000000"> $50,000,000  </option>
 					</select>
                   </div>
 				  
                   <div class="col-6">
 					<select id="priceto" class="form-control">
 						<option value="9000000"> <?php echo burengo_precioMax; ?>  </option>
-						<option value="500000"> $500,000  </option>
-						<option value="600000"> $600,000  </option>
-						<option value="700000"> $700,000  </option>
-						<option value="800000"> $800,000  </option>
-						<option value="900000"> $900,000  </option>
-						<option value="1000000"> $1,000,000  </option>
-						<option value="1500000"> $1,500,000  </option>
-						<option value="2000000"> $2,000,000  </option>
-						<option value="2500000"> $2,500,000  </option>
-						<option value="3000000"> $3,000,000  </option>
-						<option value="4000000"> $4,000,000  </option>
-						<option value="5000000"> $5,000,000  </option>
-						<option value="7000000"> $7,000,000  </option>
-						<option value="10000000"> $10,000,000  </option>
-						<option value="15000000"> $15,000,000  </option>
-						<option value="25000000"> $25,000,000  </option>
-						<option value="50000000"> $50,000,000  </option>
-						<option value="1500000000"> $50,000,000+  </option>
 					</select>
                   </div>
                 </div>				
@@ -321,7 +286,10 @@ $tp = $_REQUEST['cat'];
 <script src="../../../plugins/bootstrap-slider/bootstrap-slider.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-$('#place').load('../../ajax/burengo_select_places.php');	
+$('#place').load('../../ajax/burengo_select_places.php');
+$('#pricefrom').load('../../ajax/burengo_select_pricefrom.php');
+$('#priceto').load('../../ajax/burengo_select_priceto.php');
+	
 SendData();
 $("#ctp").hide();
 document.getElementById('ctpBtn').innerHTML='<i class="fas fa-plus"></i>';

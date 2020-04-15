@@ -41,7 +41,7 @@ if($results = $stmt -> fetch()){
 	$rooms = $results['bgo_rooms'];
 	$baths = $results['bgo_bath'];
 	$garage = $results['bgo_parqueos'];
-		$cur_sign = $results["cur_sign"];
+	$cur_sign = $results["cur_sign"];
 		
 	$pr_low  = intval($precio) - ( intval($precio) * 0.30 ); 
 	$pr_high = intval($precio) + ( intval($precio) * 0.50 );  
@@ -190,8 +190,6 @@ $use_nombre = $rslts["name"];
 				</div>
 			</div>
 
-             
-            
               <div class="bg-gray py-2 px-3 mt-4">
                 <h2 class="mb-0"> <?php echo $cur_sign; ?> <?php echo number_format($precio,2).' '.convert($tcp); ?> </h2>
                 <h4 class="mt-0">
@@ -227,10 +225,7 @@ $use_nombre = $rslts["name"];
                   '.burengo_fav.'
                 </div>
               </div>';					
-					
-					
-				} 
-			  
+		} 	  
 ?>
 
 <div class="mt-4 product-share">
@@ -348,7 +343,7 @@ $use_nombre = $rslts["name"];
             </div>
 			
 			            <div class="modal-footer">
-              <button disabled style="display:none;" type="button" class="btn btn-success" data-dismiss="modal"><i class="fas fa-comments"></i> Enviar mensaje</button>
+              <button disabled style="display:none;" type="button" class="btn btn-success" data-dismiss="modal"><i class="fas fa-comments"></i>   <?php echo burengo_usrMsgSend; ?> </button>
                 <a href="publicaciones.php?user=<?php echo $user; ?>" type="button" class="btn btn-info"> 
 				<i class="fas fa-th"></i> <?php echo burengo_allPost; ?>  </a>
             </div>
@@ -424,11 +419,11 @@ $('.similars').on("click", "div.itemSelection", function(){
 function convert($id){
 	switch($id){
 		case 0: return ""; break;
-		case 1: return " x dia "; break;
-		case 2: return " x Noche "; break;
-		case 3: return " x Hora"; break;
-		case 4: return " - Semanal"; break;
-		case 5: return " - Mensual"; break;
+		case 1: return " x ".burengo_day; break;
+		case 2: return " x ".burengo_night; break;
+		case 3: return " x ".burengo_hour; break;
+		case 4: return " - ".burengo_week; break;
+		case 5: return " - ".burengo_month; break;
 		default: return ""; break;
 	}
 }

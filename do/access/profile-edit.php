@@ -31,12 +31,6 @@ $rest5 = $stmt5 -> fetch();
   <link rel="stylesheet" href="../../dist/css/adminlte.css">
   <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
 <style>
-.Hideme{
-	display:none;
-}
-.bgo_top{
-	 
-  }
 @media only screen and (max-width: 600px) {
 .bgo_top{
 	margin-top: 2rem; 
@@ -189,7 +183,7 @@ $rest5 = $stmt5 -> fetch();
                     <div class="input-group Hideme">
                       <div class="custom-file">
                         <input type="file" class="custom-file-input" id="file">
-                        <label class="custom-file-label" for="file"> Choose file </label>
+                        <label class="custom-file-label" for="file"> <?php echo burengo_chooseFile; ?> </label>
                       </div>
                     </div>
                   </div>
@@ -217,18 +211,11 @@ $rest5 = $stmt5 -> fetch();
  </div>
 <!-- /.col -->
 </div>
-       
+</div><!-- /.container-fluid -->
+</section>
+</div>
 
-
-	   <!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </section>
-  </div>
-  <!-- /.content-wrapper -->
-
- 
-
-   <div class="modal fade" id="modal-pass">
+<div class="modal fade" id="modal-pass">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -306,8 +293,6 @@ $(document).on('change', '#file', function(){
 	}
  });
  
- 
- 
 $('#updateAccount').click(function(){
 /* Preguntar por todos los campos si estan llenos  */
 if( !isEmpty($('#fullname').val())){ 
@@ -327,7 +312,6 @@ if( !isEmpty($('#address').val())){
 }else{ $('#fullname').focus(); toastr.error('Debe completar todos los campos');}
 });
  
-
 function isEmpty(str) {
     return (!str || 0 === str.length);
 }
@@ -355,10 +339,7 @@ function updateData(){
 	},function(data){
 		switch(data['ok']){
 			case 0: toastr.error('ERROR! No se pudo almacenar los datos: '+ data['err']); break;
-			case 1: 
-				location.href=""; 
-			
-			break;
+			case 1: location.href=""; break;
 		}
 	});	
 }
@@ -405,11 +386,11 @@ if( !isEmpty($("#password0").val())){
 function convert($id){
 	switch($id){
 		case 0: return ""; break;
-		case 1: return " x dia "; break;
-		case 2: return " x Noche "; break;
-		case 3: return " x Hora"; break;
-		case 4: return " - Semanal"; break;
-		case 5: return " - Mensual"; break;
+		case 1: return " x ".burengo_day; break;
+		case 2: return " x ".burengo_night; break;
+		case 3: return " x ".burengo_hour; break;
+		case 4: return " - ".burengo_week; break;
+		case 5: return " - ".burengo_month; break;
 		default: return ""; break;
 	}
 }

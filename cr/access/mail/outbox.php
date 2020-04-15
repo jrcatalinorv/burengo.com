@@ -2,6 +2,7 @@
 session_start();
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../../modelos/conexion.php";
+require_once "../../modelos/data.php";
  
 ?>
 
@@ -54,22 +55,25 @@ require_once "../../modelos/conexion.php";
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <div class="dropdown-divider"></div>
           <a href="../inicio.php" class="dropdown-item">
-            <i class="fas fa-th mr-2"></i> Portada  
+            <i class="fas fa-th mr-2"></i> <?php echo burengo_portada; ?>
           </a>
           <div class="dropdown-divider"></div>		  
 		  <a href="../publicaciones.php" class="dropdown-item">
-            <i class="far fa-list-alt mr-2"></i> Mis publicaciones 
+            <i class="far fa-list-alt mr-2"></i> <?php echo burengo_Mypost; ?> 
           </a>		  
           <div class="dropdown-divider"></div>
           <a href="../profile.php" class="dropdown-item">
-            <i class="far fa-id-badge mr-2"></i> Cuenta   
+            <i class="far fa-id-badge mr-2"></i> <?php echo burengo_Account; ?>  
           </a>
           <div class="dropdown-divider"></div>
           <a href="inbox.php" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> Mensajes
+            <i class="fas fa-envelope mr-2"></i> <?php echo burengo_msg; ?>
           </a>
+          <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-favorites">
+            <i class="fas fa-heart mr-2"></i> <?php echo burengo_seeFavs; ?>
+          </a>	
           <div class="dropdown-divider"></div>
-          <a href="../salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> Cerrar Session </a>
+          <a href="../salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> <?php echo burengo_logout; ?> </a>
         </div>
       </li>
      
@@ -108,13 +112,13 @@ require_once "../../modelos/conexion.php";
               <ul class="nav nav-pills flex-column">
                 <li class="nav-item active">
                   <a href="inbox.php" class="nav-link">
-                    <i class="fas fa-inbox"></i> Recibidos
+                    <i class="fas fa-inbox"></i> <?php echo burengo_msgReceived; ?>
                    
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="outbox.php" class="nav-link bg-primary">
-                    <i class="far fa-envelope"></i> Enviados
+                    <i class="far fa-envelope"></i> <?php echo burengo_msgSent; ?>
                   </a>
                 </li>
 				<li> &nbsp;
@@ -131,7 +135,7 @@ require_once "../../modelos/conexion.php";
  <div class="col-md-9">
           <div class="card card-primary card-outline">
             <div class="card-header">
-              <h3 class="card-title">Mensajes Enviados </h3>
+              <h3 class="card-title"> <?php echo burengo_msgSendTitle2; ?> </h3>
 
              
               <!-- /.card-tools -->
@@ -186,7 +190,7 @@ require_once "../../modelos/conexion.php";
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title text-info"> <i class="fas fa-envelope"></i> Enviar Mensaje </h5>
+              <h5 class="modal-title text-info"> <i class="fas fa-envelope"></i> <?php echo burengo_usrMsgSend; ?> </h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -209,10 +213,31 @@ require_once "../../modelos/conexion.php";
         </div>
 </div>
 </div>  
-  
+
+<div class="modal fade" id="modal-favorites">
+ <div class="modal-dialog">
+   <div class="modal-content">
+      <div class="modal-header">
+       <h4 class="modal-title">   </h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+<div class="modal-body p-0 whlist" style="height:400px;   overflow-y: auto; overflow-x: hidden;"> 
+<!----------------------------------->
+		
+<!----------------------------------->
+</div>
+   </div>
+    </div>
+      </div>
+   <!-- /.modal -->
+ 
+
+ 
   
   <!-- /.content-wrapper -->
-<footer class="main-footer"> Burengo &copy; 2020 - Todos los derechos reservados. </footer>
+<footer class="main-footer"> Burengo &copy; 2020 -  <?php echo burengo_copyright; ?>  </footer>
 </div>
 <script src="../../../plugins/jquery/jquery.min.js"></script>
 <script src="../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -241,22 +266,59 @@ require_once "../../modelos/conexion.php";
 	 //-------------------------------------
  }); 
  
+
+
+$('.whlist').load("../ajax/burengo_select_favorites.php?id="+$('#currentCode').val());
+
+
+
+$('.whlist').on("click","span.itemSelection",function(){
+	var id = $(this).attr('itemId');
+	var cat = $(this).attr('stid');
+	switch(cat){
+		case '1': location.href="vehiculos.php?dtcd="+id; break;
+		case '2': location.href="inmuebles.php?dtcd="+id; break;
+	}
+});
+
+
+$('.whlist').on("click","img.itemSelection",function(){
+	var id = $(this).attr('itemId');
+	var cat = $(this).attr('stid');
+	switch(cat){
+		case '1': location.href="vehiculos.php?dtcd="+id; break;
+		case '2': location.href="inmuebles.php?dtcd="+id; break;
+	}
+});
+
+$('.whlist').on("click","a.itemSelection",function(){
+	var id = $(this).attr('itemId');
+	var cat = $(this).attr('stid');
+	switch(cat){
+		case '1': location.href="vehiculos.php?dtcd="+id; break;
+		case '2': location.href="inmuebles.php?dtcd="+id; break;
+	}
+});
+
+
+$('.whlist').on("click","a.itemDelete",function(){
+   var pid = $(this).attr('itemId');
+   var uid = $(this).attr('userId');
+   
+   $.getJSON('../ajax/burengo_delete_fav.php',{
+		pid: pid,
+		uid: uid
+	},function(data){
+		switch(data['ok']){
+			case 0: toastr.error('ERROR! No se guardaron los cambios los datos: '+ data['err']); break;
+			case 1: $('.whlist').load("../ajax/burengo_select_favorites.php?id="+uid);  break;
+		}
+	});	
+ 
+}); 
  
  
  
 </script>
 </body>
 </html>
-<?php 
-function convert($id){
-	switch($id){
-		case 0: return ""; break;
-		case 1: return " x dia "; break;
-		case 2: return " x Noche "; break;
-		case 3: return " x Hora"; break;
-		case 4: return " - Semanal"; break;
-		case 5: return " - Mensual"; break;
-		default: return ""; break;
-	}
-}
-?>

@@ -2,7 +2,7 @@
 session_start();
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../../modelos/conexion.php";
-//require_once "modelos/functions.php";
+require_once "../../modelos/data.php";
 
 $usr = $_REQUEST['user'];
 
@@ -59,7 +59,10 @@ $facebook = "".$rslts["bgo_facebook"];
         <ul class="navbar-nav"> </ul>
       </div>
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-	 
+	      <li class="nav-item"><a class="nav-link" href="../profile.php">
+			 <img alt="Avatar"  class="user-image" src="../../media/users/<?php echo $_SESSION['bgo_userImg']; ?>">
+			 <?php echo $_SESSION['bgo_user']; ?></a>
+		</li>
 		
 	 
 		 		<li class="nav-item dropdown show">
@@ -70,22 +73,22 @@ $facebook = "".$rslts["bgo_facebook"];
 		 	  
 		  <div class="dropdown-divider"></div>	
 		  <a href="../inicio.php" class="dropdown-item">
-            <i class="fas fa-th mr-2"></i> Portada  
+            <i class="fas fa-th mr-2"></i> <?php echo burengo_portada; ?> 
           </a>
           <div class="dropdown-divider"></div>		  
           <a href="../publicaciones.php" class="dropdown-item">
-            <i class="far fa-list-alt mr-2"></i> Mis publicaciones 
+            <i class="far fa-list-alt mr-2"></i>   <?php echo burengo_Mypost; ?> 
           </a>
           <div class="dropdown-divider"></div>
           <a href="../profile.php" class="dropdown-item">
-            <i class="far fa-id-badge mr-2"></i> Cuenta    
+            <i class="far fa-id-badge mr-2"></i> <?php echo burengo_Account; ?>    
           </a>
           <div class="dropdown-divider"></div>
           <a href="../mensajes-recibidos.php" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> Mensajes
+            <i class="fas fa-envelope mr-2"></i> <?php echo burengo_msg; ?>
           </a>
           <div class="dropdown-divider"></div>
-          <a href="../salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> Cerrar Session </a>
+          <a href="../salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> <?php echo burengo_logout; ?> </a>
         </di
 	 
    
@@ -199,38 +202,8 @@ if($results['bgo_cat']==1){
   </div>
   <!-- /.content-wrapper -->
 
-   <div class="modal fade" id="modal-default">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Nueva Publicacion </h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-            <div class="col-md-12">
-			<div class="btn-group btn-group-lg col-md-12">
-				<button id="opv1" class="btn btn-sm btn-warning"><i class="fas fa-wallet"></i> Vender </button>
-				<button id="opv2" class="btn btn-sm btn-default"> <i class="far fa-calendar-alt"></i> Rentar </button>
-			</div>
-			<hr/>
-			<div class="btn-group btn-group-lg col-md-12">
-				<button id="op1" class="btn btn-sm btn-warning"><i class="fa fa-car"></i> Vehiculos </button>
-				<button id="op2" class="btn btn-sm btn-default"> <i class="fa fa-th"></i> Inmuebles </button>
-			</div>
-		</div>
-			
-            </div>
-			 <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-danger" data-dismiss="modal"> Cerrar </button>
-              <button id="uploadFiles" type="button" class="btn btn-success"> Aceptar </button>
-            </div>
-			
-          </div>
-        </div>
-      </div>
- <footer class="main-footer"> Burengo &copy; 2020 - Todos los derechos reservados. </footer>
+ 
+ <footer class="main-footer"> Burengo &copy; 2020 - <?php echo burengo_copyright; ?>  </footer>
 </div>
 <script src="../../../plugins/jquery/jquery.min.js"></script>
 <script src="../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

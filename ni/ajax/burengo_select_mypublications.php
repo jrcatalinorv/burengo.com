@@ -2,6 +2,7 @@
 session_start();
 require_once "../modelos/conexion.php";
 require_once "../modelos/functions.php";
+require_once "../modelos/data.php";
 
 $sb = $_REQUEST['typo'];
 
@@ -74,7 +75,7 @@ echo '<div class="col-12 col-sm-4 col-md-4 d-flex align-items-stretch itemSelect
                        
 					   
 					   if($results['bgo_stdesc'] ==9){
-						   echo '<button class="btn btn-sm btn-info dest" itemId="'.$results['bgo_code'].'" >   <i class="fas fa-star text-warning"></i> Destacada  </button>';
+						   echo '<button class="btn btn-sm btn-info destc" itemId="'.$results['bgo_code'].'" >   <i class="fas fa-star text-warning"></i> Destacada  </button>';
 						
 					   }else{
 							echo '<button class="btn btn-sm btn-info dest" itemId="'.$results['bgo_code'].'">   <i class="far fa-star"></i> Destacar   </button>';

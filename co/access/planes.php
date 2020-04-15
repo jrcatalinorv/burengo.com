@@ -2,12 +2,22 @@
 session_start();
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../modelos/conexion.php";
+require_once "../modelos/data.php";
  
 $stmt6 = Conexion::conectar()->prepare("SELECT * FROM bgo_user_plan WHERE up_uid = '".$_SESSION['bgo_userId']."'"); 
 $stmt6 -> execute();
 $rest6 = $stmt6 -> fetch(); 
 $myPlan = $rest6["up_planid"];
 
+$stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_cpinfo WHERE cpcode = 'bgo'");
+$stmt -> execute();
+$results = $stmt -> fetch();
+$paypalCode = $results["paypal_code"]; 
+ 
+$stmt5 = Conexion::conectar()->prepare("SELECT * FROM bgo_users WHERE uid = '".$_SESSION['bgo_userId']."'"); 
+$stmt5 -> execute();
+$rest5 = $stmt5 -> fetch(); 
+$myProfile = $rest5["profile"]; 
  
 ?>
 <!DOCTYPE html>
@@ -37,27 +47,26 @@ $myPlan = $rest6["up_planid"];
 	  	<li class="nav-item dropdown show">
         <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true">
           <i class="fas fa-bars fa-lg"></i>
-           
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <div class="dropdown-divider"></div>
           <a href="inicio.php" class="dropdown-item">
-            <i class="fas fa-th mr-2"></i> Portada  
+            <i class="fas fa-th mr-2"></i> <?php echo burengo_portada; ?> 
           </a>
           <div class="dropdown-divider"></div>		  
 		  <a href="publicaciones.php" class="dropdown-item">
-            <i class="far fa-list-alt mr-2"></i> Mis publicaciones 
+            <i class="far fa-list-alt mr-2"></i> <?php echo burengo_Mypost; ?>
           </a>		  
           <div class="dropdown-divider"></div>
           <a href="profile.php" class="dropdown-item">
-            <i class="far fa-id-badge mr-2"></i> Cuenta   
+            <i class="far fa-id-badge mr-2"></i> <?php echo burengo_Account; ?>  
           </a>
           <div class="dropdown-divider"></div>
           <a href="mail/inbox.php" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> Mensajes
+            <i class="fas fa-envelope mr-2"></i> <?php echo burengo_msg; ?>
           </a>
           <div class="dropdown-divider"></div>
-          <a href="salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> Cerrar Session </a>
+          <a href="salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> <?php echo burengo_logout; ?> </a>
         </div>
       </li>
 	  </ul>
@@ -71,11 +80,10 @@ $myPlan = $rest6["up_planid"];
  <input id="getPlan" type="hidden" value="0">
 	  <div class="row pt-2">
 	        <div class="col-md-12">
-            <div class="card card-primary">
+            <div class="card card-primary"> 
         <div class="card-body pb-0 ">
 				<div class="row panList">
 <?php 
- 
 $stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_planes WHERE planstatus = 1 AND plantypo = 1");
 $stmt -> execute();
 
@@ -93,14 +101,14 @@ if($myPlan == $results["planid"]){
 				<br/>
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
-                    <b>Precio </b> <a class="float-right">$'.number_format($results["planprice"],2).' '.$results["plancurrency"].' </a>
+                    <b> '.burengo_price.' </b> <a class="float-right">$'.number_format($results["planprice"],2).' '.$results["plancurrency"].' </a>
                   </li>
                   <li class="list-group-item">
-                    <b>Duracion</b> <a class="float-right">'.$results["planduration"].' Dias</a>
+                    <b> '.burengo_duration.' </b> <a class="float-right">'.$results["planduration"].' '.burengo_days.'</a>
                   </li>
                   <li class="list-group-item">
-                    <b>Publicacions </b> <a class="float-right"> ';
-						if($results["planmaxp"]==0){
+                    <b> '.burengo_maxp2.' </b> <a class="float-right"> ';
+						if($results["planmaxp"]==99999){
 							echo "Ilimitadas";
 						}else{
 						  echo $results["planmaxp"];	 	
@@ -118,6 +126,7 @@ if($myPlan == $results["planid"]){
           </div>
  ';	
 }else{
+	
  echo '
  <div class="col-md-3">
             <div class="card card-primary card-outline">
@@ -128,13 +137,13 @@ if($myPlan == $results["planid"]){
 				<br/>
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
-                    <b>Precio </b> <a class="float-right">$'.number_format($results["planprice"],2).' '.$results["plancurrency"].' </a>
+                    <b> '.burengo_price.' </b> <a class="float-right">$'.number_format($results["planprice"],2).' '.$results["plancurrency"].' </a>
                   </li>
                   <li class="list-group-item">
-                    <b>Duracion</b> <a class="float-right">'.$results["planduration"].' Dias</a>
+                    <b> '.burengo_duration.' </b> <a class="float-right">'.$results["planduration"].' '.burengo_days.'</a>
                   </li>
                   <li class="list-group-item">
-                    <b>Publicacions </b> <a class="float-right"> ';
+                    <b> '.burengo_maxp2.' </b> <a class="float-right"> ';
 						if($results["planmaxp"]==0){
 							echo "Ilimitadas";
 						}else{
@@ -145,34 +154,25 @@ if($myPlan == $results["planid"]){
 				  <li class="list-group-item">
                     <b>Fotos </b> <a class="float-right"> '.$results["planmaxf"].' </a>
                   </li>
-                </ul>
+                </ul>';
 
-                <a href="#" class="btn btn-primary btn-block planselection" idPlan="'.$results["planid"].'" pricePlan="'.$results["planprice"].'"  ><b> Seleccionar </b></a>
-              </div>
+if($myProfile==7 && $results["planid"] == 1 ){  
+	echo '<a href="#" class="btn btn-secondary btn-block"><b> '.burengo_selectBtnN.' </b></a>';
+
+}else{
+	echo '<a href="#" class="btn btn-primary btn-block planselection" idPlan="'.$results["planid"].'" pricePlan="'.$results["planprice"].'"  ><b> '.burengo_selectBtn.' </b></a>';
+}          
+		 echo '</div>
             </div>      
-          </div>
- ';		
-	
-}
-
-
+          </div>';			
+ }
 }  
-  
 ?>      
-
-		
-		
-				</div>
-		</div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
-  
- 
-	 </div>	  
-	  
-	  
+</div>
+</div>
+</div>
+</div>
+</div>	  
     </div>
   </div>
   
@@ -181,16 +181,16 @@ if($myPlan == $results["planid"]){
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Metodo de Pago </h4>
+              <h4 class="modal-title"> <?php echo burengo_paymentMode; ?> </h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
 				<input type="hidden" id="mdlPlanValue"  />
-				<div class="row tf"> <button id="transfer" type="button" class="btn btn-block bg-gradient-info btn-lg"> Trasnferencia Bancaria / Deposito  </button></div>
 				<br/>
 				<div id="paypal-button-container" class="row pp"></div>
+				<br/>
             </div>
           
           </div>
@@ -200,9 +200,8 @@ if($myPlan == $results["planid"]){
       </div>
   
   
-<footer class="main-footer"> Burengo &copy; 2020 - Todos los derechos reservados. </footer>
-
-<script src="https://www.paypal.com/sdk/js?client-id=Ac87nE2RADPU10SpCPPzs7lsaHCwimpGPCETweXQ7tQ5owHaOasfaa21i8OwP7yQOh1PvZhp36axHUGE"></script>
+<footer class="main-footer"> Burengo &copy; 2020 - <?php echo burengo_copyright; ?> </footer>
+<script src="https://www.paypal.com/sdk/js?client-id=<?php echo $paypalCode; ?>"></script>
  
  
  <script>
@@ -237,8 +236,7 @@ if($myPlan == $results["planid"]){
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../../dist/js/adminlte.min.js"></script>
 <script src="../../plugins/toastr/toastr.min.js"></script>
-<script type="text/javascript">
-
+<script type="text/javascript"> 
 $('.panList').on("click", "a.planselection", function(){
 	var idPlan = $(this).attr('idPlan');
 	var code = $('#getCode').val();
@@ -251,12 +249,6 @@ $('.panList').on("click", "a.planselection", function(){
 		$('#mdlPlanValue').val(price);
 		$('#triggerPM').click();
 	}
-});
-
-$('#transfer').click(function(){
-	var code = $('#getCode').val();
-	var plan = $('#getPlan').val();
-	location.href="confirmation.php?p="+plan+"&acc="+code;
 });
 </script>
 </body>

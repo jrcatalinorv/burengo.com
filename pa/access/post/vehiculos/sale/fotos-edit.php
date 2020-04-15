@@ -2,6 +2,7 @@
 session_start();
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../../../../modelos/conexion.php";
+require_once "../../../../modelos/data.php";
 $code = $_REQUEST["ccdt"];
 $src = $_REQUEST["pth"];
 
@@ -136,9 +137,9 @@ if($results = $stmt -> fetch()){
 			<div class="bgo-dot bgo-three">3</div>
 			<div class="bgo-progress-bar bgo-first"></div>
 			<div class="bgo-progress-bar bgo-second"></div>
-			<div class="bgo-message bgo-message-1">Datos Generales <div>
-			<div class="bgo-message bgo-message-2">Subir Imagenes  <div>
-			<div class="bgo-message bgo-message-3">Confirmar Datos <div>
+			<div class="bgo-message bgo-message-1"> <?php echo burengo_gral; ?> <div>
+			<div class="bgo-message bgo-message-2"> <?php echo burengo_upImg; ?>  <div>
+			<div class="bgo-message bgo-message-3"> <?php echo burengo_confirmData; ?>  <div>
 			</div></div></div></div></div></div>
 			</div>
 			</div>
@@ -158,7 +159,7 @@ if($results = $stmt -> fetch()){
                 <h3 class="card-title">  
 				<i class="far fa-image"></i>
 				
-				Portada Publicacion 
+				<?php echo burengo_portadaPost; ?>
 				<input id="uploadedCTRL" type="hidden" value="1" />
 				<input id="getCode" type="hidden" value="<?php echo $code; ?>" />
 				<input id="url" type="hidden" value="<?php echo $src; ?>">
@@ -166,7 +167,7 @@ if($results = $stmt -> fetch()){
               </div>
             <div class="card-body"> <input id="currentCode" type="hidden" value="<?php echo $code; ?>" />
 			<div class="form-group">
-				<button id="changeImg" class="btn btn-info  "> <i class="far fa-image"></i> Cambiar Imagen de Portada </button>
+				<button id="changeImg" class="btn btn-info  "> <i class="far fa-image"></i> <?php echo burengo_chImgPortada; ?> </button>
 				<?php 
 					if($totalPhotos>=1){ 
 						echo '<button id="changeImges" class="btn btn-info  "> <i class="far fa-image"></i> Sustituir Imagenes Complemtarias </button>';
@@ -174,22 +175,22 @@ if($results = $stmt -> fetch()){
 						echo '<button id="changeImges" class="btn btn-primary  "><i class="fas fa-plus"></i> Anexar Mas imagenes </button>';
 					}
 				?>
-             <h3 class="Hideme">Seleccione la Imagen de Portada </h3>
+             <h3 class="Hideme"> <?php echo burengo_selectPortada; ?> </h3>
              <div class="input-group Hideme">
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="file">
-                        <label class="custom-file-label" for="file">Choose file</label>
+                        <label class="custom-file-label" for="file"> <?php echo burengo_chooseFile; ?> </label>
                       </div>
                     </div>
                   </div>
 			 <hr/>
 			 
-			<h3 id="t2" class="Hideme"> <i class="far fa-images"></i> Anexar Mas imagenes  </h3>
+			<h3 id="t2" class="Hideme"> <i class="far fa-images"></i> <?php echo burengo_addMore; ?>  </h3>
 			<div id="t3"class="form-group Hideme">
                 <div class="input-group">
                       <div class="custom-file">
                         <input type="file" id="inpFile" multiple />
-                       <label class="custom-file-label" for="inpFile">Seleccione las imagenes </label>  
+                       <label class="custom-file-label" for="inpFile">  <?php echo burengo_selectImg; ?> </label>  
                       </div>  
                     </div>
                   </div>
@@ -215,8 +216,8 @@ if($results = $stmt -> fetch()){
 		</div>
 			
 	 <div class="card-footer clearfix ">
-         <button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> Cancelar </button>
-     	 <button id="next" type="button" class="btn btn-primary float-right">  Siguiente <i class="fas fa-arrow-alt-circle-right"></i> </button>
+         <button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> <?php echo burengo_cancel; ?> </button>
+     	 <button id="next" type="button" class="btn btn-primary float-right">  <?php echo burengo_next; ?> <i class="fas fa-arrow-alt-circle-right"></i> </button>
       </div>
 	  </div>
     </div>
@@ -224,7 +225,7 @@ if($results = $stmt -> fetch()){
       </div> 
     </section>
   </div>
-  <footer class="main-footer bg-black"> Burengo &copy; 2020 - Todos los derechos reservados. </footer>
+  <footer class="main-footer bg-black"> Burengo &copy; 2020 - <?php echo burengo_copyright; ?> </footer>
 </div>
 <!-- ./wrapper -->
 <script src="../../../../../plugins/jquery/jquery.min.js"></script>

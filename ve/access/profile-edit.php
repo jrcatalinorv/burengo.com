@@ -2,6 +2,7 @@
 session_start();
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../modelos/conexion.php";
+require_once "../modelos/data.php";
 
 $code = $_SESSION['bgo_userId'];
  
@@ -30,12 +31,6 @@ $rest5 = $stmt5 -> fetch();
   <link rel="stylesheet" href="../../dist/css/adminlte.css">
   <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
 <style>
-.Hideme{
-	display:none;
-}
-.bgo_top{
-	 
-  }
 @media only screen and (max-width: 600px) {
 .bgo_top{
 	margin-top: 2rem; 
@@ -70,22 +65,22 @@ $rest5 = $stmt5 -> fetch();
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <div class="dropdown-divider"></div>
           <a href="inicio.php" class="dropdown-item">
-            <i class="fas fa-th mr-2"></i> Portada  
+            <i class="fas fa-th mr-2"></i> <?php echo burengo_portada; ?>
           </a>
           <div class="dropdown-divider"></div>		  
 		  <a href="publicaciones.php" class="dropdown-item">
-            <i class="far fa-list-alt mr-2"></i> Mis publicaciones 
+            <i class="far fa-list-alt mr-2"></i> <?php echo burengo_Mypost; ?>
           </a>		  
           <div class="dropdown-divider"></div>
           <a href="profile.php" class="dropdown-item">
-            <i class="far fa-id-badge mr-2"></i> Cuenta   
+            <i class="far fa-id-badge mr-2"></i>  <?php echo burengo_Account; ?>  
           </a>
           <div class="dropdown-divider"></div>
           <a href="mail/recive.php" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> Mensajes
+            <i class="fas fa-envelope mr-2"></i> <?php echo burengo_msg; ?>
           </a>
           <div class="dropdown-divider"></div>
-          <a href="salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> Cerrar Session </a>
+          <a href="salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> <?php echo burengo_logout; ?> </a>
         </div>
       </li>
      
@@ -118,36 +113,36 @@ $rest5 = $stmt5 -> fetch();
           <div class="row">
 		  
             <div class="col-12 col-md-12 col-lg-7 order-2 order-md-1 pt-2">
-           <h5 class=""> Datos Personales </h5>
+           <h5 class=""> <?php echo burengo_personalData; ?> </h5>
               <div class="form-group pt-3">
-                <label> Nombre Completo</label>
+                <label> <?php echo burengo_fname; ?> </label>
                 <input id="fullname" type="text" class="form-control" value="<?php echo $rest5["name"]; ?>" />
 				<input id="currentCode" class="form-control" type="hidden" value="<?php  echo $_SESSION['bgo_userId']; ?>"/>
                </div>              
 			   
 			   <div class="form-group">
-                <label> Usuario</label>
+                <label> <?php echo burengo_uname; ?> </label>
                 <input id="username" type="text" class="form-control" value="<?php echo $rest5["user"]; ?>" />
                </div>  
 			   
 			   <div class="form-group">
-                <label> Email </label>
+                <label> <?php echo burengo_email2; ?> </label>
                 <input id="email" type="text" class="form-control" value="<?php echo $rest5["email"]; ?>" />
                </div>
 			   
 			   <div class="form-group">
-                <label> Cedula</label>
+                <label> <?php echo burengo_id;?> </label>
                 <input id="identification" type="text" class="form-control" value="<?php echo $rest5["ced"]; ?>" />
                </div>
 			  
 			  	<div class="form-group">
-                <label> Telefono Principal</label>
+                <label> <?php echo burengo_phone; ?> </label>
                 <input id="telefono" type="text" class="form-control" value="<?php echo $rest5["phone"]; ?>" />
                </div>
 
-				<div class="form-group"> <label> Provincia  </label>
+				<div class="form-group"> <label> <?php echo burengo_place; ?> </label>
 					<select id="place" class="form-control">
-                         <option value="0"> Provincia </option>
+                         <option value="0"> <?php echo burengo_place; ?> </option>
 						 <?php 
 							$stmt2 = Conexion::conectar()->prepare("SELECT * FROM bgo_places WHERE pcstatus = 1");
 							$stmt2 -> execute();
@@ -163,14 +158,14 @@ $rest5 = $stmt5 -> fetch();
 						</div>
 			   
 			  	<div class="form-group">
-                <label> Dirreccion</label>
+                <label> <?php echo burengo_addr;?> </label>
                 <input id="address" type="text" class="form-control" id="fullname" value="<?php echo $rest5["addr"]; ?>" />
                </div>	
 			   
 
 	
 			  	<div class="form-group">
-                <label> Whatsapp </label>
+                <label> <?php echo burengo_whatsapp; ?> </label>
                 <input id="whatsapp" type="text" class="form-control" value="<?php echo $rest5["bgo_whatsapp"]; ?>" />
                </div>				  	
 			   
@@ -188,7 +183,7 @@ $rest5 = $stmt5 -> fetch();
                     <div class="input-group Hideme">
                       <div class="custom-file">
                         <input type="file" class="custom-file-input" id="file">
-                        <label class="custom-file-label" for="file">Choose file</label>
+                        <label class="custom-file-label" for="file"> <?php echo burengo_chooseFile; ?> </label>
                       </div>
                     </div>
                   </div>
@@ -198,63 +193,51 @@ $rest5 = $stmt5 -> fetch();
 				 <div id="imgPlaceHolder">
 					<img class="profile-user-img img-fluid img-circle" src="../media/users/<?php echo $_SESSION['bgo_userImg']; ?>" alt="User profile picture">
 				 </div>
-				 <p><a id="changePic" href="#"> Cambiar Imagen de Perfil </a></p>
+				 <p><a id="changePic" href="#"> <?php echo burengo_changePic; ?> </a></p>
+				 <p><a id="changePic" href="#"> <?php echo burengo_delAcc; ?> </a></p>
 				 </div>
            </div>
 		</div>
      </div>
         <!-- /.card-body -->
 	<div class="card-footer">
-               <a href="profile.php" type="button" class="btn btn-danger"> <i class="fas fa-times"></i> Cancelar </a>			  	
+               <a href="profile.php" type="button" class="btn btn-danger"> <i class="fas fa-times"></i> <?php echo burengo_cancel; ?> </a>			  	
 			   <div class="float-right">  	
-				 <button  type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-pass"> <i class="fas fa-lock"></i> Cambiar Clave </button>
-				<button  id="updateAccount" type="button" class="btn btn-warning" > <i class="fas fa-retweet"></i>  Actualizar  </button>
+				 <button  type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-pass"> <i class="fas fa-lock"></i> <?php echo burengo_changePass; ?> </button>
+				<button  id="updateAccount" type="button" class="btn btn-warning" > <i class="fas fa-retweet"></i>  <?php echo burengo_update; ?>  </button>
            </div>
         </div>	
       </div> 
  </div>
 <!-- /.col -->
 </div>
-       
+</div><!-- /.container-fluid -->
+</section>
+</div>
 
-
-	   <!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </section>
-  </div>
-  <!-- /.content-wrapper -->
-
- 
-
-   <div class="modal fade" id="modal-pass">
+<div class="modal fade" id="modal-pass">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Cambiar Contraseña </h4>
+              <h4 class="modal-title"> <?php echo burengo_changePass; ?> </h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-				<div class="form-group"><input type="password" class="form-control" id="password0" placeholder="Clave Actual"></div>
-				<div class="form-group"><input type="password" class="form-control" id="password1" placeholder="Nueva Clave"></div>
-				<div class="form-group"><input type="password" class="form-control" id="password2" placeholder="Confirmar Clave"></div> 
+				<div class="form-group"><input type="password" class="form-control" id="password0" placeholder="<?php echo burengo_accPass; ?>"></div>
+				<div class="form-group"><input type="password" class="form-control" id="password1" placeholder="<?php echo burengo_newPass; ?>"></div>
+				<div class="form-group"><input type="password" class="form-control" id="password2" placeholder="<?php echo burengo_conPass; ?>"></div> 
             </div>
 			 <div class="modal-footer justify-content-between">
-              <button id="closeMeBtn" type="button" class="btn btn-danger" data-dismiss="modal"> Cerrar </button>
-              <button id="changePass" type="button" class="btn btn-success"> Aceptar </button>
+              <button id="closeMeBtn" type="button" class="btn btn-danger" data-dismiss="modal"> <?php echo burengo_close; ?> </button>
+              <button id="changePass" type="button" class="btn btn-success"> <?php echo burengo_accept; ?> </button>
             </div>
           </div>
         </div>
       </div>
    <!-- /.modal -->
-
-
-
-
-
-
-<footer class="main-footer"> Burengo &copy; 2020 - Todos los derechos reservados. </footer>
+<footer class="main-footer"> Burengo &copy; 2020 - <?php echo burengo_copyright; ?> </footer>
 </div>
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -264,8 +247,6 @@ $rest5 = $stmt5 -> fetch();
 $('#changePic').click(function(){
 	$('#file').click();
 });
-
-
 
 $(document).on('change', '#file', function(){
 	var name = document.getElementById("file").files[0].name;
@@ -312,8 +293,6 @@ $(document).on('change', '#file', function(){
 	}
  });
  
- 
- 
 $('#updateAccount').click(function(){
 /* Preguntar por todos los campos si estan llenos  */
 if( !isEmpty($('#fullname').val())){ 
@@ -333,7 +312,6 @@ if( !isEmpty($('#address').val())){
 }else{ $('#fullname').focus(); toastr.error('Debe completar todos los campos');}
 });
  
-
 function isEmpty(str) {
     return (!str || 0 === str.length);
 }
@@ -361,10 +339,7 @@ function updateData(){
 	},function(data){
 		switch(data['ok']){
 			case 0: toastr.error('ERROR! No se pudo almacenar los datos: '+ data['err']); break;
-			case 1: 
-				location.href=""; 
-			
-			break;
+			case 1: location.href=""; break;
 		}
 	});	
 }
@@ -411,11 +386,11 @@ if( !isEmpty($("#password0").val())){
 function convert($id){
 	switch($id){
 		case 0: return ""; break;
-		case 1: return " x dia "; break;
-		case 2: return " x Noche "; break;
-		case 3: return " x Hora"; break;
-		case 4: return " - Semanal"; break;
-		case 5: return " - Mensual"; break;
+		case 1: return " x ".burengo_day; break;
+		case 2: return " x ".burengo_night; break;
+		case 3: return " x ".burengo_hour; break;
+		case 4: return " - ".burengo_week; break;
+		case 5: return " - ".burengo_month; break;
 		default: return ""; break;
 	}
 }

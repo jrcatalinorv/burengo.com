@@ -3,15 +3,14 @@ session_start();
 date_default_timezone_set("America/Santo_Domingo");
 $code = $_REQUEST["ccdt"];
 require_once "../../../../modelos/conexion.php";
+require_once "../../../../modelos/data.php";
 
 $stmt = Conexion::conectar()->prepare("SELECT p.*, t.*, cr.*, l.* FROM bgo_posts p
 INNER JOIN bgo_innercategoires t ON p.bgo_tipolocal = t.inncat 
 INNER JOIN bgo_places l ON p.bgo_lugar = l.pcid 
 INNER JOIN bgo_currency cr ON p.bgo_currency = cr.cur_id  AND p.bgo_code = '".$code."'");
 
-
 $stmt -> execute();
-
 if($results = $stmt -> fetch()){
 	$user = $results['bgo_usercode'];
 	$desc = $results['bgo_title'];
@@ -29,7 +28,7 @@ if($results = $stmt -> fetch()){
 		$totalPhotos = intval($results['bgo_comp_img']);
 	$subcat = intval($results['bgo_cat']);
 	$tcp = $results['bgo_uom'];
-	$currency = $results['cur_code']; 
+	$currency =  $results['cur_str']." (".$results['cur_code'].")"; /* Tipo de moneda */  
 	$img = array($thumpnail,'0000.jpg','0000.jpg','0000.jpg','0000.jpg');
 	$addr = $results['bgo_addr']; 
 	$place = $results['pcstr']; 
@@ -39,10 +38,6 @@ if($results = $stmt -> fetch()){
 	$rooms = $results['bgo_rooms'];
 	$baths = $results['bgo_bath'];
 	$garage = $results['bgo_parqueos'];
-	
-	
-
- 
   }
 ?>
 <!DOCTYPE html>
@@ -143,9 +138,9 @@ if($results = $stmt -> fetch()){
 			<div class="bgo-dot bgo-three">3</div>
 			<div class="bgo-progress-bar bgo-first"></div>
 			<div class="bgo-progress-bar bgo-second"></div>
-			<div class="bgo-message bgo-message-1">Datos Generales <div>
-			<div class="bgo-message bgo-message-2">Subir Imagenes  <div>
-			<div class="bgo-message bgo-message-3">Confirmar Datos <div>
+			<div class="bgo-message bgo-message-1"> <?php echo burengo_gral; ?> <div>
+			<div class="bgo-message bgo-message-2"> <?php echo burengo_upImg; ?>  <div>
+			<div class="bgo-message bgo-message-3"> <?php echo burengo_confirmData; ?>  <div>
 			</div></div></div></div></div></div>
 			</div>
 			</div>
@@ -193,49 +188,44 @@ if($results = $stmt -> fetch()){
 					<table class="table table-sm">
                          <tbody>
 							<tr>
-                                <td><label> Propiedad:</label></td>
+                                <td><label> <?php echo burengo_property; ?>:</label></td>
                                 <td> <?php echo $tipo; ?></td> 
-								<td><label> Modalidad: </label></td>
+								<td><label>  <?php echo burengo_modalidad; ?>: </label></td>
                                 <td><?php echo $mod; ?></td> 											
                             </tr>
 							<tr>
-                               <td><label>Lugar:</label></td>
+                               <td><label><?php echo burengo_place; ?>:</label></td>
                                <td><?php echo $place; ?></td>   
-                               <td><label>Direccion:</label></td>
+                               <td><label><?php echo burengo_addr; ?>:</label></td>
                                <td><?php echo $addr; ?></td>                                
                             </tr>							
 							<tr>
-                                <td><label> Construccion:</label></td>
+                                <td><label> <?php echo burengo_construccion; ?>:</label></td>
                                 <td> <?php echo $construccion; ?></td> 
-								<td><label> Terreno:</label></td>
+								<td><label> <?php echo burengo_terreno; ?>:</label></td>
                                 <td><?php echo $terreno; ?></td> 											
                             </tr>							
 							<tr>
-                                <td><label> Niveles / Pisos:</label></td>
+                                <td><label> <?php echo burengo_levels; ?>:</label></td>
                                 <td> <?php if(intval($niveles)>0){ echo $niveles; }else{ echo "No especificado"; } ?></td> 
-								<td><label> Habitaciones:</label></td>
+								<td><label> <?php echo burengo_rooms; ?>:</label></td>
                                 <td><?php if(intval($rooms)>0){ echo $rooms; }else{ echo "No especificado"; } ?></td> 											
                             </tr>							
 							<tr>
-                                <td><label> Baños :</label></td>
+                                <td><label> <?php echo burengo_baths; ?>:</label></td>
                                 <td> <?php if(intval($baths)>0){ echo $baths; }else{ echo "No especificado"; } ?></td> 
-								<td><label> Parqueos:</label></td>
+								<td><label> <?php echo burengo_parks; ?>:</label></td>
                                 <td><?php if(intval($baths)>0){ echo $garage; }else{ echo "No especificado"; } ?></td> 											
                             </tr>							
 						    <tr>
-                               <td><label>Moneda:</label></td>
+                               <td><label><?php echo burengo_currency; ?>:</label></td>
                               <td><?php echo $currency; ?></td>   
-							  <td><label>Precio:</label></td>
+							  <td><label><?php echo burengo_price; ?>:</label></td>
                               <td><?php echo number_format($precio,2).' '.convert($tcp);  ?></td>   
-                                                          
                             </tr>
 						 </tbody>
 					</table>
-			 
 			</div>
-             
-            
-             
 			<div class="mt-4 product-share"></div>
 
             </div>
@@ -244,10 +234,10 @@ if($results = $stmt -> fetch()){
         
 			
 			<div class="card-footer clearfix">
-                <button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> Cancelar </button>
+                <button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> <?php echo burengo_cancel; ?> </button>
               	<div class="float-right" >
-					<button id="btnEdit" type="button" class="btn btn-warning">  <i class="fas fa-edit"></i> Editar Datos  </button>
-					<button id="btnSave" type="button" class="btn btn-success">  Finalizar <i class="fas fa-check-circle"></i> </button>
+					<button id="btnEdit" type="button" class="btn btn-warning">  <i class="fas fa-edit"></i> <?php echo burengo_edit; ?>  </button>
+					<button id="btnSave" type="button" class="btn btn-success">   <?php echo burengo_finish; ?> <i class="fas fa-check-circle"></i> </button>
                 </div>
 			  </div>
 			
@@ -266,7 +256,7 @@ if($results = $stmt -> fetch()){
  
 
   <!-- Main Footer -->
-  <footer class="main-footer">  Burengo &copy; 2020 - Todos los derechos reservados. </footer>
+  <footer class="main-footer">  Burengo &copy; 2020 - <?php echo burengo_copyright; ?> </footer>
 </div>
 <!-- ./wrapper -->
 
@@ -274,7 +264,7 @@ if($results = $stmt -> fetch()){
 <script src="../../../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../../../../../plugins/toastr/toastr.min.js"></script>
 <script src="../../../../../dist/js/adminlte.min.js"></script>
-<script src="../../../../../dist/js/demo.js"></script>>
+<script src="../../../../../dist/js/demo.js"></script>
 <script type="text/javascript">
 
 $('#btnEdit').click(function(){

@@ -8,7 +8,6 @@ $code = rand(1000000,9999999) ;
 $fsDt = date("Y-m-d", strtotime("first day of this month")); 
 $lsDt = date("Y-m-d", strtotime("last day of this month")); 
 
-
 $stmt = Conexion::conectar()->prepare(" SELECT COUNT(bgo_code) as totalpv FROM bgo_posts WHERE bgo_usercode = '".$_SESSION['bgo_userId']."'");
 $stmt -> execute();
 $results = $stmt-> fetch();
@@ -24,12 +23,9 @@ $total_desc = intval($results2['totalD']);
 $stmt3 = Conexion::conectar()->prepare(" SELECT * FROM bgo_user_plan WHERE up_uid = '".$_SESSION['bgo_userId']."'");
 $stmt3 -> execute();
 $results3 = $stmt3-> fetch();
+$actualMaxp = intval($results3['up_maxp']);
 $total_desc_permitidas = intval($results3['up_destacadas']);
-
-
 $desc_allow = $total_desc_permitidas - $total_desc;
-
-
 ?>
 
 <!DOCTYPE html>
@@ -48,45 +44,39 @@ $desc_allow = $total_desc_permitidas - $total_desc;
 <div class="wrapper">
  <nav class="main-header navbar navbar-expand-md navbar-dark bg-navy"> 
     <div class="container">
-      <a href="inicio.php" class="navbar-brand">
-         <img src="../../dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8">  
-      </a>
-      <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-        <ul class="navbar-nav"> </ul>
-      </div>
+      <a href="inicio.php" class="navbar-brand"><img src="../../dist/img/burengo.png" alt="Burengo Logo" class="brand-image   elevation-0" style="opacity: .8"></a>
+      <div class="collapse navbar-collapse order-3" id="navbarCollapse"><ul class="navbar-nav"> </ul></div>
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-		<li class="nav-item"><a class="nav-link" href="profile.php">
-			 <img alt="Avatar"  class="user-image" src="../media/users/<?php echo $_SESSION['bgo_userImg']; ?>">
-			 <?php echo $_SESSION['bgo_user']; ?></a>
-		</li>
+	  <li class="nav-item"><a class="nav-link" href="profile.php"><img alt="Avatar"  class="user-image" src="../media/users/<?php echo $_SESSION['bgo_userImg']; ?>"><?php echo $_SESSION['bgo_user']; ?></a></li>
 		
-	<li class="nav-item dropdown show">
-        <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true">
-          <i class="fas fa-bars fa-lg"></i>
-           
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+	 <li class="nav-item dropdown show">
+        <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true"><i class="fas fa-bars fa-lg"></i></a>
+        
+		<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <div class="dropdown-divider"></div>
           <a href="inicio.php" class="dropdown-item">
-            <i class="fas fa-th mr-2"></i> Portada  
+            <i class="fas fa-th mr-2"></i> <?php echo burengo_portada; ?> 
           </a>
           <div class="dropdown-divider"></div>		  
 		  <a href="publicaciones.php" class="dropdown-item">
-            <i class="far fa-list-alt mr-2"></i> Mis publicaciones 
+            <i class="far fa-list-alt mr-2"></i> <?php echo burengo_Mypost; ?>  
           </a>		  
           <div class="dropdown-divider"></div>
           <a href="profile.php" class="dropdown-item">
-            <i class="far fa-id-badge mr-2"></i> Cuenta   
+            <i class="far fa-id-badge mr-2"></i> <?php echo burengo_Account; ?>   
           </a>
           <div class="dropdown-divider"></div>
           <a href="mail/inbox.php" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> Mensajes
+            <i class="fas fa-envelope mr-2"></i> <?php echo burengo_msg; ?>
           </a>
+		  <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-favorites">
+            <i class="fas fa-heart mr-2"></i> <?php echo burengo_seeFavs; ?>
+          </a>		  
           <div class="dropdown-divider"></div>
-          <a href="salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> Cerrar Session </a>
+          <a href="salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> <?php echo burengo_logout; ?>  </a>
         </div>
       </li>
-      
       </ul>
     </div>
   </nav>
@@ -94,40 +84,39 @@ $desc_allow = $total_desc_permitidas - $total_desc;
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container">
         <div class="row mb-2">
-          <input type="hidden" id="route01" value="1" />
-          <input type="hidden" id="route02" value="1" />
-          <input type="hidden" id="usrcode" value="<?php echo $_SESSION['bgo_userId']; ?>" />
+          <input id="route01" type="hidden" value="1" />
+          <input id="route02" type="hidden"  value="1" />
+          <input id="usrcode" type="hidden"  value="<?php echo $_SESSION['bgo_userId']; ?>" />
 		  <input id="planTotalP" type="hidden" value="<?php echo $total_postv; ?>" />  
-		  <input id="planMaxP" type="hidden" value="<?php echo $_SESSION['bgo_maxP']; ?>" />  
+		  <input id="planMaxP" type="hidden" value="<?php echo $actualMaxp; ?>" />  
 		  <input id="planMaxD" type="hidden" value="<?php echo $desc_allow; ?>" />   
 		  <input id="getStatus" type="hidden" value="<?php echo $_SESSION['bgo_perfil']; ?>" /> 
+		    <input id="currentCode" class="form-control" type="hidden" value="<?php  echo $_SESSION['bgo_userId']; ?>"/>			  
         </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
+      </div> 
     </div>
     <!-- /.content-header -->
 
     <!-- Main content -->
  <section class="content">
       <div class="container-fluid">
-       
 	   <div class="row">
 		<div class="col-md-12"><input id="fcd" type="hidden" value="<?php echo $code; ?>" />
 		<div class="card"> 
               <div class="card-body">
                 <div class="margin">
-                    <button id="btnPublicar" type="button" class="btn btn-success btn-flat"> <i class="fas fa-plus"></i> Nueva Publicacion </button>
+                    <button id="btnPublicar" type="button" class="btn btn-success btn-flat"> <i class="fas fa-plus"></i> <?php echo burengo_newPost; ?> </button>
                <div class="btn-group">
-                    <button type="button" class="btn btn-info btn-flat"> <i class="fas fa-filter"></i>  Filtrar Categoria  </button>
+                    <button type="button" class="btn btn-info btn-flat"> <i class="fas fa-filter"></i> <?php echo burengo_catFilter; ?>  </button>
                     <button type="button" class="btn btn-info btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown">
                       <span class="sr-only">Toggle Dropdown</span>
                       <div class="dropdown-menu" role="menu">
-                        <a id="all" class="dropdown-item"> Todos </a>
-                        <a id="vh" class="dropdown-item"> Vehiculos </a>
-                        <a id="in" class="dropdown-item"> Inmnuebles </a>
+                        <a id="all" class="dropdown-item"><?php echo burengo_all2; ?> </a>
+                        <a id="vh" class="dropdown-item"> <?php echo burengo_vehiculos; ?> </a>
+                        <a id="in" class="dropdown-item"> <?php echo burengo_inmuebles; ?> </a>
                     </button>
                   </div>
                 </div>
@@ -155,6 +144,7 @@ $desc_allow = $total_desc_permitidas - $total_desc;
 
 <div id="modalTriggerMaxOut" data-toggle="modal" data-target="#modal-planMaxOut"></div>
 <div id="modalTriggerMaxOutDesc" data-toggle="modal" data-target="#modal-planMaxOutDesc"></div>
+<div id="modalTriggerplanExp" data-toggle="modal" data-target="#modal-planExp"></div>
 <div id="modalTriggerPublicar" data-toggle="modal" data-target="#modal-default"></div>
 <div id="modalTriggerDelete" data-toggle="modal" data-target="#modal-delete"></div>
 
@@ -162,7 +152,7 @@ $desc_allow = $total_desc_permitidas - $total_desc;
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Nueva Publicacion </h4>
+              <h4 class="modal-title"> <?php echo burengo_newPost; ?> </h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -170,25 +160,26 @@ $desc_allow = $total_desc_permitidas - $total_desc;
             <div class="modal-body">
             <div class="col-md-12">
 			<div class="btn-group btn-group-lg col-md-12">
-				<button id="opv1" class="btn btn-sm btn-warning"><i class="fas fa-wallet"></i> Vender </button>
-				<button id="opv2" class="btn btn-sm btn-default"> <i class="far fa-calendar-alt"></i> Rentar </button>
+				<button id="opv1" class="btn btn-sm btn-warning"><i class="fas fa-wallet"></i> <?php echo burengo_sell; ?> </button>
+				<button id="opv2" class="btn btn-sm btn-default"> <i class="far fa-calendar-alt"></i> <?php echo burengo_rent; ?> </button>
 			</div>
 			<hr/>
 			<div class="btn-group btn-group-lg col-md-12">
-				<button id="op1" class="btn btn-sm btn-warning"><i class="fa fa-car"></i> Vehiculos </button>
-				<button id="op2" class="btn btn-sm btn-default"> <i class="fa fa-th"></i> Inmuebles </button>
+				<button id="op1" class="btn btn-sm btn-warning"><i class="fa fa-car"></i> <?php echo burengo_vehiculos; ?> </button>
+				<button id="op2" class="btn btn-sm btn-default"> <i class="fa fa-th"></i> <?php echo burengo_inmuebles; ?> </button>
 			</div>
 		</div>
 			
             </div>
 			 <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-danger" data-dismiss="modal"> Cerrar </button>
-              <button id="uploadFiles" type="button" class="btn btn-success"> Aceptar </button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal"> <?php echo burengo_close; ?> </button>
+              <button id="uploadFiles" type="button" class="btn btn-success"> <?php echo burengo_accept; ?> </button>
             </div>
 			
           </div>
         </div>
       </div>
+	  
 <div class="modal fade" id="modal-planMaxOut">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -200,14 +191,31 @@ $desc_allow = $total_desc_permitidas - $total_desc;
             </div>
             <div class="modal-body">
 				<h5 class="text-center"> <i class="fas fa-exclamation-triangle text-danger fa-3x"></i> </h5> <br/>
-				<h5 class="text-center"> Usted ha excedido el máximo de publicaciones permitido de su plan  <span class="text-info"> <?php echo $_SESSION['bgo_planName']; ?></span>. Para adquirir publicaciones extra o un nuevo plan puede acceder a <a href="planes.php" class="text-success"> Ver Planes </a>.</h5>
+				<h5 class="text-center"> <?php echo burengo_MaxOut1; ?> <span class="text-info"> <?php echo $_SESSION['bgo_planName']; ?></span>. <?php echo burengo_MaxOut2; ?> <a href="planes.php" class="text-success"> <?php echo burengo_MaxOut3; ?> </a>.</h5>
 				<h1> &nbsp; </h1>
             </div>
-		  
-			
           </div>
         </div>
 </div>
+
+<div class="modal fade" id="modal-planExp">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">  </h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+				<h5 class="text-center"> <i class="fas fa-exclamation-triangle text-danger fa-3x"></i> </h5> <br/>
+				<h5 class="text-center"> <span class="text-danger"><?php echo burengo_MaxOut5; ?></span> <br/> <?php echo burengo_MaxOut6; ?> <a href="planes.php" class="text-success"> <?php echo burengo_MaxOut3; ?> </a>.</h5>
+				<h1> &nbsp; </h1>
+            </div>
+          </div>
+        </div>
+</div>
+
 
 <div class="modal fade" id="modal-planMaxOutDesc">
         <div class="modal-dialog">
@@ -220,7 +228,7 @@ $desc_allow = $total_desc_permitidas - $total_desc;
             </div>
             <div class="modal-body">
 				<h5 class="text-center"> <i class="fas fa-exclamation-triangle text-danger fa-3x"></i> </h5> <br/>
-				<h5 class="text-center"> Usted ha excedido el máximo de publicaciones Destacadas adquiridas. Para adquirir publicaciones extra. <a href="destacar.php" class="text-success"> Ver Planes </a>.</h5>
+				<h5 class="text-center"> <?php echo burengo_MaxOut4; ?> <a href="destacar.php" class="text-success"> <?php echo burengo_MaxOut3; ?> </a>.</h5>
 				<h1> &nbsp; </h1>
             </div>
 		  
@@ -228,35 +236,51 @@ $desc_allow = $total_desc_permitidas - $total_desc;
           </div>
         </div>
 </div>
-
-
-
 <div class="modal fade" id="modal-delete">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title"> Confirmación </h4>
+              <h4 class="modal-title"> <?php echo burengo_confirm; ?> </h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
 				<input id="modalPostID" class="form-control" type="hidden" />
-				<h3 class="text-info text-center"> ¿Está seguro que desea borrar esta publicación? </h3>
+				<h3 class="text-info text-center"> <?php echo burengo_deleteQ; ?> </h3>
 			
             </div>
 			 <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-danger" data-dismiss="modal"> No, Cancelar </button>
-              <button id="proccedDelete" type="button" class="btn btn-success"> Sí , Bórrarla! </button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal"> <?php echo burengo_noDelete; ?> </button>
+              <button id="proccedDelete" type="button" class="btn btn-success"> <?php echo burengo_yesDelete; ?> </button>
             </div>
 			
           </div>
         </div>
       </div>
- 
- 
- 
- <footer class="main-footer"> Burengo &copy; 2020 - Todos los derechos reservados. </footer>
+	  
+<div class="modal fade" id="modal-favorites">
+ <div class="modal-dialog">
+   <div class="modal-content">
+      <div class="modal-header">
+       <h4 class="modal-title">   </h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+<div class="modal-body p-0 whlist" style="height:400px;   overflow-y: auto; overflow-x: hidden;"> 
+<!----------------------------------->
+		
+<!----------------------------------->
+</div>
+   </div>
+    </div>
+      </div>
+   <!-- /.modal -->
+
+
+  
+<footer class="main-footer"> Burengo &copy; 2020 - <?php echo burengo_copyright; ?> </footer>
 </div>
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -324,16 +348,29 @@ $.getJSON('../ajax/burengo_update_destacada.php',{
 			case 1: location.href=""; break;
 		}
 	});	
-
-
   }	else{
 	$('#modalTriggerMaxOutDesc').click();	
   }
-	
- 
- 
 });
 
+
+$('.plist').on("click","button.destc", function(){
+  var id = $(this).attr("itemId");
+  var count = $('#planMaxD').val();
+  var st = $('#getStatus').val();
+  var op = 2;    
+
+$.getJSON('../ajax/burengo_update_destacada.php',{
+	pid: id,
+	status: st,
+	option: op
+	},function(data){
+		switch(data['ok']){
+			case 0: toastr.error('ERROR! No se guardaron los cambios los datos: '+ data['err']); break;
+			case 1: location.href=""; break;
+		}
+	});	
+});
 
 
 
@@ -403,25 +440,68 @@ $('#uploadFiles').click(function(){
 $('#btnPublicar').click(function(){
 	var total = parseInt($('#planTotalP').val());
 	var max   = parseInt($('#planMaxP').val());  
-	if(total < max ){
+	
+	if(max == 0){
+	    $('#modalTriggerplanExp').click();		
+	}else if(total < max ){
 		$('#modalTriggerPublicar').click();
 	}else{
 		$('#modalTriggerMaxOut').click();
 	}		
 });
+
+
+$('.whlist').load("../ajax/burengo_select_favorites.php?id="+$('#currentCode').val());
+
+
+
+$('.whlist').on("click","span.itemSelection",function(){
+	var id = $(this).attr('itemId');
+	var cat = $(this).attr('stid');
+	switch(cat){
+		case '1': location.href="vehiculos.php?dtcd="+id; break;
+		case '2': location.href="inmuebles.php?dtcd="+id; break;
+	}
+});
+
+
+$('.whlist').on("click","img.itemSelection",function(){
+	var id = $(this).attr('itemId');
+	var cat = $(this).attr('stid');
+	switch(cat){
+		case '1': location.href="vehiculos.php?dtcd="+id; break;
+		case '2': location.href="inmuebles.php?dtcd="+id; break;
+	}
+});
+
+$('.whlist').on("click","a.itemSelection",function(){
+	var id = $(this).attr('itemId');
+	var cat = $(this).attr('stid');
+	switch(cat){
+		case '1': location.href="vehiculos.php?dtcd="+id; break;
+		case '2': location.href="inmuebles.php?dtcd="+id; break;
+	}
+});
+
+
+$('.whlist').on("click","a.itemDelete",function(){
+   var pid = $(this).attr('itemId');
+   var uid = $(this).attr('userId');
+   
+   $.getJSON('../ajax/burengo_delete_fav.php',{
+		pid: pid,
+		uid: uid
+	},function(data){
+		switch(data['ok']){
+			case 0: toastr.error('ERROR! No se guardaron los cambios los datos: '+ data['err']); break;
+			case 1: $('.whlist').load("../ajax/burengo_select_favorites.php?id="+uid);  break;
+		}
+	});	
+ 
+});
+
+
+
 </script>
 </body>
 </html>
-<?php 
-function convert($id){
-	switch($id){
-		case 0: return ""; break;
-		case 1: return " x dia "; break;
-		case 2: return " x Noche "; break;
-		case 3: return " x Hora"; break;
-		case 4: return " - Semanal"; break;
-		case 5: return " - Mensual"; break;
-		default: return ""; break;
-	}
-}
-?>

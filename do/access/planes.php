@@ -9,6 +9,15 @@ $stmt6 -> execute();
 $rest6 = $stmt6 -> fetch(); 
 $myPlan = $rest6["up_planid"];
 
+$stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_cpinfo WHERE cpcode = 'bgo'");
+$stmt -> execute();
+$results = $stmt -> fetch();
+$paypalCode = $results["paypal_code"]; 
+ 
+$stmt5 = Conexion::conectar()->prepare("SELECT * FROM bgo_users WHERE uid = '".$_SESSION['bgo_userId']."'"); 
+$stmt5 -> execute();
+$rest5 = $stmt5 -> fetch(); 
+$myProfile = $rest5["profile"]; 
  
 ?>
 <!DOCTYPE html>
@@ -38,7 +47,6 @@ $myPlan = $rest6["up_planid"];
 	  	<li class="nav-item dropdown show">
         <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true">
           <i class="fas fa-bars fa-lg"></i>
-           
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <div class="dropdown-divider"></div>
@@ -72,11 +80,10 @@ $myPlan = $rest6["up_planid"];
  <input id="getPlan" type="hidden" value="0">
 	  <div class="row pt-2">
 	        <div class="col-md-12">
-            <div class="card card-primary">
+            <div class="card card-primary"> 
         <div class="card-body pb-0 ">
 				<div class="row panList">
 <?php 
- 
 $stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_planes WHERE planstatus = 1 AND plantypo = 1");
 $stmt -> execute();
 
@@ -119,6 +126,7 @@ if($myPlan == $results["planid"]){
           </div>
  ';	
 }else{
+	
  echo '
  <div class="col-md-3">
             <div class="card card-primary card-outline">
@@ -146,34 +154,25 @@ if($myPlan == $results["planid"]){
 				  <li class="list-group-item">
                     <b>Fotos </b> <a class="float-right"> '.$results["planmaxf"].' </a>
                   </li>
-                </ul>
+                </ul>';
 
-                <a href="#" class="btn btn-primary btn-block planselection" idPlan="'.$results["planid"].'" pricePlan="'.$results["planprice"].'"  ><b> Seleccionar </b></a>
-              </div>
+if($myProfile==7 && $results["planid"] == 1 ){  
+	echo '<a href="#" class="btn btn-secondary btn-block"><b> '.burengo_selectBtnN.' </b></a>';
+
+}else{
+	echo '<a href="#" class="btn btn-primary btn-block planselection" idPlan="'.$results["planid"].'" pricePlan="'.$results["planprice"].'"  ><b> '.burengo_selectBtn.' </b></a>';
+}          
+		 echo '</div>
             </div>      
-          </div>
- ';		
-	
-}
-
-
+          </div>';			
+ }
 }  
-  
 ?>      
-
-		
-		
-				</div>
-		</div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
-  
- 
-	 </div>	  
-	  
-	  
+</div>
+</div>
+</div>
+</div>
+</div>	  
     </div>
   </div>
   
@@ -182,16 +181,16 @@ if($myPlan == $results["planid"]){
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title"> Método de Pago </h4>
+              <h4 class="modal-title"> <?php echo burengo_paymentMode; ?> </h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
 				<input type="hidden" id="mdlPlanValue"  />
-				<div class="row tf"> <button id="transfer" type="button" class="btn btn-block bg-gradient-info btn-lg"> Trasnferencia Bancaria / Deposito  </button></div>
 				<br/>
 				<div id="paypal-button-container" class="row pp"></div>
+				<br/>
             </div>
           
           </div>
@@ -202,8 +201,7 @@ if($myPlan == $results["planid"]){
   
   
 <footer class="main-footer"> Burengo &copy; 2020 - <?php echo burengo_copyright; ?> </footer>
-
-<script src="https://www.paypal.com/sdk/js?client-id=Ac87nE2RADPU10SpCPPzs7lsaHCwimpGPCETweXQ7tQ5owHaOasfaa21i8OwP7yQOh1PvZhp36axHUGE"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=<?php echo $paypalCode; ?>"></script>
  
  
  <script>
@@ -238,8 +236,7 @@ if($myPlan == $results["planid"]){
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../../dist/js/adminlte.min.js"></script>
 <script src="../../plugins/toastr/toastr.min.js"></script>
-<script type="text/javascript">
-
+<script type="text/javascript"> 
 $('.panList').on("click", "a.planselection", function(){
 	var idPlan = $(this).attr('idPlan');
 	var code = $('#getCode').val();
@@ -252,12 +249,6 @@ $('.panList').on("click", "a.planselection", function(){
 		$('#mdlPlanValue').val(price);
 		$('#triggerPM').click();
 	}
-});
-
-$('#transfer').click(function(){
-	var code = $('#getCode').val();
-	var plan = $('#getPlan').val();
-	location.href="confirmation.php?p="+plan+"&acc="+code;
 });
 </script>
 </body>

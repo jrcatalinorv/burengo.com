@@ -16,6 +16,8 @@ require_once "modelos/data.php";
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <link rel="stylesheet" href="../plugins/toastr/toastr.min.css"> 
   <link rel="stylesheet" href="../plugins/flag-icon-css-master/css/flag-icon.css" > 
+  
+  
 <style>
 @media only screen and (min-width: 992px) {	
 .burengo-img-grid{
@@ -91,14 +93,22 @@ require_once "modelos/data.php";
                 <span class="info-box-number"><br/> <h4><?php echo burengo_rent; ?></h4> </span><br/>
               </div>
             </div>
+			<!-- Espacio para anuncios de adsence -->
+			<div class=".gAdsenceVertical">
+					
+			</div>
+			<!-- Espacio para anuncios de adsence -->
+			
           </div>
 
 <div style="margin-top:-1.2em;" class="col-lg-9 p-0">
+	
 <div class="">
  <div class="card-body">
    <div class="row plist"></div>
  </div>
-</div>  
+</div> 
+		<div class=".gAdsenceHorrizontal"></div> 
 </div> 
      </div>
     </div><!-- /.container-fluid -->
@@ -176,6 +186,7 @@ require_once "modelos/data.php";
 <script src="../plugins/toastr/toastr.min.js"></script>
 <script src="../dist/js/adminlte.min.js"></script>
 <script src="../dist/js/demo.js"></script>
+
 <script type="text/javascript">
 $(document).ready(function(){
 $('.plist').load('ajax/burengo_select.php?typo='+$('#route01').val()+'&pageno='+$('#pageCant').val());

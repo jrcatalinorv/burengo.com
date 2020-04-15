@@ -10,14 +10,14 @@ $uid = $_REQUEST["acc"];
 if($plan==5){
 $stmt0 = Conexion::conectar()->prepare("UPDATE bgo_user_plan SET up_destacadas = up_destacadas+1 WHERE up_uid = '".$uid."'");
 $stmt0 -> execute();
-//print_r("TEPROSOQJGYQYG-OIEYURYUEI");
+ 
 
 echo '<script>	location.href="confirmation-destacados.php?p='.$plan.'&acc='.$uid.'"; </script>';
 
 }else{
 $stmt0 = Conexion::conectar()->prepare("UPDATE bgo_user_plan SET up_destacadas = 99999 WHERE up_uid = '".$uid."'");
 $stmt0 -> execute();
-//print_r("TEPROSOQJGYQYG-OIEYURYUEI");		
+ echo '<script>	location.href="confirmation-destacados.php?p='.$plan.'&acc='.$uid.'"; </script>';		
 }
  
 ?>

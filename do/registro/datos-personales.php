@@ -27,11 +27,8 @@ $code = rand(1000000,9999999) ;
       </ul>
     </div>
   </nav>
-  <!-- /.navbar -->
 
-  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container">
         <div class="row mb-2">
@@ -95,7 +92,7 @@ $code = rand(1000000,9999999) ;
 		
 		<div class="input-group mb-3">
           <input  id="identification" type="text" class="form-control" placeholder="<?php echo burengo_id;?>"  
-		  data-inputmask='"mask": "999-9999999-9"' data-mask > <!-- 094-0021875-7 -->
+		  data-inputmask='"mask": "<?php echo burengo_idMask; ?>"' data-mask > <!-- 094-0021875-7 -->
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="far fa-address-card"></span>  
@@ -104,7 +101,7 @@ $code = rand(1000000,9999999) ;
         </div>
 
 		<div class="input-group mb-3">
-          <input  id="telefono" type="text" class="form-control" placeholder="<?php echo burengo_phone; ?>" data-inputmask='"mask": "(999) 999-9999"' data-mask  >
+          <input  id="telefono" type="text" class="form-control" placeholder="<?php echo burengo_phone; ?>" data-inputmask='"mask": "<?php echo burengo_phoneMask; ?>"' data-mask  >
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-phone"></span>  
@@ -113,7 +110,7 @@ $code = rand(1000000,9999999) ;
         </div>	
 
 		<div class="input-group mb-3">
-          <input  id="wa" type="text" class="form-control" placeholder="<?php echo burengo_whatsapp; ?>" data-inputmask='"mask": "(999) 999-9999"' data-mask  >
+          <input  id="wa" type="text" class="form-control" placeholder="<?php echo burengo_whatsapp; ?>" data-inputmask='"mask": "<?php echo burengo_phoneMask; ?>"' data-mask  >
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fab fa-whatsapp"></span>  
@@ -226,10 +223,9 @@ $code = rand(1000000,9999999) ;
               </button>
             </div>
             <div class="modal-body">
-			<div class="row" style="height:300px;   overflow-y: auto; overflow-x: hidden;">
-              <p class="justify-content-between"> <?php echo burengo_contract2; ?> </p>
-		</div>
- 
+			 <div class="row" style="height:300px;   overflow-y: auto; overflow-x: hidden;">
+               <p class="justify-content-between"> <?php echo burengo_contract2; ?> </p>
+		     </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default float-right" data-dismiss="modal"> <?php echo burengo_close; ?></button>

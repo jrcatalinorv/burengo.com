@@ -55,31 +55,7 @@ $strcat = "Venta";
 			 <img alt="Avatar"  class="user-image" src="../../../../media/users/<?php echo $_SESSION['bgo_userImg']; ?>">
 			 <?php echo $_SESSION['bgo_user']; ?></a>
 		</li>
-		<li class="nav-item dropdown show">
-        <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true">
-          <i class="fas fa-bars fa-lg"></i> </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <div class="dropdown-divider"></div>
-		  
-		  <a href="../../../inicio.php" class="dropdown-item">
-            <i class="fas fa-th mr-2"></i><?php echo burengo_portada; ?> 
-          </a>
-          <div class="dropdown-divider"></div>		  
-          <a href="../../../publicaciones.php" class="dropdown-item">
-            <i class="far fa-list-alt mr-2"></i> <?php echo burengo_Mypost; ?> 
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="../../../profile.php" class="dropdown-item">
-            <i class="far fa-id-badge mr-2"></i>  <?php echo burengo_Account; ?>     
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="mensajes-recibidos.php" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> <?php echo burengo_msg; ?>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="../../../salir.php" class="dropdown-item"> <i class="fas fa-sign-out-alt text-danger mr-2"></i> <?php echo burengo_logout; ?> </a>
-        </div>
-      </li>		
+ 		
       </ul>
     </div>
   </nav>
@@ -137,7 +113,7 @@ $strcat = "Venta";
                  <div class="col-sm-6">
 					<div class="form-group">
 						<select id="brands" class="form-control"> 
-							<option value="0"> Marcas </option> 
+							<option value="0"> <?php echo burengo_carBrands; ?> </option> 
 						</select> 
 					</div>
 				 </div>
@@ -145,7 +121,7 @@ $strcat = "Venta";
                  <div class="col-sm-6">
 					<div class="form-group">
 						<select id="models" class="form-control"> 
-							<option value="0"> Modelo </option> 
+							<option value="0"> <?php echo burengo_carModels; ?> </option> 
 						</select>
 					</div>
 				</div>
@@ -155,7 +131,7 @@ $strcat = "Venta";
                    <div class="col-sm-6"> 
 						<div class="form-group">
 							<select id="activeYears" class="form-control"> 
-								<option value="0"> Seleccione el Año  </option> 
+								<option value="0"> <?php echo burengo_selectedYear; ?>  </option> 
 							</select> 
 						</div>
 					 </div>
@@ -173,13 +149,13 @@ $strcat = "Venta";
 				<div class="row">
                     <div class="col-sm-6">
 						<div class="form-group">
-							<input id="price" type="text" class="form-control" placeholder="Precio">
+							<input id="price" type="text" class="form-control" placeholder="<?php echo burengo_price; ?>">
 						</div>
 					</div>				
 					<div class="col-sm-6">
 						<div class="form-group">
 							<select id="currency" class="form-control"> 
-								<option value="0"> Tipo de Moneda </option>
+								<option value="0"> <?php echo burengo_currencyType; ?> </option>
 							</select>
 						</div>
 					</div>
@@ -189,7 +165,7 @@ $strcat = "Venta";
 					<div class="col-sm-6">
 						<div class="form-group">
 							<select id="fuel" class="form-control">
-								<option value="0"> Combustible </option>
+								<option value="0"> <?php echo burengo_fuel; ?> </option>
 							  </select>
 							</div>
 						</div>					
@@ -232,7 +208,7 @@ $strcat = "Venta";
 					<div class="col-sm-6">
                       <div class="form-group"> 
 						<select id="traccion" class="form-control">
-                          <option value="0"> Traccion </option>
+                          <option value="0"> <?php echo burengo_tranccion; ?> </option>
               
                         </select>                
 					</div>
@@ -243,7 +219,7 @@ $strcat = "Venta";
 					<div class="col-sm-6">
                       <div class="form-group">
                         <select id="color" class="form-control">
-						 <option value="0"> Color </option>
+						 <option value="0"> <?php echo burengo_color; ?> </option>
                         </select>                    
 					</div>
                     </div>					
@@ -252,7 +228,7 @@ $strcat = "Venta";
                       <div class="form-group">
 					   <div class="input-group mb-3">
 						<select id="interior" class="form-control">
-                          <option value="0"> Color Interior </option>
+                          <option value="0"> <?php echo burengo_intColor; ?> </option>
   
                         </select> 
                   
@@ -265,7 +241,7 @@ $strcat = "Venta";
     			<div class="col-sm-6">
                       <div class="form-group">
                         <select id="doors" class="form-control">
-                          <option value="0"> Cantidad de Puertas </option>
+                          <option value="0"> <?php echo burengo_doorQty; ?> </option>
                           <option value="0">0</option>
 						  <option value="2">2</option>
 						  <option value="3">3</option>
@@ -275,7 +251,7 @@ $strcat = "Venta";
 					</div>
 				</div>					 
 				<div class="col-sm-6"><div class="form-group">
-					<input id="passengers" type="number" min="1" class="form-control" placeholder="Cantidad de Pasajeros"> 
+					<input id="passengers" type="number" min="1" class="form-control" placeholder="<?php echo burengo_passengerQty; ?>"> 
 					</div>
 					</div>	
 			</div>  
@@ -283,7 +259,7 @@ $strcat = "Venta";
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="form-group">
-							<input id="addrs" type="text" class="form-control" placeholder="Direccion">
+							<input id="addrs" type="text" class="form-control" placeholder="<?php echo burengo_addr; ?>">
 					</div>
 				</div>
 			</div>
@@ -291,7 +267,7 @@ $strcat = "Venta";
 				 <div class="col-sm-12">
 					<div class="form-group">
                         <select id="place" class="form-control">
-                          <option value="0"> Provincia </option>
+                          <option value="0"> <?php echo burengo_place; ?> </option>
 					 
 						</select>                    
 					</div>
@@ -300,7 +276,7 @@ $strcat = "Venta";
 			<div class='row'>
 			<div class="col-sm-12">
 				 <div class="card-header">
-                <h3 class="card-title"> <i class="fas fa-list"></i> Accesorios & Observaciones  </h3>
+                <h3 class="card-title"> <i class="fas fa-list"></i> <?php echo burengo_Acc_Observation; ?>  </h3>
               </div>
             </div>
             </div>
@@ -309,32 +285,32 @@ $strcat = "Venta";
 					<div class="form-group">
                         <div class="custom-control custom-checkbox">
                           <input class="custom-control-input opAcc" type="checkbox" id="acc-1"  vldt="3ra Fila de asientos" pos="0">
-                          <label for="acc-1" class="custom-control-label"> 3ra Fila de asientos </label>
+                          <label for="acc-1" class="custom-control-label"> <?php echo burengo_3row; ?> </label>
                         </div>
 						
 						<div class="custom-control custom-checkbox pt-2">
                           <input class="custom-control-input opAcc" type="checkbox" id="acc-2" vldt="Asientos Leather" pos="1" >
-                          <label for="acc-2" class="custom-control-label"> Asientos Leather </label>
+                          <label for="acc-2" class="custom-control-label"> <?php echo burengo_leather; ?> </label>
                         </div>
 						
 						<div class="custom-control custom-checkbox pt-2">
                           <input class="custom-control-input opAcc" type="checkbox" id="acc-3" vldt="Baul eléctrico" pos="2" >
-                          <label for="acc-3" class="custom-control-label"> Baul eléctrico </label>
+                          <label for="acc-3" class="custom-control-label"> <?php echo burengo_trunk; ?> </label>
                         </div>						
 						
 						<div class="custom-control custom-checkbox pt-2">
                           <input class="custom-control-input opAcc" type="checkbox" id="acc-4" vldt="Bolsa de Aire conductor" pos="3" >
-                          <label for="acc-4" class="custom-control-label"> Bolsa de Aire conductor </label>
+                          <label for="acc-4" class="custom-control-label"> <?php echo burengo_airBag1; ?> </label>
                         </div>						
 						
 						<div class="custom-control custom-checkbox pt-2">
                           <input class="custom-control-input opAcc" type="checkbox" id="acc-5" vldt="Bolsa de Aire Pasajero" pos="4" >
-                          <label for="acc-5" class="custom-control-label"> Bolsa de Aire Pasajero </label>
+                          <label for="acc-5" class="custom-control-label"> <?php echo burengo_airBag2; ?> </label>
                         </div>						
 						
 						<div class="custom-control custom-checkbox pt-2">
                           <input class="custom-control-input opAcc" type="checkbox" id="acc-6" vldt="Cámara Reversa" pos="5" >
-                          <label for="acc-6" class="custom-control-label"> Cámara Reversa </label>
+                          <label for="acc-6" class="custom-control-label"> <?php echo burengo_reverseCam; ?> </label>
                         </div>						
  
                       </div>                    
@@ -343,41 +319,41 @@ $strcat = "Venta";
                 <div class="form-group">
 					<div class="custom-control custom-checkbox pt-2">
                           <input class="custom-control-input opAcc" type="checkbox" id="acc-7" vldt="Faros LED" pos="6" >
-                          <label for="acc-7" class="custom-control-label"> Faros LED </label>
+                          <label for="acc-7" class="custom-control-label"> <?php echo burengo_led; ?> </label>
                         </div>		
 						
 						<div class="custom-control custom-checkbox pt-2">
                           <input class="custom-control-input opAcc" type="checkbox" id="acc-8" vldt="Llave Inteligente/Encendido Botón" pos="7" >
-                          <label for="acc-8" class="custom-control-label"> Llave Inteligente/Encendido Botón  </label>
+                          <label for="acc-8" class="custom-control-label"> <?php echo burengo_smartKey; ?>  </label>
                         </div>						
 						<div class="custom-control custom-checkbox pt-2">
                           <input class="custom-control-input opAcc" type="checkbox" id="acc-9" vldt="Radio Multimedia" pos="8" >
-                          <label for="acc-9" class="custom-control-label"> Radio Multimedia   </label>
+                          <label for="acc-9" class="custom-control-label"> <?php echo burengo_carRadio; ?>  </label>
                         </div>						
 						<div class="custom-control custom-checkbox pt-2">
                           <input class="custom-control-input opAcc" type="checkbox" id="acc-10" vldt="Seguros eléctricos" pos="9" >
-                          <label for="acc-10" class="custom-control-label"> Seguros eléctricos   </label>
+                          <label for="acc-10" class="custom-control-label"> <?php echo burengo_carLock; ?>   </label>
                         </div>						
 						<div class="custom-control custom-checkbox pt-2">
                           <input class="custom-control-input opAcc" type="checkbox" id="acc-11" vldt="Sunroof" pos="10" >
-                          <label for="acc-11" class="custom-control-label"> Sunroof    </label>
+                          <label for="acc-11" class="custom-control-label"> <?php echo burengo_sunroof; ?>    </label>
                         </div>						
 						<div class="custom-control custom-checkbox pt-2">
                           <input class="custom-control-input opAcc" type="checkbox" id="acc-12" vldt="Vidrios eléctricos" pos="11" >
-                          <label for="acc-12" class="custom-control-label"> Vidrios eléctricos    </label>
+                          <label for="acc-12" class="custom-control-label"> <?php echo burengo_electric; ?>   </label>
                         </div>					 
 					 
 					 </div>
                   </div>
 				<div class="col-md-4 p-4">
                       <input id="accesories" type="hidden"  />
-					  <textarea id="notes" class="form-control" rows="7" placeholder="Descripcion, Observaciones u Otros detalles"></textarea>
+					  <textarea id="notes" class="form-control" rows="7" placeholder="<?php echo burengo_description_dteails; ?>"></textarea>
                   </div>
             </div>
 		</div> <!-- Card Body -->
           <div class="card-footer">
-              <button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> Cancelar </button>
-              <button id="next" type="button" class="btn btn-primary float-right"> Siguente <i class="fas fa-arrow-alt-circle-right"></i> </button>
+              <button id="cancel" type="button" class="btn btn-danger"> <i class="fas fa-times-circle"></i> <?php echo burengo_cancel; ?>  </button>
+              <button id="next" type="button" class="btn btn-primary float-right"> <?php echo burengo_next; ?> <i class="fas fa-arrow-alt-circle-right"></i> </button>
           </div>	 
    </div>
  </div>
@@ -386,10 +362,7 @@ $strcat = "Venta";
     </section>
   </div>
 <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="float-right d-none d-sm-inline"></div>
-    Burengo &copy; 2020 - <?php echo burengo_copyright; ?>  
-  </footer>
+  <footer class="main-footer"> Burengo &copy; 2020 - <?php echo burengo_copyright; ?>  </footer>
 </div>
 <!-- ./wrapper -->
 
@@ -413,12 +386,8 @@ $('#fuel').load('../../../../ajax/burengo_select_fuel.php');
 $('#traccion').load('../../../../ajax/burengo_select_traccion.php');
 $('#trasnmision').load('../../../../ajax/burengo_select_trasnmision.php');
 
-
-
 $('#brands').change(function(){$('#models').load('../../../../ajax/bgo_select_car_models.php?id='+$('#brands').val()); });
 $('#cancel').click(function(){ location.href="../../../inicio.php"; });
-
-
 
 $('.carAcc').on("change","input.opAcc",function(){
 	var value = $(this).attr('vldt');
@@ -430,13 +399,10 @@ $('.carAcc').on("change","input.opAcc",function(){
 			listaItems[p] = 0;
 			 $('#accesories').val(JSON.stringify(listaItems));
 		}
-	
 });
 
 /* BTN Next  */
 $('#next').click(function(){
-
-	
 if( !isEmpty($('#title').val()) ){
 if( $('#brands').val() != 0 ){ 
 if( $('#models').val() != 0){

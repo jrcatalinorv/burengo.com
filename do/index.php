@@ -16,6 +16,14 @@ require_once "modelos/data.php";
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <link rel="stylesheet" href="../plugins/toastr/toastr.min.css"> 
   <link rel="stylesheet" href="../plugins/flag-icon-css-master/css/flag-icon.css" > 
+  
+  <script async="async" src="https://www.google.com/adsense/search/ads.js"></script>
+  
+  <script type="text/javascript" charset="utf-8">
+(function(g,o){g[o]=g[o]||function(){(g[o]['q']=g[o]['q']||[]).push(
+  arguments)},g[o]['t']=1*new Date})(window,'_googCsa');
+</script>
+  
 <style>
 @media only screen and (min-width: 992px) {	
 .burengo-img-grid{
@@ -91,14 +99,26 @@ require_once "modelos/data.php";
                 <span class="info-box-number"><br/> <h4><?php echo burengo_rent; ?></h4> </span><br/>
               </div>
             </div>
+			<!-- Espacio para anuncios de adsence -->
+			<div class=".gAdsenceVertical">
+					
+				<div id='afscontainer1'></div>
+			</div>
+			<!-- Espacio para anuncios de adsence -->
+			
           </div>
 
 <div style="margin-top:-1.2em;" class="col-lg-9 p-0">
+	
 <div class="">
  <div class="card-body">
    <div class="row plist"></div>
  </div>
-</div>  
+</div> 
+		<div class=".gAdsenceVertical">
+					
+				<div id='afscontainer2'></div>
+			</div> 
 </div> 
      </div>
     </div><!-- /.container-fluid -->
@@ -176,6 +196,34 @@ require_once "modelos/data.php";
 <script src="../plugins/toastr/toastr.min.js"></script>
 <script src="../dist/js/adminlte.min.js"></script>
 <script src="../dist/js/demo.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+
+  var pageOptions = {
+    "pubId": "pub-9616389000213823", // Make sure this the correct client ID!
+    "query": "hotels",
+    "adPage": 1
+  };
+
+  var adblock1 = {
+    "container": "afscontainer1",
+    "width": "700",
+    "number": 2
+  };
+  
+    var adblock2 = {
+    "container": "afscontainer2",
+    "width": "1800",
+    "number": 1
+  };
+
+  _googCsa('ads', pageOptions, adblock1);
+  _googCsa('ads', pageOptions, adblock2);
+
+</script>
+
+
+
 <script type="text/javascript">
 $(document).ready(function(){
 $('.plist').load('ajax/burengo_select.php?typo='+$('#route01').val()+'&pageno='+$('#pageCant').val());

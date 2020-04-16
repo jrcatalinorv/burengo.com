@@ -27,11 +27,11 @@ $third = substr(str_shuffle($permitted_chars), 0, 35);
 // create instance phpmailer
 $mail = new PHPMailer();
 $mail->isSMTP();
-$mail->Host = "smtp.gmail.com";
+$mail->Host = "smtp.ionos.com";
 $mail->Port = "587";
 $mail->SMTPAuth = "true";
-$mail->Username = "quiniguacity@gmail.com";
-$mail->Password = "barrionuevo02";
+$mail->Username = "info@burengo.com";
+$mail->Password = "Burengo123321@";
 $mail->SMTPSecure = "tls";
 $mail->CharSet = "UTF-8";
 $mail->isHTML(true);

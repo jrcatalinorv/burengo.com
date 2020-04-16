@@ -7,7 +7,7 @@ $usr  = strtolower ($_REQUEST["usr"]);
 $pass = crypt($_REQUEST["pass"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 
 $stmt2 = Conexion::conectar()->prepare("SELECT * FROM bgo_users where user ='".$usr."' and pass = '".$pass."' 
-AND bgo_country ='".COUNTRY_CODE."'");
+AND bgo_country ='".COUNTRY_CODE."' and status = 1");
 $stmt2 -> execute();
 $results = $stmt2 -> fetch();										
 if($results['user']==$usr && $results['pass']==$pass){

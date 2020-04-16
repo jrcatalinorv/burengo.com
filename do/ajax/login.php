@@ -7,7 +7,7 @@ $usr  = strtolower ($_REQUEST["usr"]);
 $pass = crypt($_REQUEST["pass"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 
 $stmt2 = Conexion::conectar()->prepare("SELECT * FROM bgo_users where user ='".$usr."' and pass = '".$pass."' 
-AND bgo_country ='".COUNTRY_CODE."'");
+AND bgo_country ='".COUNTRY_CODE."' AND status == 1 ");
 $stmt2 -> execute();
 $results = $stmt2 -> fetch();										
 if($results['user']==$usr && $results['pass']==$pass){
@@ -18,7 +18,8 @@ $_SESSION['bgo_planName'] = '';
 	if($results['profile']==100){
 		$addr="../../access/admin/dashboard.php";
 	}else if($results['profile']< 99 && $results['profile'] > 0 ){
-	   $stmt3 = Conexion::conectar()->prepare("SELECT * FROM bgo_user_plan u INNER JOIN bgo_planes p ON u.up_planid = p.planid AND u.up_uid = '".$results['uid']."'");
+	   $stmt3 = Conexion::conectar()->prepare("SELECT * FROM bgo_user_plan u 
+	   INNER JOIN bgo_planes p ON u.up_planid = p.planid AND u.up_uid = '".$results['uid']."'");
 	   $stmt3 -> execute();
 	   $results3 = $stmt3 -> fetch();
 	   $_SESSION['bgo_maxP'] = $results3["up_maxp"];

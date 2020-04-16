@@ -30,6 +30,11 @@ define('burengo_emailSendAlert','Se ha enviado un mensaje a su cuenta de correo.
 define('burengo_back2Home','Volver a la portada'); 
 define('burengo_answer','Contestar');  
 define('burengo_accOK','¡La cuenta fue actualizada con éxito!');  
+define('burengo_err2','¡La cuenta de correo ya está registrada a otra cuenta de usuario!');  
+define('burengo_err3','¡El número de Cédula ya está registrado en otra cuenta de usuario!');  
+define('burengo_err4','¡El Nombre de usuario ya está registrado!');  
+define('burengo_errAlert','Para acceder a su cuenta utilice la opción recuperar contraseña');
+
  
 /*--------- Tipos vehiculos  ----------- */
 define('burengo_sedan', 'SEDAN'); 

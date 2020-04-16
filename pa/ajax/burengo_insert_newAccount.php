@@ -4,8 +4,9 @@ require_once "../modelos/conexion.php";
 require_once "../modelos/data.php";
 
 $name = $_REQUEST["nombre"];
-$user = $_REQUEST["user"];
+$user = trim($_REQUEST["user"]);
 $pass = crypt($_REQUEST["pass"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$'); 
+
 $profile = 0; 
 $img= 'user.png';
 $lastlogin= date('Y-m-d'); 
@@ -43,9 +44,32 @@ if($stmt->execute()){
    $out['ok'] = 1;
    $out['code'] = $uid;
    $_SESSION['bgo_userId'] = $uid; 
-}else{
-  $out['ok']  = 0;
-  $out['err'] = $stmt->errorInfo();
+}else{ 
+  
+ $arr = $stmt->errorInfo();
+ $test = explode(' ',$arr[2]);
+ $ext = strtolower (end($test));
+ $out['ok']  = comparison($ext);  
+ $out['err'] = $stmt->errorInfo();  
+ 
 }
 echo json_encode($out); 
+
+ 
+function comparison($ext){
+$str1 = "'ced_unique'";	
+$str2 = "'email_unique'";	
+$str3 = "'user_unique'";	
+	
+if(!strcmp($ext, $str1)){
+	return 2;
+}elseif(!strcmp($ext, $str2)){
+	return 3; 
+}elseif(!strcmp($ext, $str3)){
+	return 4; 
+}else{
+	return 0; 
+  }
+} 
+
 ?>

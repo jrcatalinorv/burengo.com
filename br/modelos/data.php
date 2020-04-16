@@ -26,11 +26,14 @@ define('burengo_noDelete','Não, Cancelar');
 define('burengo_paymentAlert','O pagamento foi feito com sucesso!'); 
 define('burengo_emailSendAlert','Uma mensagem foi enviada para sua conta de email.'); 
 define('burengo_back2Home','Voltar à página inicial'); 
-define('burengo_answer','Resposta'); 
-define('burengo_paymentAlertExp','Renueve su plan accediendo a: ');
+define('burengo_answer','Resposta');
+define('burengo_paymentAlertExp','Renove seu plano acessando: ');
+define('burengo_accOK','A conta foi atualizada com sucesso!');  
+define('burengo_err2','A conta de email já está registrada em outra conta de usuário!');  
+define('burengo_err3','O número de identificação já está registrado em outra conta de usuário!');  
+define('burengo_err4','O nome de usuário já está registrado!');  
+define('burengo_errAlert','Para acessar sua conta, use a opção recuperar senha');  
 
-  
-define('burengo_accOK','¡La cuenta fue actualizada con éxito!');  
  
 /*--------- Tipos vehiculos  ----------- */
 define('burengo_sedan', 'SE DÃO'); 

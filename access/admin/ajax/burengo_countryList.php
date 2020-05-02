@@ -1,6 +1,6 @@
 <?php 
-require_once "../modelos/conexion.php";
-require_once "../modelos/functions.php";
+require_once "../../modelos/conexion.php";
+require_once "../../modelos/functions.php";
 
  
 $stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_country WHERE cystatus =1 ");

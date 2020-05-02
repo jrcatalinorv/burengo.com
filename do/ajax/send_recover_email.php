@@ -5,7 +5,6 @@ require "../../plugins/PHPMailer/src/Exception.php";
 require "../../plugins/PHPMailer/src/PHPMailer.php";
 require "../../plugins/PHPMailer/src/SMTP.php";
 
-// def name spaces
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -14,30 +13,31 @@ $email  = $_REQUEST["email"];
 $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 /* Buscar el usuario si existe */
-
 $stmt2 = Conexion::conectar()->prepare("SELECT * FROM bgo_users WHERE email ='".$email."' AND bgo_country ='".COUNTRY_CODE."'");
 $stmt2 -> execute();
 if($results = $stmt2 -> fetch()){	
 
-
 $first = substr(str_shuffle($permitted_chars), 0, 75);
 $second = $results['uid'] ;
 $third = substr(str_shuffle($permitted_chars), 0, 35);
+ 
+$stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_mail_server WHERE site_code = 'bgo'");
+$stmt -> execute(); 
+$rslt = $stmt -> fetch(); 
 
 // create instance phpmailer
 $mail = new PHPMailer();
 $mail->isSMTP();
-$mail->Host = "smtp.ionos.com";
-$mail->Port = "587";
+$mail->Host = $rslt["mail_host"];
+$mail->Port = $rslt["mail_port"];
 $mail->SMTPAuth = "true";
-$mail->Username = "info@burengo.com";
-$mail->Password = "Burengo123321@";
+$mail->Username = $rslt["mail_user"];
+$mail->Password = $rslt["mail_pass"]; 
 $mail->SMTPSecure = "tls";
 $mail->CharSet = "UTF-8";
 $mail->isHTML(true);
 
-
-$mail->setFrom("quiniguacity@gmail.com");
+$mail->setFrom("info@burengo.com");
 $mail->Subject = burengo_mailSubject;
 $mail-> Body =  "<center>"
 				."\n\n"

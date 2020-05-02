@@ -7,6 +7,12 @@ require_once "../../modelos/data.php";
 $usr = $_REQUEST['user'];
 
 
+if(isset($_SESSION['bgo_userId'])){   
+}else{
+  header('Location: ../../acceder.php'); 
+} 
+
+
  /*Buscar datos del Usuario */
 $stmt2 = Conexion::conectar()->prepare("SELECT * FROM bgo_users WHERE uid = '".$usr."'"); 
 $stmt2 -> execute();  

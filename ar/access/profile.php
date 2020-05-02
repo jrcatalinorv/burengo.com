@@ -4,6 +4,11 @@ date_default_timezone_set("America/Santo_Domingo");
 require_once "../modelos/conexion.php";
 require_once "../modelos/data.php";
 
+if(isset($_SESSION['bgo_userId'])){   
+}else{
+  header('Location: ../acceder.php'); 
+} 
+
 $fsDt = date("Y-m-d", strtotime("first day of this month")); 
 $lsDt = date("Y-m-d", strtotime("last day of this month")); 
  

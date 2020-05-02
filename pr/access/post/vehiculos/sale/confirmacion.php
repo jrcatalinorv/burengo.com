@@ -5,6 +5,10 @@ $code = $_REQUEST["ccdt"];
 require_once "../../../../modelos/conexion.php";
 require_once "../../../../modelos/data.php";
 
+if(isset($_SESSION['bgo_userId'])){   
+}else{
+  header('Location: ../../../../acceder.php'); 
+} 
 
 $stmt = Conexion::conectar()->prepare("SELECT p.*, c.*, i.*, m.*,n.*, l.*, cr.*, ts.*, tc.*, fl.*, vt.* FROM bgo_posts p 
 INNER JOIN bgo_colores c ON p.bgo_color = c.clrs_id
@@ -46,6 +50,7 @@ if($results = $stmt -> fetch()){
 	$tcp = $results['bgo_uom'];
 	$currency = $results['cur_str']." (".$results['cur_code'].")"; /* Tipo de moneda */
 	$img = array($thumpnail,'0000.jpg','0000.jpg','0000.jpg','0000.jpg');
+ 
   }
 ?>
 <!DOCTYPE html>
@@ -182,9 +187,10 @@ if($results = $stmt -> fetch()){
               <div class="col-12 product-image-thumbs">
                 <div class="product-image-thumb active"><img src="<?php echo $thumpnail; ?>" alt="Product Image"></div>
                 <?php 
-				  for($i=0; $i < $totalPhotos; $i++){
-					 echo '<div class="product-image-thumb" ><img src="../../../../media/images/'.$code.'/'.$code.'-'.$i.'.jpg" alt="Product Image"></div>';
-				  }
+				   $extraImages = json_decode($results['bgo_extrapics'], true);
+					for($i=0; $i < count($extraImages); $i++){
+					  echo '<div class="product-image-thumb" ><img src="../../../../media/images/'.$code.'/'.$extraImages[$i].'" alt="Product Image"></div>';
+				   }
 				?>
               </div>
             </div>

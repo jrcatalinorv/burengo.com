@@ -1,6 +1,6 @@
 <?php 
-require_once "../modelos/conexion.php";
-require_once "../modelos/functions.php";
+require_once "../../modelos/conexion.php";
+require_once "../../modelos/functions.php";
 
 
 
@@ -26,10 +26,10 @@ echo '
                     <b>Precio </b> <a class="float-right">$'.number_format($results["planprice"],2).' '.$results["plancurrency"].' </a>
                   </li>
                   <li class="list-group-item">
-                    <b>Duracion</b> <a class="float-right">'.$results["planduration"].' Dias</a>
+                    <b>Duración </b> <a class="float-right">'.$results["planduration"].' Días </a>
                   </li>
                   <li class="list-group-item">
-                    <b>Publicacions </b> <a class="float-right"> ';
+                    <b>Publicaciones </b> <a class="float-right"> ';
 						if($results["planmaxp"]==99999){
 							echo "Ilimitadas";
 						}else{
@@ -60,11 +60,11 @@ echo '
                     <b>Precio </b> <a class="float-right">$'.number_format($results["planprice"],2).' '.$results["plancurrency"].' </a>
                   </li>
                   <li class="list-group-item">
-                    <b>Duracion</b> <a class="float-right">'.$results["planduration"].' Dias</a>
+                    <b>Duración </b> <a class="float-right">'.$results["planduration"].' Días</a>
                   </li>
                   <li class="list-group-item">
-                    <b>Publicacions </b> <a class="float-right"> ';
-						if($results["planmaxp"]==0){
+                    <b>Publicaciones </b> <a class="float-right"> ';
+						if($results["planmaxp"]==99999){
 							echo "Ilimitadas";
 						}else{
 						  echo $results["planmaxp"];	 	

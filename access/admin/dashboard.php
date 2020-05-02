@@ -1,7 +1,7 @@
 <?php  
 session_start(); 
 date_default_timezone_set("America/Santo_Domingo");
-require_once "modelos/conexion.php";
+require_once "../modelos/conexion.php";
 $date = (getdate());
 $FullDate = $date["year"].''.sprintf("%02d",$date["mon"]).''.sprintf("%02d",$date["mday"]);
 

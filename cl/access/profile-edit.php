@@ -4,13 +4,19 @@ date_default_timezone_set("America/Santo_Domingo");
 require_once "../modelos/conexion.php";
 require_once "../modelos/data.php";
 
+if(isset($_SESSION['bgo_userId'])){   
+}else{
+  header('Location: ../acceder.php'); 
+} 
+
 $code = $_SESSION['bgo_userId'];
- 
+
+
+
  
 $fsDt = date("Y-m-d", strtotime("first day of this month")); 
 $lsDt = date("Y-m-d", strtotime("last day of this month")); 
  
-
 $stmt5 = Conexion::conectar()->prepare("SELECT u.*, p.*, pl.* FROM bgo_users u 
 INNER JOIN bgo_places p  ON u.provinvia = p.pcid 
 INNER JOIN bgo_planes pl ON u.profile = pl.planid AND u.uid = '".$_SESSION['bgo_userId']."'");
@@ -35,15 +41,11 @@ $rest5 = $stmt5 -> fetch();
 .bgo_top{
 	margin-top: 2rem; 
   }
-	
 }  
 </style>
-  
 </head>
 <body class="hold-transition layout-top-nav layout-navbar-fixed">
 <div class="wrapper">
-
-  <!-- Navbar -->
  <nav class="main-header navbar navbar-expand-md navbar-dark bg-navy"> 
     <div class="container">
       <a href="inicio.php" class="navbar-brand">
@@ -194,7 +196,7 @@ $rest5 = $stmt5 -> fetch();
 					<img class="profile-user-img img-fluid img-circle" src="../media/users/<?php echo $_SESSION['bgo_userImg']; ?>" alt="User profile picture">
 				 </div>
 				 <p><a id="changePic" href="#"> <?php echo burengo_changePic; ?> </a></p>
-				 <p><a id="changePic" href="#"> <?php echo burengo_delAcc; ?> </a></p>
+				 <p><a id="deleteAccount" href="#"> <?php echo burengo_delAcc; ?> </a></p>
 				 </div>
            </div>
 		</div>
@@ -214,6 +216,9 @@ $rest5 = $stmt5 -> fetch();
 </div><!-- /.container-fluid -->
 </section>
 </div>
+
+
+<div id="triggerDelAcc" data-toggle="modal" data-target="#modal-delAcc" ></div>
 
 <div class="modal fade" id="modal-pass">
         <div class="modal-dialog">
@@ -236,7 +241,32 @@ $rest5 = $stmt5 -> fetch();
           </div>
         </div>
       </div>
-   <!-- /.modal -->
+
+
+<div class="modal fade" id="modal-delAcc">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title"> Eliminiar Cuenta </h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+				<p class="text-center text-info">  ¿Está seguro que desea eliminar su cuenta de usuario? <br/>Este proceso no puede revertirse.   </p>
+				
+				
+            </div>
+			 <div class="modal-footer justify-content-between">
+              <button id="closeMeBtn" type="button" class="btn btn-secondary" data-dismiss="modal"> <i class="fas fa-times"></i>  <?php echo burengo_cancel; ?> </button>
+              <button id="ProceedToDelete" type="button" class="btn btn-danger"> <i class="fas fa-trash"></i> <?php echo burengo_accept; ?> </button>
+            </div>
+          </div>
+        </div>
+      </div>
+   
+
+  <!-- /.modal -->
 <footer class="main-footer"> Burengo &copy; 2020 - <?php echo burengo_copyright; ?> </footer>
 </div>
 <script src="../../plugins/jquery/jquery.min.js"></script>
@@ -315,7 +345,6 @@ if( !isEmpty($('#address').val())){
 function isEmpty(str) {
     return (!str || 0 === str.length);
 }
-
 function isEmail(email) {
   var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   return regex.test(email);
@@ -379,6 +408,25 @@ if( !isEmpty($("#password0").val())){
 
  
 }); 
+
+
+$('#deleteAccount').click(function(){
+  	$('#triggerDelAcc').click();
+});
+
+$('#ProceedToDelete').click(function(){
+var usr = $('#usrcode').val();
+
+$.getJSON('../ajax/burengo_delete_user.php',{
+		pid: usr
+	},function(data){
+		switch(data['ok']){
+			case 0: toastr.error('ERROR! No se guardaron los cambios los datos: '+ data['err']); break;
+			case 1: location.href="salir.php"; break;
+		}
+	});	
+
+});
 </script>
 </body>
 </html>

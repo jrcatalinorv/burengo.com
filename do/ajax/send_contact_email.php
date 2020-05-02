@@ -15,14 +15,19 @@ $phone   = $_REQUEST["ph"];
 $comment = $_REQUEST["cm"];
 $myEmail = "info@burengo.com"; 
  
+ 
+$stmt2 = Conexion::conectar()->prepare("SELECT * FROM bgo_mail_server WHERE site_code = 'bgo'");
+$stmt2 -> execute(); 
+$results = $stmt2 -> fetch(); 
+ 
 // create instance phpmailer
 $mail = new PHPMailer();
 $mail->isSMTP();
-$mail->Host = "smtp.ionos.com";
-$mail->Port = "587";
+$mail->Host = $results["mail_host"];
+$mail->Port = $results["mail_port"];
 $mail->SMTPAuth = "true";
-$mail->Username = "info@burengo.com";
-$mail->Password = "Burengo123321@";
+$mail->Username = $results["mail_user"];
+$mail->Password = $results["mail_pass"]; 
 $mail->SMTPSecure = "tls";
 $mail->CharSet = "UTF-8";
 $mail->isHTML(true);

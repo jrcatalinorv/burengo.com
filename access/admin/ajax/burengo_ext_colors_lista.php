@@ -1,5 +1,5 @@
 <?php 
-require_once "../modelos/conexion.php";
+require_once "../../modelos/conexion.php";
 $stmt = Conexion::conectar()->prepare("SELECT  *  FROM bgo_colores");
 $stmt -> execute();
 

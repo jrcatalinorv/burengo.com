@@ -3,6 +3,11 @@ session_start();
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../modelos/conexion.php";
 require_once "../modelos/data.php";
+
+if(isset($_SESSION['bgo_userId'])){   
+}else{
+  header('Location: ../acceder.php'); 
+} 
  
 $stmt6 = Conexion::conectar()->prepare("SELECT * FROM bgo_user_plan WHERE up_uid = '".$_SESSION['bgo_userId']."'"); 
 $stmt6 -> execute();

@@ -1,5 +1,5 @@
 <?php 
-require_once "../modelos/conexion.php";
+require_once "../../modelos/conexion.php";
 
 $pn = $_REQUEST["plan"];
 $nm = $_REQUEST["name"];

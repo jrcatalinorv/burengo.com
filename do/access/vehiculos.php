@@ -7,6 +7,11 @@ require_once "../modelos/data.php";
 $code = $_REQUEST["dtcd"];
 $cdate = date('Y-m-d');
 
+if(isset($_SESSION['bgo_userId'])){   
+}else{
+  header('Location: ../vehiculos.php?dtcd='.$code); 
+}  
+
 $stmt = Conexion::conectar()->prepare("SELECT p.*, c.*, i.*, m.*,n.*, l.*, cr.*, ts.*, tc.*, fl.*, vt.* FROM bgo_posts p 
 INNER JOIN bgo_colores c ON p.bgo_color = c.clrs_id
 INNER JOIN bgo_colores_int i ON p.bgo_color_interior = i.clrs_int_id
@@ -53,8 +58,6 @@ if($results = $stmt -> fetch()){
 	
 	$pr_low  = intval($precio) - ( intval($precio) * 0.30 ); 
 	$pr_high = intval($precio) + ( intval($precio) * 0.50 ); 
-	
-	
   }
  
 $dest="";
@@ -82,6 +85,9 @@ $rslts3 = $stmt3 -> fetch();
 $mynombre = $rslts3["name"]; 
 $myphone = $rslts3["phone"]; 
 $myemail = $rslts3["email"]; 
+
+
+
 
   
 ?>
@@ -360,13 +366,16 @@ $myemail = $rslts3["email"];
     </div>
     <!-- /.content -->
   </div>
-<footer class="main-footer"><div class="float-right d-none d-sm-inline"></div> Burengo &copy; 2020 - <?php echo burengo_copyright; ?> </footer>
+<footer class="main-footer"><div class="float-right d-none d-sm-inline"></div> Burengo &copy; 2020 - <?php echo burengo_copyright; ?> 
+
+</footer>
 </div>
 <!-- ./wrapper -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../../dist/js/adminlte.min.js"></script>
 <script src="../../plugins/toastr/toastr.min.js"></script>
+<script src="../../dist/js/demo.js"></script>
 <script type="text/javascript">
 $('.buyItem').click(function(){ $('#triggerBtnModal').click(); });
 $('#sendMsg').click(function(){ $('#triggerBtnModalmodal').click(); $('#closeMeBtn').click(); });

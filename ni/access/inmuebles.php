@@ -7,6 +7,11 @@ require_once "../modelos/data.php";
 $code = $_REQUEST["dtcd"];
 $cdate = date('Y-m-d');
 
+if(isset($_SESSION['bgo_userId'])){   
+}else{
+  header('Location: ../inmuebles.php?dtcd='.$code); 
+} 
+
 $stmt = Conexion::conectar()->prepare("SELECT p.*, t.*, cr.*, l.* FROM bgo_posts p
 INNER JOIN bgo_innercategoires t ON p.bgo_tipolocal = t.inncat 
 INNER JOIN bgo_places l ON p.bgo_lugar = l.pcid 
@@ -175,10 +180,11 @@ $myemail = $rslts3["email"];
               </div>
               <div class="col-12 product-image-thumbs">
                 <div class="product-image-thumb active"><img src="../media/vehiculos/<?php echo $img[0]; ?>" alt="Product Image"></div>
-                <?php 
-				  for($i=0; $i < $totalPhotos; $i++){
-					 echo '<div class="product-image-thumb" ><img src="../media/images/'.$code.'/'.$code.'-'.$i.'.jpg" alt="Product Image"></div>';
-				  }
+                <?php 		  
+  				   $extraImages = json_decode($results['bgo_extrapics'], true);
+					for($i=0; $i < count($extraImages); $i++){
+					  echo '<div class="product-image-thumb" ><img src="../media/images/'.$code.'/'.$extraImages[$i].'" alt="Product Image"></div>';
+				   }
 				?>
               </div>
             </div>
@@ -396,6 +402,7 @@ $myemail = $rslts3["email"];
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../../dist/js/adminlte.min.js"></script>
 <script src="../../plugins/toastr/toastr.min.js"></script>
+<script src="../../dist/js/demo.js"></script>
 <script type="text/javascript">
 $('.buyItem').click(function(){ $('#triggerBtnModal').click(); });
 $('#sendMsg').click(function(){ $('#triggerBtnModalmodal').click(); $('#closeMeBtn').click(); });

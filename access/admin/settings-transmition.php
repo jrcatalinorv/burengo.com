@@ -8,11 +8,11 @@ date_default_timezone_set("America/Santo_Domingo");
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <link rel="icon" type="image/png" href="../../../favicon.ico"/>
+        <link rel="icon" type="image/png" href="../../favicon.ico"/>
   <title>Burengo</title>
-  <link rel="stylesheet" href="../../../plugins/fontawesome-free/css/all.min.css">
-  <link rel="stylesheet" href="../../../dist/css/adminlte.css">
-  <link rel="stylesheet" href="../../../plugins/toastr/toastr.min.css"> 
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../dist/css/adminlte.css">
+  <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css"> 
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -37,7 +37,7 @@ date_default_timezone_set("America/Santo_Domingo");
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-danger elevation-4">
     <a href="" class="brand-link">
-       <img src="../../../dist/img/burengoLogo.png" alt="Campus CODEVI Logo" class="brand-image img-circle elevation-0" style="opacity: .8">  
+       <img src="../../dist/img/burengoLogo.png" alt="Campus CODEVI Logo" class="brand-image img-circle elevation-0" style="opacity: .8">  
       <span class="brand-text font-weight-light text-danger"> Burengo </span>
     </a>
 
@@ -46,7 +46,7 @@ date_default_timezone_set("America/Santo_Domingo");
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../../media/users/<?php echo $_SESSION['bgo_userImg']; ?>" class="img-circle elevation-2" alt="User Image">
+          <img src="media/users/<?php echo $_SESSION['bgo_userImg']; ?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block"> <?php echo $_SESSION['bgo_user']; ?> </a>
@@ -63,7 +63,7 @@ date_default_timezone_set("America/Santo_Domingo");
           <li class="nav-item"><a href="planes.php" class="nav-link"><i class="nav-icon fas fa-list"></i><p> Planes </p></a></li>
           <li class="nav-item"><a href="settings.php" class="nav-link active"><i class="nav-icon fas fa-cogs"></i><p> Configuracion</p></a></li>
 		  <li class="nav-header"></li>
-		  <li class="nav-item"><a href="../salir.php" class="nav-link"><i class="nav-icon fas fa-sign-out-alt text-danger"></i><p> Salir</p></a></li>
+		  <li class="nav-item"><a href="salir.php" class="nav-link"><i class="nav-icon fas fa-sign-out-alt text-danger"></i><p> Salir</p></a></li>
 		  
 		</ul>
       </nav>
@@ -111,34 +111,7 @@ date_default_timezone_set("America/Santo_Domingo");
   </div>
   <!-- /.content-wrapper -->
 
- <!----  Modal Categorias ------->
-      <div class="modal fade" id="catmodal2">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title"> Nueva Marca vehiculo </h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-          <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-car"></i></span>
-                  </div>
-                  <input id="modalNewCategory" type="text" class="form-control" maxlength="25" style=" " placeholder="Digite el nombre de la Marca (Max. 25 Caracteres)">
-                </div>
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button id="closeModalBtn" type="button" class="btn btn-danger" data-dismiss="modal"> <i class="fas fa-times"></i> Cancelar </button>
-              <button id="modalSaveCategory" type="button" class="btn btn-success"> <i class="fas fa-save"></i> Guardar </button>
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-      </div>
-      <!-- /.modal -->	  
+ 	  
  
  
  
@@ -147,34 +120,32 @@ date_default_timezone_set("America/Santo_Domingo");
   <footer class="main-footer"><strong>Burengo &copy; 2020 </footer>
 </div>
 <!-- ./wrapper -->
-<script src="../../../plugins/jquery/jquery.min.js"></script>
-<script src="../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="../../../dist/js/adminlte.min.js"></script>
-<script src="../../../plugins/toastr/toastr.min.js"></script>
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../dist/js/adminlte.min.js"></script>
+<script src="../../plugins/toastr/toastr.min.js"></script>
 <script type="text/javascript">
  $( document ).ready(function() {
-$('#categoryBody').load('../../ajax/burengo_transmition_lista.php'); 	   
+$('#categoryBody').load('ajax/burengo_transmition_lista.php'); 	   
 });
 
 
 /* Guardar un nuevo record */
 $('#modalSaveCategory').click(function(){
-	$.getJSON('../../ajax/burengo_insert_marca.php',{
+	$.getJSON('ajax/burengo_insert_marca.php',{
 		strcategoria: $('#modalNewCategory').val()
 	},function(data){
 		switch(data['ok']){
 			case 0: toastr.error('ERROR! No se pudo almacenar los datos: '+ data['err']); break;
 			case 1: 
 				toastr.success('La Marca añadida con exito!'); 
-				$('#categoryBody').load('../ajax/burengo_marcas_lista.php');
+				$('#categoryBody').load('ajax/burengo_marcas_lista.php');
 				document.getElementById('closeModalBtn').click();
 				$('#modalNewCategory').val("");	
 			break;
 		}
 	}); 
 });
- 
-
 </script>
 </body>
 </html>

@@ -4,6 +4,13 @@ date_default_timezone_set("America/Santo_Domingo");
 require_once "../../modelos/conexion.php";
 require_once "../../modelos/data.php";
 $tp = $_REQUEST['cat'];
+
+
+if(isset($_SESSION['bgo_userId'])){   
+}else{
+  header('Location: ../../vehiculos/filtro.php?cat='.$tp); 
+} 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

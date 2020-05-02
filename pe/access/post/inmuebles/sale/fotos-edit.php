@@ -6,6 +6,12 @@ require_once "../../../../modelos/data.php";
 $code = $_REQUEST["ccdt"];
 $src = $_REQUEST["pth"];
 
+if(isset($_SESSION['bgo_userId'])){   
+}else{
+  header('Location: ../../../../acceder.php'); 
+} 
+
+
 /*Buscar el plan */
  $stmt = Conexion::conectar()->prepare(" SELECT a.profile, b.planmaxf FROM bgo_users a INNER JOIN bgo_planes b
 ON a.profile = b.planid AND a.uid = '".$_SESSION['bgo_userId']."' ");
@@ -393,7 +399,7 @@ function isValid(data){
       for(var k = 0; k < data.length; k++){
 		  var n = data[k].name;
 		  var ext = n.split('.').pop().toLowerCase();
-		if(jQuery.inArray(ext, ['jpg','jpeg']) == -1){ 
+		if(jQuery.inArray(ext, ['jpg','jpeg','png']) == -1){ 
 			return false;
 		 }
       }

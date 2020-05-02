@@ -1,5 +1,5 @@
 <?php 
-require_once "../modelos/conexion.php";
+require_once "../../modelos/conexion.php";
 $categoria = strtoupper($_REQUEST["strcategoria"]);
 $status = 1; 
 

@@ -50,7 +50,7 @@ $tp = $_REQUEST["tp"];
           <li class="nav-item"><a href="members.php?tp=all" class="nav-link active"><i class="nav-icon fas fa-users"></i><p> Miembros </p></a></li>
           <li class="nav-item"><a href="publications.php?tp=all" class="nav-link"><i class="nav-icon fas fa-list-alt"></i><p> Publicaciones </p></a></li>
           <li class="nav-item"><a href="planes.php" class="nav-link"><i class="nav-icon fas fa-list"></i><p> Planes </p></a></li>
-          <li class="nav-item"><a href="settings.php" class="nav-link"><i class="nav-icon fas fa-cogs"></i><p> Configuracion</p></a></li>
+          <li class="nav-item"><a href="settings.php" class="nav-link"><i class="nav-icon fas fa-cogs"></i><p> Configuración  </p></a></li>
 		  <li class="nav-header"></li>
 		  <li class="nav-item"><a href="salir.php" class="nav-link"><i class="nav-icon fas fa-sign-out-alt text-danger"></i><p> Salir</p></a></li>
 		</ul>
@@ -78,7 +78,7 @@ $tp = $_REQUEST["tp"];
 				  
 			<div class="btn-group">
                    <button type="button" class="btn btn-success btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                   <span class="sr-only">Toggle Dropdown</span> <i class="fas fa-filter"></i> <span id="tpm"> Todos los Paises  </span>
+                   <span class="sr-only">Toggle Dropdown</span> <i class="fas fa-filter"></i> <span id="tpm"> TTodos los Países   </span>
                    <div class="dropdown-menu ctList" role="menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-1px, 37px, 0px);">
                       <a class="dropdown-item"> Todos </a>
                     </div></button>

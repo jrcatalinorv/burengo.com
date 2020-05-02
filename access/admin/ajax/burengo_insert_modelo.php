@@ -1,5 +1,5 @@
 <?php 
-require_once "../modelos/conexion.php";
+require_once "../../modelos/conexion.php";
 $model = $_REQUEST["modelo"];
 $marca     = $_REQUEST["marca"];
 $status = 1; 

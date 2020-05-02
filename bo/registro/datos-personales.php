@@ -10,7 +10,7 @@ $code = rand(1000000,9999999) ;
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <link rel="icon" type="image/png" href="../../favicon.ico"/>
-  <title>Burengo</title>
+  <title> Burengo - Compra, renta o vende vehículos e inmuebles</title>
     <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
     <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
@@ -312,10 +312,10 @@ $('#saveNewUsr').click(function(){
 	},function(data){
 		switch(data['ok']){
 			case 0: toastr.error('ERROR! No se pudo almacenar los datos: '+ data['err']); break;
-			case 1: 
-				var code = <?php echo $code; ?>;
-				location.href="planes.php?code="+code+"&acc="+data['code']+"";
-			break;
+			case 1: var code = <?php echo $code; ?>; location.href="planes.php?code="+code+"&acc="+data['code']+""; break;
+			case 2:  toastr.info('<?php echo burengo_errAlert; ?>');  toastr.error('<?php echo burengo_err3; ?>'); break;
+			case 3:  toastr.info('<?php echo burengo_errAlert; ?>');  toastr.error('<?php echo burengo_err2; ?>'); break;
+			case 4:  toastr.info('<?php echo burengo_errAlert; ?>');  toastr.error('<?php echo burengo_err4; ?>'); break;
 		}
 	});	
 });		

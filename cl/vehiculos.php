@@ -133,9 +133,10 @@ $use_nombre = $rslts["name"];
                <div class="col-12 product-image-thumbs">
                 <div class="product-image-thumb active"><img src="media/vehiculos/<?php echo $img[0]; ?>" alt="Product Image"></div>
                 <?php 
-				  for($i=0; $i < $totalPhotos; $i++){
-					 echo '<div class="product-image-thumb" ><img  src="media/images/'.$code.'/'.$code.'-'.$i.'.jpg" alt="Product Image"></div>';
-				  }
+  				   $extraImages = json_decode($results['bgo_extrapics'], true);
+					for($i=0; $i < count($extraImages); $i++){
+					  echo '<div class="product-image-thumb" ><img src="media/images/'.$code.'/'.$extraImages[$i].'" alt="Product Image"></div>';
+				   }
 				?>
               </div>
             </div>

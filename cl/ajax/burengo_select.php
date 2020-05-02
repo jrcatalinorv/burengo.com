@@ -14,6 +14,9 @@ switch($sb){
 	case 1: 
 
 		$stmt = Conexion::conectar()->prepare(" SELECT COUNT(p.bgo_code) as totalR FROM bgo_posts p INNER JOIN bgo_places pl ON p.bgo_lugar = pl.pcid AND p.bgo_status = 1 AND bgo_subcat = 1");			
+		
+		
+		
 		$stmt2 = Conexion::conectar()->prepare(" SELECT p.*, pl.*, cu.* FROM bgo_posts p 
 		INNER JOIN bgo_places pl ON p.bgo_lugar = pl.pcid 
 		INNER JOIN bgo_currency cu ON p.bgo_currency = cu.cur_id		
@@ -95,4 +98,3 @@ if($results['bgo_cat']==1){
  </div> </div>'; 
  }	
 ?>
- 

@@ -5,6 +5,11 @@ require_once "../modelos/conexion.php";
 require_once "../modelos/data.php";
 $code = rand(1000000,9999999) ;
 
+if(isset($_SESSION['bgo_userId'])){   
+}else{
+  header('Location: ../index.php'); 
+} 
+
 $stmt = Conexion::conectar()->prepare(" SELECT COUNT(bgo_code) as totalpv FROM bgo_posts WHERE bgo_usercode = '".$_SESSION['bgo_userId']."'");
 $stmt -> execute();
 $results = $stmt-> fetch();
@@ -18,7 +23,7 @@ $total_postv = number_format($results['totalpv']);
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <link rel="icon" type="image/png" href="../../favicon.ico"/>
-  <title>Burengo</title>
+  <title> Burengo - Compra, renta o vende vehículos e inmuebles </title>
   <link rel="stylesheet" href="../../dist/css/pagination.css">
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="../../dist/css/adminlte.css">

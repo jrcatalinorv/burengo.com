@@ -9,7 +9,7 @@ date_default_timezone_set("America/Santo_Domingo");
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <link rel="icon" type="image/png" href="favicon.ico"/>
-  <title>Burengo</title>
+  <title>Burengo - Compra, renta o vende vehículos e inmuebles </title>
   <link rel="stylesheet" href="dist/css/pagination.css">
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="dist/css/adminlte.css">
@@ -66,9 +66,5 @@ date_default_timezone_set("America/Santo_Domingo");
 	</div>
 <script src="plugins/jquery/jquery.min.js"></script>
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript">
- 
- 
-</script>
 </body>
 </html>

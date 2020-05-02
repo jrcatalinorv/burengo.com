@@ -2,10 +2,17 @@
 session_start();
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../../../../modelos/conexion.php";
+require_once "../../../../modelos/data.php";
 
 
 $code = $_REQUEST["ccdt"];
 $src = $_REQUEST["pth"];
+
+
+if(isset($_SESSION['bgo_userId'])){   
+}else{
+  header('Location: ../../../../acceder.php'); 
+} 
 
 
 $stmt = Conexion::conectar()->prepare("SELECT p.*, c.*, i.*, m.*,n.*, l.*, cr.*, ts.*, tc.*, fl.*, vt.* FROM bgo_posts p 

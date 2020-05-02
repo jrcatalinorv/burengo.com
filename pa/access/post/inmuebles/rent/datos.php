@@ -7,6 +7,13 @@ $codeFake = $_REQUEST["ccdt"];
 $cat = 2;
 $subcat = 2;
 $strcat = "Renta";	
+
+if(isset($_SESSION['bgo_userId'])){   
+}else{
+  header('Location: ../../../../acceder.php'); 
+} 
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

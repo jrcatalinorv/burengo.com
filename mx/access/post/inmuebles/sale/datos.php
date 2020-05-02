@@ -9,6 +9,12 @@ $subcat = 2;
 $strcat = "Venta";	
  
 
+if(isset($_SESSION['bgo_userId'])){   
+}else{
+  header('Location: ../../../../acceder.php'); 
+} 
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

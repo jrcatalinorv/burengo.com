@@ -1,6 +1,6 @@
 <?php 
 session_start();
-require_once "../modelos/conexion.php";
+require_once "../../modelos/conexion.php";
 
 
 $usrcode  = $_REQUEST["user"];

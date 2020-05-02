@@ -10,14 +10,12 @@ require_once "modelos/data.php";
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="../favicon.ico"/>
-  <title>Burengo</title>
+  <title> Burengo - Compra, renta o vende vehículos e inmuebles </title>
   <link rel="stylesheet" href="../dist/css/pagination.css">
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <link rel="stylesheet" href="../plugins/toastr/toastr.min.css"> 
   <link rel="stylesheet" href="../plugins/flag-icon-css-master/css/flag-icon.css" > 
-  
-  
 <style>
 @media only screen and (min-width: 992px) {	
 .burengo-img-grid{
@@ -96,6 +94,7 @@ require_once "modelos/data.php";
 			<!-- Espacio para anuncios de adsence -->
 			<div class=".gAdsenceVertical">
 					
+				<div id='afscontainer1'></div>
 			</div>
 			<!-- Espacio para anuncios de adsence -->
 			
@@ -108,7 +107,10 @@ require_once "modelos/data.php";
    <div class="row plist"></div>
  </div>
 </div> 
-		<div class=".gAdsenceHorrizontal"></div> 
+		<div class=".gAdsenceVertical">
+					
+				<div id='afscontainer2'></div>
+			</div> 
 </div> 
      </div>
     </div><!-- /.container-fluid -->
@@ -186,13 +188,14 @@ require_once "modelos/data.php";
 <script src="../plugins/toastr/toastr.min.js"></script>
 <script src="../dist/js/adminlte.min.js"></script>
 <script src="../dist/js/demo.js"></script>
-
 <script type="text/javascript">
 $(document).ready(function(){
 $('.plist').load('ajax/burengo_select.php?typo='+$('#route01').val()+'&pageno='+$('#pageCant').val());
 getopPages();
 first();
 });
+
+
 function explode(){
 var top = parseInt($('#pageTop').val());
 var current = parseInt($('#pageCant').val());	
@@ -207,7 +210,10 @@ if(next>top){
 	first();	
   }
 }
+
+
 function first(){setTimeout(explode, 5000);}
+
 function getopPages(){
 	$.getJSON('ajax/burengo_page_stats.php',{			  	 
 	value: $('#route01').val() 	 

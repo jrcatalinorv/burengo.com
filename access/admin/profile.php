@@ -1,8 +1,7 @@
        <?php  
 session_start(); 
 date_default_timezone_set("America/Santo_Domingo");
-require_once "modelos/conexion.php";
-require_once "modelos/data.php";
+require_once "../modelos/conexion.php";
 
 $uid = $_REQUEST["uid"];
 
@@ -74,7 +73,7 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
   <nav class="main-header navbar navbar-expand navbar-dark bg-navy">
     <ul class="navbar-nav">
       <li class="nav-item"><a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a></li>
-	  	  <li class="nav-item d-none d-sm-inline-block"><a href="members.php?tp=all" class="nav-link">Menu Miembros </a></li> 
+	  	  <li class="nav-item d-none d-sm-inline-block"><a href="members.php?tp=all" class="nav-link">Menú Miembros </a></li> 
     </ul>
     <ul class="navbar-nav ml-auto"></ul>
   </nav>
@@ -107,7 +106,7 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
           <li class="nav-item"><a href="members.php?tp=all" class="nav-link active"><i class="nav-icon fas fa-users"></i><p> Miembros </p></a></li>
           <li class="nav-item"><a href="publications.php?tp=all" class="nav-link"><i class="nav-icon fas fa-list-alt"></i><p> Publicaciones </p></a></li>
           <li class="nav-item"><a href="planes.php" class="nav-link"><i class="nav-icon fas fa-list"></i><p> Planes </p></a></li>
-          <li class="nav-item"><a href="settings.php" class="nav-link"><i class="nav-icon fas fa-cogs"></i><p> Configuracion</p></a></li>
+          <li class="nav-item"><a href="settings.php" class="nav-link"><i class="nav-icon fas fa-cogs"></i><p> Configuración  </p></a></li>
 		  <li class="nav-header"></li>
 		  <li class="nav-item"><a href="salir.php" class="nav-link"><i class="nav-icon fas fa-sign-out-alt text-danger"></i><p> Salir</p></a></li>
 		  
@@ -145,9 +144,11 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
 				</p>
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item"><b>Total Publicaciones </b> <a class="float-right"> <?php echo $total_post; ?></a></li>
-				  <li class="list-group-item"><b>Vehiculos </b> <a class="float-right"><?php echo $total_postv; ?></a></li>                     
+				  <li class="list-group-item"><b>Vehículos  </b> <a class="float-right"><?php echo $total_postv; ?></a></li>                     
 				  <li class="list-group-item"><b>Inmnuebles </b> <a class="float-right"><?php echo $total_postin; ?></a></li>                  
 				  <li class="list-group-item"><b> Visitas del mes </b> <a class="float-right"> <?php echo number_format($rest4['visits']); ?>  </a></li>
+				  <li class="list-group-item"><b> Plan </b> <a class="float-right"> <?php echo $rest5["planname"]; ?>  </a></li>
+				  <li class="list-group-item"><b> Fecha de Expiración </b> <a class="float-right"> <?php echo $rest6["up_expdate"]; ?>  </a></li>
                 </ul>
 			   </div>
             </div>
@@ -161,10 +162,11 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
             <div class="col-12 col-md-12 col-lg-8 order-1 order-md-1">
               <h5 class=""> Datos Personales </h5>
               <div class="text-muted">
+                <p class="text-sm">Usuario: <b class="d-block"> <?php echo $rest5["user"]; ?></b></p>
                 <p class="text-sm">Nombre Completo:<b class="d-block"> <?php echo $rest5["name"]; ?></b></p>
-                <p class="text-sm">Cedula<b class="d-block"> <?php echo $rest5["ced"]; ?></b></p>                
-				<p class="text-sm">Telefono Principal <b class="d-block"> <?php echo $rest5["phone"]; ?></b></p>                
-				<p class="text-sm">Dirreccion
+                <p class="text-sm">Cédula<b class="d-block"> <?php echo $rest5["ced"]; ?></b></p>                
+				<p class="text-sm">Teléfono Principal <b class="d-block"> <?php echo $rest5["phone"]; ?></b></p>                
+				<p class="text-sm">Dirección
                   <b class="d-block"> <?php echo $rest5["addr"]; ?> </b>
                   <b class="d-block"> <?php echo $rest5["pcstr"].', Republica Dominicana '; ?> </b>
                 </p>				
@@ -175,51 +177,7 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
               </div>
           </div>
 		
-		<div class="col-12 col-md-12 col-lg-4 order-2 order-md-2 float-right">
-			 <h5 class="bgo_top"> Informacion de Cuenta  </h5>
-              <div class="row">
-                <div class="col-12 col-sm-12 bgo_top">
-                  <div class="info-box bg-light">
-                    <div class="info-box-content">
-                      <span class="info-box-text text-center text-muted"> Plan </span>
-                      <span class="info-box-number text-center text-muted mb-0"> <?php echo $rest5["planname"]; ?> <span>
-                    </div>
-                  </div>
-                </div>
-                </div>
-				
-				       <div class="row">
-                <div class="col-12 col-sm-12">
-                  <div class="info-box bg-light">
-                    <div class="info-box-content">
-                      <span class="info-box-text text-center text-muted"> Fecha de Expiracion </span>
-                      <span class="info-box-number text-center text-muted mb-0"> <?php echo $rest6["up_expdate"]; ?> <span>
-                    </div>
-                  </div>
-                </div>
-                </div>
-				
-				 <div class="row">
-                <div class="col-12 col-sm-12">
-                  <div class="info-box bg-light">
-                    <div class="info-box-content">
-                      <span class="info-box-text text-center text-muted"> Publicaciones Permitidas </span>
-                      <span class="info-box-number text-center text-muted mb-0"> <?php if($rest6["up_maxp"]==99999){ echo "Ilimitadas"; }else{ echo $rest6["up_maxp"]; }  ?> </span>
-                    </div>
-                  </div>
-                </div>
-				
-                <div class="col-12 col-sm-12">
-                  <div class="info-box bg-light">
-                    <div class="info-box-content">
-                      <span class="info-box-text text-center text-muted"> Plublicaciones Pend. </span>
-                      <span class="info-box-number text-center text-muted mb-0"> <?php if($rest6["up_maxp"]==99999){ echo " - "; }else{ echo $pu_rest; }  ?> <span>
-                    </span></span></div>
-                  </div>
-                </div>
-              </div>
-           </div>
-			
+	 
 			
           </div>
         </div>
@@ -232,6 +190,11 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
 			}else{
 				echo '<button id="activate" type="button" class="btn btn-success btn-sm"  nst="1"> <i class="fas fa-power-off"></i> Activar Usuario  </button>';
 			}?>
+			
+		<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-chplan"> <i class="fas fa-trophy"></i> Cambiar Plan </button>	
+		
+		
+		
 		<!-- 
 		<button  type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-delete" > <i class="fas fa-trash-alt"></i> Borrar Usuario </button>
 -->		
@@ -265,6 +228,42 @@ $pu_rest = intval($rest6["up_maxp"]) - intval($total_post) ;
          </div>
       </div>
       
+	  
+	        <div class="modal fade" id="modal-chplan">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title"> </h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+               <h5 class="text-info text-center"> Seleccione el plan que desea agregar al usuario   </h5>
+			   <hr/><center>
+			   <?php 
+				$stmt7 = Conexion::conectar()->prepare("SELECT * FROM bgo_planes WHERE planstatus = 1 AND plantypo = 1"); 
+				$stmt7 -> execute();
+				while($rest7 = $stmt7 -> fetch()){
+					
+					if($rest5["profile"]==$rest7["planid"]){
+						echo ' <a style="width:150px; " class="btn btn-app">  <i class="fas fa-trophy text-success"></i>  '.$rest7["planname"].'  </a>';
+					}else{
+						echo ' <a style="width:150px; " class="btn btn-app choseplanid" pnid="'.$rest7["planid"].'">  <i class="fas fa-trophy text-primary"></i>  '.$rest7["planname"].'  </a>';
+					}
+					
+				}
+			   
+			   ?>
+			  </center>
+			   <hr/>
+			   
+            </div>
+          </div>
+         </div>
+      </div>
+      
+	  
   <footer class="main-footer"><strong>Burengo &copy; 2020 </footer>
 </div>
 <!-- ./wrapper -->
@@ -311,6 +310,23 @@ $('#btnDelete').click(function(){
 			case 1: location.href="members.php?tp=all"; break;
 		}
 	});	
+	
+});
+
+$('.choseplanid').click(function(){
+	var idPlan = $(this).attr('pnid');
+$.getJSON('ajax/burengo_update_planuser.php',{
+		 user  : $('#getUserCodeId').val(),
+		 planid: idPlan 
+  },function(data){
+		switch(data['ok']){
+			case 0: toastr.error('ERROR! No se pudo realizar los cambios: '+ data['err']); break;
+			case 1: location.href=""; break;
+		}
+	});	
+	
+	
+ 
 	
 });
 

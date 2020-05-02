@@ -1,5 +1,5 @@
 <?php 
-require_once "../modelos/conexion.php";
+require_once "../../modelos/conexion.php";
 $id = $_REQUEST["pid"];
 $status = $_REQUEST["status"]; 
 

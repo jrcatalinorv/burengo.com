@@ -22,7 +22,9 @@ if($lista[5][1]=='0'){ }else{ $srings = $srings." AND p.bgo_".$lista[5][0]."= '"
 if($lista[6][1]=='0'){ }else{ $srings = $srings." AND p.bgo_".$lista[6][0]."= '".$lista[6][1]."'"; }
 if($lista[7][1]=='0'){ }else{ $srings = $srings." AND p.bgo_".$lista[7][0]."= '".$lista[7][1]."'"; }
 
-$stmt = Conexion::conectar()->prepare(" SELECT * FROM bgo_posts p INNER JOIN bgo_places pl ON p.bgo_lugar = pl.pcid 
+$stmt = Conexion::conectar()->prepare(" SELECT p.*, pl.*, cu.* FROM bgo_posts p 
+		INNER JOIN bgo_places pl ON p.bgo_lugar = pl.pcid 
+		INNER JOIN bgo_currency cu ON p.bgo_currency = cu.cur_id
 		AND p.bgo_status = 1 AND p.bgo_subcat = 1 AND p.bgo_cat= ".$ct." 
 		AND p.bgo_year BETWEEN ".$yf." AND ".$yt." 
 		AND p.bgo_price BETWEEN ".$pf." AND ".$pt." ".$srings." 
@@ -40,9 +42,9 @@ echo '<div class="col-lg-3 burengo_case visit itemSelection" itemId="'.$results[
 echo '<div class="p-2"><img '.$dest.' src="../media/thumbnails/'.$results['bgo_thumbnail'].'" alt="Image placeholder" class="img-fluid burengo-img-grid"> 
       <div style="z-index:999; margin-top:-2em;" class="pl-2">'; 
 if($results['bgo_cat']==1){	  
-	 echo '<span class="badge bg-success bgo_mfont">$'.number_format($results['bgo_price'],2).' '.convert($results['bgo_uom']).' </span>  '.$iconDesc.' </div>';
+	 echo '<span class="badge bg-success bgo_mfont"> '.$results["cur_sign"].' '.number_format($results['bgo_price'],2).' '.convert($results['bgo_uom']).' </span>  '.$iconDesc.' </div>';
 }else{
-	 echo '<span class="badge bg-warning bgo_mfont">$'.number_format($results['bgo_price'],2).' '.convert($results['bgo_uom']).' </span>  '.$iconDesc.' </div>';
+	 echo '<span class="badge bg-warning bgo_mfont"> '.$results["cur_sign"].' '.number_format($results['bgo_price'],2).' '.convert($results['bgo_uom']).' </span>  '.$iconDesc.' </div>';
 }	  
 	  echo '<h5 class="pt-2 bgo_font" > 
 		   '.softTrim($results['bgo_title'],25).' ';  

@@ -28,7 +28,7 @@ $up_expdate =  date('Y-m-d', strtotime($date. ' + 30 days'));
 $stmt0 = Conexion::conectar()->prepare("UPDATE bgo_user_plan SET up_planid = ".$plan." , up_maxp =".$max_post." , up_maxf =".$max_fotos." , up_expdate = '".$up_expdate."' WHERE up_uid = '".$uid."'");
 $stmt0 -> execute();
 
-/* Insertar datos en la tabla factura */ 
+/* Insertar datos en la tabla usuarios */ 
 $stmt = Conexion::conectar()->prepare(" UPDATE bgo_users SET profile = ".$plan.", status = 1 WHERE uid = '".$uid."'");
 $stmt -> execute();
 }else{

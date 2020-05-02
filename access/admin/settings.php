@@ -109,13 +109,37 @@ date_default_timezone_set("America/Santo_Domingo");
      <div class="text-center"><i class="fas fa-palette fa-3x text-info"></i></div><h3 class="profile-username text-center"> Colores </h3></div>
    </div>      
 </div>
- 
-<div id="mv_gral" class="col-md-3">
+
+<div id="business-info" class="col-md-3">
   <div class="card">
-    <div class="card-body box-profile">
-    <div class="text-center"><i class="fas fa-cogs fa-3x text-info"></i></div><h3 class="profile-username text-center"> Generales </h3></div>
+     <div class="card-body box-profile">
+     <div class="text-center"><i class="fas fa-building fa-3x text-info"></i></div><h3 class="profile-username text-center"> Info Empresa </h3></div>
   </div>      
-</div> 
+</div>
+
+
+<div class="col-md-3">
+  <div id="settings-mail-server" class="card">
+    <div class="card-body box-profile">
+    <div class="text-center"><i class="fas fa-envelope fa-3x text-info"></i></div><h3 class="profile-username text-center"> Servidor de Correo </h3></div>
+  </div>      
+</div>
+
+<div id="settings-paypal" class="col-md-3">
+   <div class="card">
+     <div class="card-body box-profile">
+     <div class="text-center"><i class="fab fa-paypal fa-3x text-info"></i></div><h3 class="profile-username text-center"> Paypal </h3></div>
+   </div>      
+</div>
+
+ 
+<div class="col-md-3" data-toggle="modal" data-target="#modal-pass">
+   <div class="card">
+     <div class="card-body box-profile">
+     <div class="text-center"><i class="fas fa-lock fa-3x text-info"></i></div><h3 class="profile-username text-center"> Cambiar Contraseña </h3></div>
+   </div>      
+</div>
+ 
 </div>
 </div>
 </div>
@@ -126,6 +150,31 @@ date_default_timezone_set("America/Santo_Domingo");
 <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+
+
+   <div class="modal fade" id="modal-pass">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title"> Cambiar contraseña  </h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body"> 
+				<div class="form-group"><input type="password" class="form-control" id="password0" placeholder="Contraseña Actual"></div>
+				<div class="form-group"><input type="password" class="form-control" id="password1" placeholder="Nueva contraseña"></div>
+				<div class="form-group"><input type="password" class="form-control" id="password2" placeholder="Confirmar contraseña"></div> 
+            </div>
+			 <div class="modal-footer justify-content-between">
+              <button id="closeMeBtn" type="button" class="btn btn-danger" data-dismiss="modal"> Cerrar </button>
+              <button id="changePass" type="button" class="btn btn-success"> Aceptar  </button>
+            </div>
+          </div>
+        </div>
+      </div>
+   <!-- /.modal -->
+
 <!-- Main Footer -->
 <footer class="main-footer"><strong>Burengo &copy; 2020 </footer>
 </div>
@@ -142,7 +191,55 @@ $('#mv_trans').click(function(){location.href="settings-transmition.php";});
 $('#mv_places').click(function(){location.href="settings-places-menu.php";});
 $('#mv_colors').click(function(){location.href="settings-colors.php";});
 $('#mv_years').click(function(){location.href="settings-active-years.php";});
-$('#mv_gral').click(function(){location.href="settings-general.php";});
+$('#business-info').click(function(){location.href="business-info.php";});
+$('#settings-mail-server').click(function(){location.href="settings-mail-server.php";});
+$('#settings-paypal').click(function(){location.href="settings-paypal.php";});
+
+
+
+function isEmpty(str) {
+    return (!str || 0 === str.length);
+}
+
+function isEmail(email) {
+  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  return regex.test(email);
+}
+
+$('#changePass').click(function(){
+if( !isEmpty($("#password0").val())){ 
+  if( !isEmpty($("#password1").val())){
+	if( !isEmpty($("#password2").val())){
+	var newpass  = $("#password1").val();
+	var conpass  = $("#password2").val(); 
+	var pr = newpass.localeCompare(conpass);
+	
+	if(pr==0){
+			$.getJSON('ajax/burengo_update_account_pass.php',{
+		 pass: $("#password0").val(),
+		 npass: newpass
+  },function(data){
+		switch(data['ok']){
+			case 0: toastr.error('ERROR! No se pudo almacenar los datos: '+ data['err']); break;
+			case 1: toastr.success('Los Datos fueron actualizados de forma correcta.'); $('#closeMeBtn').click(); break;
+			case 2: $('#password0').val(""); $('#password0').focus(); toastr.error('La clave actual no es correcta! '); break;
+		}
+	});
+		
+	}else{
+		$('#password1').val(""); 
+		$('#password2').val(""); 
+		$('#password1').focus(); 
+		toastr.error('Las Claves no coinciden');
+	}
+}else{ $('#password2').focus();	toastr.error('Las Claves no coinciden'); }
+}else{ $('#password1').focus();	toastr.error('Las Claves no coinciden'); }
+}else{ $('#password0').focus(); toastr.error('La clave actual no es correcta! '); }
+
+ 
+});
+
+
 </script>
 </body>
 </html>

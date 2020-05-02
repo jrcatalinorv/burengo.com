@@ -7,6 +7,12 @@ require_once "../../../../modelos/data.php";
 $code = $_REQUEST["ccdt"];
 $src = $_REQUEST["pth"];
 
+if(isset($_SESSION['bgo_userId'])){   
+}else{
+  header('Location: ../../../../acceder.php'); 
+} 
+
+
 $stmt = Conexion::conectar()->prepare("SELECT p.*, t.*, cr.*, l.* FROM bgo_posts p
 INNER JOIN bgo_innercategoires t ON p.bgo_tipolocal = t.inncat 
 INNER JOIN bgo_places l ON p.bgo_lugar = l.pcid 

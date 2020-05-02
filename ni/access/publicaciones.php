@@ -4,6 +4,11 @@ date_default_timezone_set("America/Santo_Domingo");
 require_once "../modelos/conexion.php";
 require_once "../modelos/data.php";
 
+if(isset($_SESSION['bgo_userId'])){   
+}else{
+  header('Location: ../acceder.php'); 
+} 
+
 $code = rand(1000000,9999999) ;
 $fsDt = date("Y-m-d", strtotime("first day of this month")); 
 $lsDt = date("Y-m-d", strtotime("last day of this month")); 
@@ -130,17 +135,13 @@ $desc_allow = $total_desc_permitidas - $total_desc;
             <div class="card">
               <div class="card-body">
            <div class="row plist"> </div>
- </div><!-- /.card-body -->
+ </div> 
             </div>
-            <!-- /.nav-tabs-custom -->
           </div>
-          <!-- /.col -->
         </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
+      </div> 
     </section>
   </div>
-  <!-- /.content-wrapper -->
 
 <div id="modalTriggerMaxOut" data-toggle="modal" data-target="#modal-planMaxOut"></div>
 <div id="modalTriggerMaxOutDesc" data-toggle="modal" data-target="#modal-planMaxOutDesc"></div>
@@ -271,15 +272,12 @@ $desc_allow = $total_desc_permitidas - $total_desc;
 <div class="modal-body p-0 whlist" style="height:400px;   overflow-y: auto; overflow-x: hidden;"> 
 <!----------------------------------->
 		
-<!----------------------------------->
 </div>
    </div>
     </div>
       </div>
    <!-- /.modal -->
-
-
-  
+   
 <footer class="main-footer"> Burengo &copy; 2020 - <?php echo burengo_copyright; ?> </footer>
 </div>
 <script src="../../plugins/jquery/jquery.min.js"></script>

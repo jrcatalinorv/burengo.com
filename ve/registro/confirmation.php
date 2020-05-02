@@ -43,6 +43,50 @@ $stmt->bindParam(":up_status",$up_status, PDO::PARAM_INT);
 
 $stmt->execute();
 
+//--------------------------------------
+//Enviar el email al usuario 
+//--------------------------------------
+/* Buscar el usuario si existe */
+
+$stmt20 = Conexion::conectar()->prepare("SELECT * FROM bgo_users WHERE uid ='".$uid."' AND bgo_country ='".COUNTRY_CODE."'");
+$stmt20 -> execute();
+$results20 = $stmt20 -> fetch();
+
+$stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_mail_server WHERE site_code = 'bgo'");
+$stmt -> execute(); 
+$rslt = $stmt -> fetch(); 
+	
+
+$permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+$first = substr(str_shuffle($permitted_chars), 0, 75);
+$second = $uid;
+$third = substr(str_shuffle($permitted_chars), 0, 35);
+$email = $results20["email"];
+
+// create instance phpmailer
+$mail = new PHPMailer();
+$mail->isSMTP();
+$mail->Host = $results["mail_host"];
+$mail->Port = $results["mail_port"];
+$mail->SMTPAuth = "true";
+$mail->Username = $results["mail_user"];
+$mail->Password = $results["mail_pass"]; 
+$mail->SMTPSecure = "tls";
+$mail->CharSet = "UTF-8";
+$mail->isHTML(true);
+$mail->setFrom("info@burengo.com");
+$mail->Subject = burengo_mailSubject2;
+$mail-> Body =  "<center>"
+				."\n\n"
+				."<h3> ".burengo_mailboddy2." </h3>"
+				."https://burengo.com/".COUNTRY_CODE."/confirmation/account.php?ft=".$first."&th=".$third."&sd=".$second.""
+				."</center>\n"
+				."\n"
+				."\n";
+$mail->addAddress($email);
+$mail->Send(); 
+$mail->smtpClose();
+//--------------------------------------
 }else{
 	print_r($stmt2->errorInfo());
 	print_r($stmt0->errorInfo());
@@ -57,7 +101,7 @@ $stmt->execute();
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <link rel="icon" type="image/png" href="favicon.ico"/>
-  <title>Burengo</title>
+  <title>  Burengo - Compra, renta o vende vehículos e inmuebles </title>
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>

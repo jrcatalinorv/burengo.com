@@ -13,7 +13,7 @@ $results = $stmt -> fetch();
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <link rel="icon" type="image/png" href="../favicon.ico"/>
-  <title>Burengo</title>
+  <title> Burengo - Compra, renta o vende vehículos e inmuebles </title>
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="../dist/css/adminlte.css">
   <link rel="stylesheet" href="../dist/css/burengo.css">  

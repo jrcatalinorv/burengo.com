@@ -9,6 +9,12 @@ $cat = 2;
 $subcat = 1;
 $strcat = "Renta";	
  
+if(isset($_SESSION['bgo_userId'])){   
+}else{
+  header('Location: ../../../../acceder.php'); 
+} 
+
+
 
 ?>
 <!DOCTYPE html>

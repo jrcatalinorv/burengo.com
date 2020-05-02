@@ -1,6 +1,6 @@
 <?php 
-require_once "../modelos/conexion.php";
-require_once "../modelos/functions.php";
+require_once "../../modelos/conexion.php";
+require_once "../../modelos/functions.php";
 
 $tp = $_REQUEST["tp"];
 $cp = $_REQUEST["cp"];
@@ -39,7 +39,7 @@ $ct = $results['bgo_country'];
             <div class="card usrProfile" uid="'.$results['uid'].'">
               <div class="card-body box-profile">
                <div class="text-center">
-                  <img class="profile-user-img img-fluid img-circle" src="../../'.$ct.'/media/users/'.$results["img"].'" alt="User profile picture">
+                  <img style="width:100px; height: 100px;" class="profile-user-img img-fluid img-circle" src="../../'.$ct.'/media/users/'.$results["img"].'" alt="User profile picture">
                 </div>
 				<h3 class="profile-username text-center">'.$results["name"].' </h3>
 				<p class="text-muted text-center"> '.$results["cystr"].' <br/> '.$results["planname"].' </p>

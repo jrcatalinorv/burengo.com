@@ -1,6 +1,6 @@
 <?php 
-require_once "../modelos/conexion.php";
-require_once "../modelos/functions.php";
+require_once "../../modelos/conexion.php";
+require_once "../../modelos/functions.php";
 
 $tp = $_REQUEST["tp"];
  

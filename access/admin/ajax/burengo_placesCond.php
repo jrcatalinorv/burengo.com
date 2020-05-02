@@ -1,6 +1,6 @@
 <?php 
-require_once "../modelos/conexion.php";
-require_once "../modelos/data.php";
+require_once "../../modelos/conexion.php";
+require_once "../../modelos/data.php";
 
 $ct = $_REQUEST['cty'];
 

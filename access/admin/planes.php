@@ -1,7 +1,7 @@
 <?php  
 session_start(); 
 date_default_timezone_set("America/Santo_Domingo");
-require_once "modelos/conexion.php";
+require_once "../modelos/conexion.php";
 
  if($_SESSION["bgoSesion"] != "ok"){
 	header('location: salir.php'); 
@@ -49,7 +49,7 @@ require_once "modelos/conexion.php";
           <li class="nav-item"><a href="members.php?tp=all" class="nav-link"><i class="nav-icon fas fa-users"></i><p> Miembros </p></a></li>
           <li class="nav-item"><a href="publications.php?tp=all" class="nav-link"><i class="nav-icon fas fa-list-alt"></i><p> Publicaciones </p></a></li>
           <li class="nav-item"><a href="planes.php" class="nav-link active"><i class="nav-icon fas fa-list"></i><p> Planes </p></a></li>
-          <li class="nav-item"><a href="settings.php" class="nav-link"><i class="nav-icon fas fa-cogs"></i><p> Configuracion</p></a></li>
+          <li class="nav-item"><a href="settings.php" class="nav-link"><i class="nav-icon fas fa-cogs"></i><p> Configuración </p></a></li>
 		  <li class="nav-header"></li>
 		  <li class="nav-item"><a href="salir.php" class="nav-link"><i class="nav-icon fas fa-sign-out-alt text-danger"></i><p> Salir</p></a></li>
 		</ul>
@@ -92,7 +92,7 @@ require_once "modelos/conexion.php";
           <div class="col-sm-8"><input type="text" class="form-control" id="planPrice"></div>
         </div>	
 		<div class="form-group row">
-          <label for="inputEmail3" class="col-sm-4 col-form-label">Duracion (Dias)</label>
+          <label for="inputEmail3" class="col-sm-4 col-form-label">Duración (Días)</label>
           <div class="col-sm-8"><input type="text" class="form-control" id="planDuration"></div>
         </div>
 	    </div>

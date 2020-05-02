@@ -1,5 +1,5 @@
 <?php 
-require_once "../modelos/conexion.php";
+require_once "../../modelos/conexion.php";
 $stmt = Conexion::conectar()->prepare("SELECT m.*, mc.* FROM bgo_modelos_vehiculos m
 INNER JOIN bgo_marcas_vehiculos mc ON m.mvd_marca = mc.mv_id");
 $stmt -> execute();

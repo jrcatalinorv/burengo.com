@@ -28,7 +28,7 @@ date_default_timezone_set("America/Santo_Domingo");
     </ul>
   <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
- 	<li class="nav-item dropdown" data-toggle="modal" data-target="#catmodal"><a class="nav-link"  href="#"><i class="fas fa-plus-circle"></i>  Transmision </a></li>
+ 	<li class="nav-item dropdown" data-toggle="modal" data-target="#transModal"><a class="nav-link"  href="#"><i class="fas fa-plus-circle"></i>  Transmisión  </a></li>
 	 
     </ul>
   </nav>
@@ -88,7 +88,7 @@ date_default_timezone_set("America/Santo_Domingo");
                   <thead>
                     <tr>
                       <th style="width: 10px">ID</th>
-                      <th>Tipo Transmision </th>
+                      <th>Tipo Transmisión  </th>
                       <th>Estatus</th>
                       <th>Acciones</th>
                     </tr>
@@ -111,8 +111,69 @@ date_default_timezone_set("America/Santo_Domingo");
   </div>
   <!-- /.content-wrapper -->
 
- 	  
  
+ <!----  Modal Categorias ------->
+      <div class="modal fade" id="transModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title"> Transmisión  </h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+          <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-oil-can"></i></span>
+                  </div>
+                  <input id="modalNewCategory" type="text" class="form-control" maxlength="25" style=" " placeholder="Digite el nombre del nuevo tipo de Transmisión">
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button id="closeModalBtn" type="button" class="btn btn-danger" data-dismiss="modal"> <i class="fas fa-times"></i> Cancelar </button>
+              <button id="modalSaveCategory" type="button" class="btn btn-success"> <i class="fas fa-save"></i> Guardar </button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->	 
+ 
+ 
+ 
+<div id="triggereditCatmodal" data-toggle="modal" data-target="#editCatmodal"></div>
+
+  <!----  Modal Categorias ------->
+      <div class="modal fade" id="editCatmodal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title"> Editar  Transmisión  </h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+          <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-oil-can"></i></span>
+                  </div>
+                  <input id="editModalId"  type="hidden" class="form-control" readonly />
+                  <input id="editModalCat" type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button id="closeModalEditBtn" type="button" class="btn btn-danger" data-dismiss="modal"> <i class="fas fa-times"></i> Cancelar </button>
+              <button id="modalSaveEditCategory" type="button" class="btn btn-success"> <i class="fas fa-save"></i> Guardar </button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->	
  
  
 
@@ -132,20 +193,61 @@ $('#categoryBody').load('ajax/burengo_transmition_lista.php');
 
 /* Guardar un nuevo record */
 $('#modalSaveCategory').click(function(){
-	$.getJSON('ajax/burengo_insert_marca.php',{
-		strcategoria: $('#modalNewCategory').val()
+	$.getJSON('ajax/burengo_insert_transmition.php',{
+		strt: $('#modalNewCategory').val()
 	},function(data){
 		switch(data['ok']){
 			case 0: toastr.error('ERROR! No se pudo almacenar los datos: '+ data['err']); break;
 			case 1: 
-				toastr.success('La Marca añadida con exito!'); 
-				$('#categoryBody').load('ajax/burengo_marcas_lista.php');
+				toastr.success('La Transmisión fue añadida con exito!'); 
+				$('#categoryBody').load('ajax/burengo_transmition_lista.php');
 				document.getElementById('closeModalBtn').click();
 				$('#modalNewCategory').val("");	
 			break;
 		}
 	}); 
 });
+
+
+$('#categoryBody').on("click","button.changeStatus",function(){
+  var id = $(this).attr("catId");
+  var st = $(this).attr("nextCatState");
+$.getJSON('ajax/burengo_update_transmitionSt.php',{
+		pid: id,
+	 status: st
+	},function(data){
+		switch(data['ok']){
+			case 0: toastr.error('ERROR! No se guardaron los cambios los datos: '+ data['err']); break;
+			case 1: $('#categoryBody').load('ajax/burengo_transmition_lista.php'); break;
+		}
+	});	
+});
+
+
+
+$('#categoryBody').on("click","button.editarCategoria",function(){
+  $('#editModalId').val($(this).attr("catId"));
+  $('#editModalCat').val($(this).attr("catStr"));
+  $('#triggereditCatmodal').click();
+});
+
+$('#modalSaveEditCategory').click(function(){
+$.getJSON('ajax/burengo_update_transmition.php',{
+	 pid: $('#editModalId').val(),
+	 str: $('#editModalCat').val()
+	},function(data){
+		switch(data['ok']){
+			case 0: toastr.error('ERROR! No se guardaron los cambios los datos: '+ data['err']); break;
+			case 1: 
+				$('#categoryBody').load('ajax/burengo_transmition_lista.php'); 
+				document.getElementById('closeModalEditBtn').click();
+			break;
+		}
+	});	
+	
+});
+
+
 </script>
 </body>
 </html>

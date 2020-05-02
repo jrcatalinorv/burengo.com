@@ -1,6 +1,6 @@
 <?php 
 require_once "../../modelos/conexion.php";
-$stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_transmision_vehiculo WHERE tsvstatus = 1");
+$stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_transmision_vehiculo");
 $stmt -> execute();
 
 while( $resultado = $stmt -> fetch()){

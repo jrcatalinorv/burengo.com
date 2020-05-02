@@ -12,7 +12,7 @@ while( $resultado = $stmt -> fetch()){
 			echo '<td> 
 			<div class="btn-group">
                <button type="button" class="btn btn-warning editarCategoria" catId="'.$resultado['fid'].'" catStr="'.$resultado['fstr'].'" > &nbsp; <i class="fas fa-edit text-white"></i> &nbsp; </button> 
-			   <button type="button" class="btn btn-success changeStatus" nextCatState="0" catId="'.$resultado['mv_id'].'" > &nbsp; <i class="fas fa-power-off"></i> &nbsp; </button>
+			   <button type="button" class="btn btn-success changeStatus" nextCatState="0" catId="'.$resultado['fid'].'" > &nbsp; <i class="fas fa-power-off"></i> &nbsp; </button>
 			</div></td>';
 			
 		 }else{

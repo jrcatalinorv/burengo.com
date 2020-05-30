@@ -8,7 +8,9 @@ date_default_timezone_set("America/Santo_Domingo");
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <link rel="icon" type="image/png" href="favicon.ico"/>
+  <meta name="generator" content="Catalino&Co"> 
+ <link rel="icon" type="image/png" href="favicon.ico"/>
+
   <title>Burengo - Compra, renta o vende vehículos e inmuebles </title>
   <link rel="stylesheet" href="dist/css/pagination.css">
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">

@@ -179,8 +179,69 @@ date_default_timezone_set("America/Santo_Domingo");
       </div>
       <!-- /.modal -->	  
  
+<div id="triggerEditExtmodal" data-toggle="modal" data-target="#editExtmodal"></div> 
+<div id="triggerEditIntmodal" data-toggle="modal" data-target="#editIntmodal"></div> 
  
- 
+<div class="modal fade" id="editExtmodal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title"> Editar Color Exterior </h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+          <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-car"></i></span>
+                  </div>
+                  <input id="editModalExtId"  type="hidden" class="form-control" readonly />
+                  <input id="editModalExtColor" type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button id="closeModalEditExtBtn" type="button" class="btn btn-danger" data-dismiss="modal"> <i class="fas fa-times"></i> Cancelar </button>
+              <button id="modalSaveEditExtColor" type="button" class="btn btn-success"> <i class="fas fa-save"></i> Guardar </button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->	
+  
+
+<div class="modal fade" id="editIntmodal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title"> Editar Color Interior </h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+          <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-car"></i></span>
+                  </div>
+                  <input id="editModalIntId"  type="hidden" class="form-control" readonly />
+                  <input id="editModalIntColor" type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button id="closeModalEditIntBtn" type="button" class="btn btn-danger" data-dismiss="modal"> <i class="fas fa-times"></i> Cancelar </button>
+              <button id="modalSaveEditIntColor" type="button" class="btn btn-success"> <i class="fas fa-save"></i> Guardar </button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->	
+
+
  
 
   <!-- Main Footer -->
@@ -207,13 +268,72 @@ $('#modalSaveColor1').click(function(){
 			case 0: toastr.error('ERROR! No se pudo almacenar los datos: '+ data['err']); break;
 			case 1: 
 				toastr.success('El Color fue añadido con exito!'); 
-				$('.int-colors').load('ajax/burengo_int_colors_lista.php'); 	  
+				$('.ext-colors').load('ajax/burengo_ext_colors_lista.php'); 	    	   
 				document.getElementById('closeModalBtn').click();
 				$('#modalNewCategory').val("");	
 			break;
 		}
 	}); 
 });
+
+
+$('.ext-colors').on("click","a.editarCategoria",function(){
+  $('#editModalExtId').val($(this).attr("catId"));
+  $('#editModalExtColor').val($(this).attr("catStr"));
+  $('#triggerEditExtmodal').click();
+});
+
+
+$('.int-colors').on("click","a.changeStatus",function(){
+ var id = $(this).attr("nxid");
+  var st = $(this).attr("nxt");
+$.getJSON('ajax/burengo_update_stcolor2.php',{
+		pid: id,
+	 status: st
+	},function(data){
+		switch(data['ok']){
+			case 0: toastr.error('ERROR! No se guardaron los cambios los datos: '+ data['err']); break;
+			case 1: $('.int-colors').load('ajax/burengo_int_colors_lista.php');   	 break;
+		}
+	});	  
+  
+});
+
+
+$('.ext-colors').on("click","a.changeStatus",function(){
+ var id = $(this).attr("nxid");
+  var st = $(this).attr("nxt");
+$.getJSON('ajax/burengo_update_stcolor1.php',{
+		pid: id,
+	 status: st
+	},function(data){
+		switch(data['ok']){
+			case 0: toastr.error('ERROR! No se guardaron los cambios los datos: '+ data['err']); break;
+			case 1: $('.ext-colors').load('ajax/burengo_ext_colors_lista.php');   	 break;
+		}
+	});	  
+  
+});
+
+
+
+$('#modalSaveEditExtColor').click(function(){
+$.getJSON('ajax/burengo_update_color1.php',{
+	 pid: $('#editModalExtId').val(),
+	 str: $('#editModalExtColor').val()
+	},function(data){
+		switch(data['ok']){
+			case 0: toastr.error('ERROR! No se guardaron los cambios los datos: '+ data['err']); break;
+			case 1:  
+			    $('.ext-colors').load('ajax/burengo_ext_colors_lista.php'); 
+				$('#closeModalEditExtBtn').click();
+				toastr.success('El Color fue actualizado con exito!'); 
+			break;	
+		}
+	});	
+});
+
+
  
 /* Guardar un nuevo record */
 $('#modalSaveColor2').click(function(){
@@ -224,13 +344,40 @@ $('#modalSaveColor2').click(function(){
 			case 0: toastr.error('ERROR! No se pudo almacenar los datos: '+ data['err']); break;
 			case 1: 
 				toastr.success('El Color fue añadido con exito!'); 
-				$('.ext-colors').load('ajax/burengo_ext_colors_lista.php');  
+				$('.int-colors').load('ajax/burengo_int_colors_lista.php');  
 				document.getElementById('closeModalBtn2').click();
 				$('#txtColor2').val("");	
 			break;
 		}
 	}); 
 }); 
+
+
+$('.int-colors').on("click","a.editarCategoria",function(){
+  $('#editModalIntId').val($(this).attr("catId"));
+  $('#editModalIntColor').val($(this).attr("catStr"));
+  $('#triggerEditIntmodal').click();
+});
+
+
+
+$('#modalSaveEditIntColor').click(function(){
+$.getJSON('ajax/burengo_update_color2.php',{
+	 pid: $('#editModalIntId').val(),
+	 str: $('#editModalIntColor').val()
+	},function(data){
+		switch(data['ok']){
+			case 0: toastr.error('ERROR! No se guardaron los cambios los datos: '+ data['err']); break;
+			case 1:  
+		   		$('.int-colors').load('ajax/burengo_int_colors_lista.php');  
+				$('#closeModalEditIntBtn').click();
+				toastr.success('El Color fue actualizado con exito!'); 
+			break;	
+		}
+	});	
+});
+
+
 
 </script>
 </body>

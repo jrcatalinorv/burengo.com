@@ -3,6 +3,7 @@ session_start();
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../../modelos/conexion.php";
 require_once "../../modelos/data.php";
+require_once "../../modelos/settings.php";
 $tp = $_REQUEST['cat'];
 
 
@@ -19,29 +20,11 @@ if(isset($_SESSION['bgo_userId'])){
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <link rel="icon" type="image/png" href="../../../favicon.ico"/>
-  <title>Burengo</title>
+  <title>Burengo - Compra, renta o vende vehículos e inmuebles</title>
   <link rel="stylesheet" href="../../../plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="../../../plugins/bootstrap-slider/css/bootstrap-slider.min.css">
   <link rel="stylesheet" href="../../../dist/css/adminlte.css">
-<style>
-@media only screen and (min-width: 992px) {	
-.burengo-img-grid{
-	width: 300px; 
-	height:180px;
-  }
-.bgo_font{
-	font-size:1vW;
-}
-.bgo_mfont{
-   font-size:0.8vW;
-}
-}
-
-@media only screen and (max-width: 600px) {
-.linkWeb{
-	display:none;
-}
-</style>
+  <link rel="stylesheet" href="../../../dist/css/burengo-min.css"> 
 </head>
 <body class="hold-transition layout-top-nav">
 <div class="wrapper">
@@ -314,12 +297,13 @@ $('#place').load('../../ajax/burengo_select_places.php');
 $('#pricefrom').load('../../ajax/burengo_select_pricefrom.php');
 $('#priceto').load('../../ajax/burengo_select_priceto.php');
 
-SendData();
+SendData(1);
 $("#ctp").hide();
 document.getElementById('ctpBtn').innerHTML='<i class="fas fa-plus"></i>';
-$('.plist').load("../ajax/burengo_select_conditionals_acc.php?t0="+$('#getCat').val()+"&t1="+$('#string').val()+"&t2="
+
+$('.plist').load("../../ajax/burengo_select_conditionals_acc.php?t0="+$('#getCat').val()+"&t1="+$('#string').val()+"&t2="
 					+$('#pricefrom').val()+"&t3="+$('#priceto').val()+"&t4="
-					+$('#yearfrom').val()+"&t5="+$('#yearto').val()+"");
+					+$('#yearfrom').val()+"&t5="+$('#yearto').val()+"&pageno=1");
 
 
 switch($('#tpm2').val()){
@@ -335,18 +319,18 @@ $('#btn1').click(function(){ $('#btn2').removeClass("bg-warning"); $('#btn1').ad
 $('#btn2').click(function(){ $('#btn1').removeClass("bg-warning"); $('#btn2').addClass("bg-warning"); location.href="?cat=2"; });
  
 
-$('#condition').change(function(){SendData();});
-$('#brands').change(function(){SendData();});
-$('#brands').change(function(){SendData();});
-$('#models').change(function(){SendData();});
-$('#fuel').change(function(){SendData();});
-$('#color').change(function(){SendData();});
-$('#transmision').change(function(){SendData();});
-$('#place').change(function(){SendData();});
-$('#yearfrom').change(function(){SendData();});
-$('#yearto').change(function(){SendData();});
-$('#pricefrom').change(function(){SendData();});
-$('#priceto').change(function(){SendData();});
+$('#condition').change(function(){SendData(1);});
+$('#brands').change(function(){SendData(1);});
+$('#brands').change(function(){SendData(1);});
+$('#models').change(function(){SendData(1);});
+$('#fuel').change(function(){SendData(1);});
+$('#color').change(function(){SendData(1);});
+$('#transmision').change(function(){SendData(1);});
+$('#place').change(function(){SendData(1);});
+$('#yearfrom').change(function(){SendData(1);});
+$('#yearto').change(function(){SendData(1);});
+$('#pricefrom').change(function(){SendData(1);});
+$('#priceto').change(function(){SendData(1);});
  
 $('#brands').change(function(){$('#models').load('../../ajax/bgo_select_car_models.php?id='+$('#brands').val()); });
  
@@ -365,7 +349,7 @@ $('#ctp').on("click","div.carTypeTxt", function(){
 	$(this).addClass('bg-warning');	
 	$('#oldSelected').val(myVal); 	
 	$('#tipocarro').val(myVal);
-	 SendData();
+	 SendData(1);
 });
 
 $("#ctpBtn").click(function(){
@@ -385,7 +369,7 @@ switch(op){
 } 
 });
  
-function SendData(){
+function SendData($pageno){
 var condition = $('#condition').val();
 var brand = $('#brands').val();
 var brand = $('#brands').val();
@@ -406,7 +390,7 @@ var Mydats = [['condicion',condition],
 			  ['lugar',place]];		
 
 $("#string").val(JSON.stringify(Mydats)); 
-$('.plist').load("../../ajax/burengo_select_conditionals_acc.php?t0="+$('#getCat').val()+"&t1="+$('#string').val()+"&t2="+$('#pricefrom').val()+"&t3="+$('#priceto').val()+"&t4="+$('#yearfrom').val()+"&t5="+$('#yearto').val()+"");
+$('.plist').load("../../ajax/burengo_select_conditionals_acc.php?t0="+$('#getCat').val()+"&t1="+$('#string').val()+"&t2="+$('#pricefrom').val()+"&t3="+$('#priceto').val()+"&t4="+$('#yearfrom').val()+"&t5="+$('#yearto').val()+"&pageno="+$pageno+"");
 }
  
 
@@ -419,6 +403,14 @@ $('.plist').on("click", "div.itemSelection", function(){
 		case '2': location.href="../inmuebles.php?dtcd="+id; break;
 	} 
 }); 
+
+
+
+$('.plist').on("click","li.page-item",function(){
+SendData($(this).attr('pg'));	 	
+});
+
+
 
 </script>
 </body>

@@ -19,7 +19,9 @@ if($results = $stmt -> fetch()){
 	$desc = $results['bgo_title'];
 	$precio =  $results['bgo_price'];
 	$tipo = $results['inncat_name'];
-	if(intval($results['bgo_cat'])==1){
+	$subcat = intval($results['bgo_cat']);
+	$subcat2 = intval($results['bgo_subcat']);
+	if($subcat==1){
 		$mod = "Venta";
 	}else{
 		$mod = "Renta";
@@ -28,7 +30,6 @@ if($results = $stmt -> fetch()){
 	$addr = $results['bgo_addr']; 
 	 
 	$thumpnail = "../../media/thumbnails/".$results['bgo_thumbnail'];
-	$subcat = intval($results['bgo_cat']);
 	$tcp = $results['bgo_uom'];
 	$currency = $results['cur_str']." (".$results['cur_code'].")"; /* Tipo de moneda */
 	$totalPhotos = intval($results['bgo_comp_img']); 
@@ -45,8 +46,6 @@ if($results = $stmt -> fetch()){
 		
 	$pr_low  = intval($precio) - ( intval($precio) * 0.30 ); 
 	$pr_high = intval($precio) + ( intval($precio) * 0.50 );  
-
- 
   }
 
 
@@ -54,9 +53,7 @@ $dest="";
 $iconDesc="";
 if( $results['bgo_stdesc'] == 9 ){ $dest = 'style="border: solid 4px #ffc926"'; $iconDesc=' <span class="text-warning"> <i class="fas fa-star"></i> </span>';  }
   
- 
-  
- /*Buscar datos del Usuario */
+/*Buscar datos del Usuario */
 $stmt2 = Conexion::conectar()->prepare("SELECT * FROM bgo_users WHERE uid = '".$user."'"); 
 $stmt2 -> execute();  
 $rslts = $stmt2 -> fetch();
@@ -73,7 +70,7 @@ $use_nombre = $rslts["name"];
   <link rel="icon" type="image/png" href="../favicon.ico"/>
   <title><?php echo $desc; ?></title>
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
-  <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../dist/css/adminlte.css">
   <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
 <style>
 @media only screen and (min-width: 992px) {	
@@ -81,6 +78,15 @@ $use_nombre = $rslts["name"];
 	width: 250px; 
 	height:130px;
   }
+ 
+.burengo-img-grid-mate{
+	max-height:480px;
+	width:auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+} 
+  
 .bgo_font{
 	font-size:1vW;
 }
@@ -130,7 +136,7 @@ $use_nombre = $rslts["name"];
             <div class="col-12 col-sm-6">
               <h3 class="d-inline-block d-sm-none"> </h3>
               <div class="col-12">
-                <img <?php echo $dest; ?> src="media/vehiculos/<?php echo $img[0]; ?>" class="product-image" alt="Product Image">
+                <img <?php echo $dest; ?> src="media/vehiculos/<?php echo $img[0]; ?>" class="product-image burengo-img-grid-mate" alt="Product Image">
               </div>
               <div class="col-12 product-image-thumbs">
                 <div class="product-image-thumb active"><img src="media/vehiculos/<?php echo $img[0]; ?>" alt="Product Image"></div>
@@ -230,7 +236,7 @@ $use_nombre = $rslts["name"];
 ?>
 
 <div class="mt-4 product-share">
-<!-- AddToAny BEGIN -->
+<!-- AddToAny BEGIN  -->
 <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
 <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
 <a class="a2a_button_whatsapp"></a>
@@ -396,23 +402,32 @@ $use_nombre = $rslts["name"];
 <script src="../plugins/toastr/toastr.min.js"></script>
 <script src="../dist/js/demo.js"></script>
 <script type="text/javascript">
+visits();
+
 $('.buyItem').click(function(){ $('#triggerBtnModal').click(); });
- 
 $('.whishList').click(function(){ $('#triggerBtnModal2').click(); }); 
- 
 $('.similars').load("ajax/burengo_select_similars.php?sp="+$('#getsubCat').val()+"&tp="+$('#getCat').val()+"&lw="+$('#getLow').val()+"&hg="+$('#getHigh').val()+"&me="+$('#getMe').val()); 
- 
 $('.similars').on("click", "div.itemSelection", function(){ 
 	var id = $(this).attr('itemId');
 	var cat = $(this).attr('itemCat');
 	
-	switch(cat){
+  switch(cat){
 		case '1': location.href="vehiculos.php?dtcd="+id; break;
 		case '2': location.href="inmuebles.php?dtcd="+id; break;
 	} 
-});  
-  
- 
+}); 
+
+/* Funcion guardar visitas */
+function visits(){
+ $.getJSON('ajax/burengo_insert_visit.php',{
+	code: $('#getMe').val()	
+  },function(data){
+		switch(data['ok']){
+			case 0: toastr.error('ERROR! No se pudo almacenar los datos: '+ data['err']); break;
+			case 1: break;
+		}
+	});
+}
 </script>
 </body>
 </html>

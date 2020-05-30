@@ -2,6 +2,7 @@
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../../modelos/conexion.php";
 require_once "../../modelos/data.php";
+require_once "../../modelos/settings.php";
 
 $tp = $_REQUEST['cat'];
 
@@ -297,11 +298,10 @@ $(document).ready(function(){
 $('#place').load('../../ajax/burengo_select_places.php');
 $('#pricefrom').load('../../ajax/burengo_select_pricefrom.php');
 $('#priceto').load('../../ajax/burengo_select_priceto.php');
-	
-SendData();
+SendData(1);
 $("#ctp").hide();
 document.getElementById('ctpBtn').innerHTML='<i class="fas fa-plus"></i>';
-$('.plist').load("../../ajax/burengo_select_conditionals2_acc.php?t0="+$('#getCat').val()+"&t1="+$('#string').val());
+$('.plist').load("../../ajax/burengo_select_conditionals2_acc.php?t0="+$('#getCat').val()+"&t1="+$('#string').val()+"&pageno=1");
 
 switch($('#tpm2').val()){
  case '1': $('#btn1').addClass("bg-default"); $('#btn1').addClass("bg-warning"); break;
@@ -318,16 +318,14 @@ $('#condition').change(function(){
 	location.href="?cat="+url;
 });
 
-
-$('#pisos').change(function(){SendData();});
-$('#park').change(function(){SendData();});
-$('#banos').change(function(){SendData();});
-$('#rooms').change(function(){SendData();});
-$('#place').change(function(){SendData();});
-$('#pricefrom').change(function(){SendData();});
-$('#priceto').change(function(){SendData();});
+$('#pisos').change(function(){SendData(1);});
+$('#park').change(function(){SendData(1);});
+$('#banos').change(function(){SendData(1);});
+$('#rooms').change(function(){SendData(1);});
+$('#place').change(function(){SendData(1);});
+$('#pricefrom').change(function(){SendData(1);});
+$('#priceto').change(function(){SendData(1);});
  
-
 $('.plist').on("click", "div.itemSelection", function(){ 
 	var id = $(this).attr('itemId');
 //	location.href="itemview.php?dtcd="+id; 
@@ -341,7 +339,7 @@ $('#ctp').on("click","div.carTypeTxt", function(){
 	$(this).addClass('bg-warning');		
 	$('#oldSelected').val(myVal); 	
 	$('#tipocarro').val(myVal);
-	SendData();
+	SendData(1);
 });
 
 $("#ctpBtn").click(function(){
@@ -361,7 +359,7 @@ switch(op){
 } 
 });
  
-function SendData(){
+function SendData($pageno){
 
 var room = $('#rooms').val();
 var banos = $('#banos').val(); 
@@ -370,10 +368,6 @@ var tipocarro = $('#tipocarro').val();
 var pisos = $('#pisos').val();
 var place = $('#place').val();
 
-
-
-
- 	
 var Mydats = [['rooms',room],
 			  ['bath', banos],
 			  ['parqueos',park],
@@ -381,13 +375,9 @@ var Mydats = [['rooms',room],
 			  ['niveles',pisos],
 			  ['lugar',place]];	
 
-
- 
-
 $("#string").val(JSON.stringify(Mydats));
-$('.plist').load("../../ajax/burengo_select_conditionals2_acc.php?t0="+$('#getCat').val()+"&t1="+$('#string').val());
- 
- }
+$('.plist').load("../../ajax/burengo_select_conditionals2_acc.php?t0="+$('#getCat').val()+"&t1="+$('#string').val()+"&pageno="+$pageno+"");
+}
  
 
 
@@ -400,6 +390,10 @@ $('.plist').on("click", "div.itemSelection", function(){
 		case '2': location.href="../inmuebles.php?dtcd="+id; break;
 	} 
 }); 
+
+$('.plist').on("click","li.page-item",function(){
+SendData($(this).attr('pg'));	 	
+});
 
 </script>
 </body>

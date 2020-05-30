@@ -11,13 +11,13 @@ switch($sb){
 	case 2: $stmt  = Conexion::conectar()->prepare(" SELECT p.*, pl.* FROM bgo_posts p INNER JOIN bgo_places pl ON p.bgo_lugar = pl.pcid AND p.bgo_usercode='".$_SESSION['bgo_userId']."' AND bgo_subcat = 2 ");break;
 	default: $stmt = Conexion::conectar()->prepare(" SELECT p.*, pl.* FROM bgo_posts p INNER JOIN bgo_places pl ON p.bgo_lugar = pl.pcid AND p.bgo_usercode='".$_SESSION['bgo_userId']."' ");break;
 }
-
+ 	
 $stmt -> execute();
 while($results = $stmt -> fetch()){
-$dest = '';	
-if($results['bgo_stdesc'] ==9){ $dest = 'style="border: solid 4px #ffc926"'; }	
+$dest = 'style=" width: 150px; height:100px; overflow:hidden; display:block; margin-left: auto; margin-right: auto;"';	
+if($results['bgo_stdesc'] ==9){ $dest = 'style="  width: 150px; height:100px; overflow:hidden; display:block; margin-left: auto; margin-right: auto;"';  }	
 	
-echo '<div class="col-12 col-sm-4 col-md-4 d-flex align-items-stretch itemSelection" itemId="'.$results['bgo_code'].'"">
+echo '<div class="col-12 col-sm-4 col-md-3 d-flex align-items-stretch itemSelection" itemId="'.$results['bgo_code'].'"">
               <div class="card bg-light">
                 <div class="card-header text-muted border-bottom-0">';
                   
@@ -32,7 +32,7 @@ echo '<div class="col-12 col-sm-4 col-md-4 d-flex align-items-stretch itemSelect
                 <div class="card-body pt-0">
                   <div class="row">
                     <div class="col-7">
-                      <h2 class="lead"><b> '.$results['bgo_title'].'</b></h2>
+                      <h3 class="lead"><b> '.$results['bgo_title'].'</b></h3>
                   
                       <ul class="ml-4 mb-0 fa-ul ">';
                     
@@ -63,8 +63,8 @@ echo '<div class="col-12 col-sm-4 col-md-4 d-flex align-items-stretch itemSelect
                            }
 					 echo '</ul>
                     </div>
-                    <div class="col-5 text-center">
-                      <img '.$dest.' src="../media/thumbnails/'.$results['bgo_thumbnail'].'" alt="" class="  img-fluid">
+                    <div class="col-sm-5 text-center" '.$dest.' ">
+                      <img  style="width: 100%;"  src="../media/thumbnails/'.$results['bgo_thumbnail'].'" alt="" class="img-fluid">
                     
 					</div>
                   </div>

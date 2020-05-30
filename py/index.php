@@ -2,6 +2,7 @@
 session_start(); 
 date_default_timezone_set("America/Santo_Domingo");
 require_once "modelos/data.php";
+require_once "modelos/settings.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,32 +10,15 @@ require_once "modelos/data.php";
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="Catalino&Co">
   <link rel="icon" type="image/png" href="../favicon.ico"/>
   <title> Burengo - Compra, renta o vende vehículos e inmuebles </title>
   <link rel="stylesheet" href="../dist/css/pagination.css">
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <link rel="stylesheet" href="../plugins/toastr/toastr.min.css"> 
-  <link rel="stylesheet" href="../plugins/flag-icon-css-master/css/flag-icon.css" > 
-<style>
-@media only screen and (min-width: 992px) {	
-.burengo-img-grid{
-	width: 250px; 
-	height:180px;
-  }
-.bgo_font{
-	font-size:1vW;
-}
-.bgo_mfont{
-   font-size:0.8vW;
-}
-}
-
-@media only screen and (max-width: 600px) {
-.linkWeb{
-	display:none;
-}
-</style>  
+  <link rel="stylesheet" href="../plugins/flag-icon-css-master/css/flag-icon.css" >
+  <link rel="stylesheet" href="../dist/css/burengo-min.css">  
 </head>
 <body class="hold-transition layout-top-nav layout-navbar-fixed">
 <div class="wrapper">
@@ -68,7 +52,8 @@ require_once "modelos/data.php";
       <div class="">
         <div class="row">
           <div class="col-lg-3">
-		  	<div class="card">
+		  	
+			<div class="card">
               <div class="card-body p-0">
               <div class="btn-group col-lg-12 p-0 viewFilter">
 				  <button style="display:none;" id="op0" name="op0" class="btn btn-lg btn-warning viewOption" view="0"><i class="fas fa-th"></i> Todos </button>
@@ -91,35 +76,33 @@ require_once "modelos/data.php";
                 <span class="info-box-number"><br/> <h4><?php echo burengo_rent; ?></h4> </span><br/>
               </div>
             </div>
-			<!-- Espacio para anuncios de adsence -->
-			<div class=".gAdsenceVertical">
-					
-				<div id='afscontainer1'></div>
-			</div>
-			<!-- Espacio para anuncios de adsence -->
 			
+			<!-- Espacio para anuncios de adsence -->
+			<div class=".gAdsenceVertical"></div>
+			<!-- Espacio para anuncios de adsence -->
           </div>
 
 <div style="margin-top:-1.2em;" class="col-lg-9 p-0">
-	
 <div class="">
  <div class="card-body">
-   <div class="row plist"></div>
+   <div class="plist"></div>
  </div>
 </div> 
-		<div class=".gAdsenceVertical">
-					
-				<div id='afscontainer2'></div>
-			</div> 
-</div> 
-     </div>
-    </div><!-- /.container-fluid -->
-   </div>
-  <!-- /.content -->
+
+<!-- Espacio para anuncios de adsence -->
+	<div class=".gAdsenceHorizontal"> </div> 
+<!-- Espacio para anuncios de adsence -->
+</div>
+ 
+</div>
+</div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
 <div id="modalTriggerComprar" data-toggle="modal" data-target="#modal-comprar" ></div>
 <div id="modalTriggerRentar" data-toggle="modal" data-target="#modal-rentar" ></div>
+
 <div class="modal fade" id="modal-comprar">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -150,6 +133,7 @@ require_once "modelos/data.php";
        </div>
     </div>
 </div>
+
 <div class="modal fade" id="modal-rentar">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -181,6 +165,7 @@ require_once "modelos/data.php";
   </div>
   </div>
 </div>
+
 <footer class="main-footer"> Burengo &copy; 2020 - <?php echo burengo_copyright; ?>  </footer>
 </div>
 <script src="../plugins/jquery/jquery.min.js"></script>
@@ -195,12 +180,11 @@ getopPages();
 first();
 });
 
-
 function explode(){
 var top = parseInt($('#pageTop').val());
 var current = parseInt($('#pageCant').val());	
 var next = current+1;
-if(next>top){
+if(next>top || next == 6 ){
 	$('#pageCant').val(1);	
 	$('.plist').load('ajax/burengo_select.php?typo='+$('#route01').val()+'&pageno='+$('#pageCant').val());	
 	first();
@@ -210,10 +194,7 @@ if(next>top){
 	first();	
   }
 }
-
-
-function first(){setTimeout(explode, 5000);}
-
+function first(){setTimeout(explode, <?php echo refreshTime; ?>);}
 function getopPages(){
 	$.getJSON('ajax/burengo_page_stats.php',{			  	 
 	value: $('#route01').val() 	 
@@ -225,6 +206,7 @@ function getopPages(){
 		 }
 	});		
 }
+
 $('.viewFilter').on('click', 'button.viewOption', function(){
 	var option = $(this).attr('view');
 	var active = $('#route01').val();
@@ -251,6 +233,13 @@ $('.plist').on("click", "div.itemSelection", function(){
 		case '2': location.href="inmuebles.php?dtcd="+id; break;
 	} 
 }); 
+
+
+$('.plist').on("click","li.page-item",function(){
+	$('.plist').load('ajax/burengo_select.php?typo='+$('#route01').val()+'&pageno='+$(this).attr('pg'));		
+	getopPages();	
+});
+
 $('#btnCompras').click(function(){
 var rt = $('#route01').val();
 switch(rt){

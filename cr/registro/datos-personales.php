@@ -55,7 +55,7 @@ $code = rand(1000000,9999999) ;
         </div>        
 		
 		<div class="input-group mb-3">
-          <input  id="username" type="text" class="form-control" placeholder="<?php echo burengo_uname; ?>">
+          <input  id="username" type="text"  onkeypress="return AvoidSpace(event)" class="form-control" placeholder="<?php echo burengo_uname; ?>">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -253,7 +253,7 @@ $('[data-mask]').inputmask();
 $('#btnNewAccount').click(function(){
 /* Preguntar por todos los campos si estan llenos  */
 if( !isEmpty($('#fullname').val())){ 
-if( !isEmpty($('#username').val())){ 
+if( !isEmpty($('#username').val())){
 if( !isEmpty($('#email').val())){
 if( !isEmpty($('#password1').val())){
 	var pa =  $('#password1').val();
@@ -296,6 +296,25 @@ function isEmail(email) {
   var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   return regex.test(email);
 }
+
+function AvoidSpace(event) {
+    var k = event ? event.which : window.event.keyCode;
+    if (k == 32) return false;
+}
+
+
+/* Remover Espacios en blanco nombre usuario */
+$('#username').keyup(function(){
+	var ntemp = $('#username').val();
+	var res = ntemp.split(" ");
+if(res.length>=2){
+	
+var newText = ntemp.split(/\s/).join('');
+$('#username').focus(); 
+toastr.error('No se permiten espacios en blanco en el Nombre de usuario');
+$('#username').val(newText);		
+}
+}); 
 
 /* Guardar un nuevo record */
 $('#saveNewUsr').click(function(){

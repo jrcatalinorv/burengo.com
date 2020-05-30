@@ -117,6 +117,7 @@ if($_SESSION["bgoSesion"] != "ok"){
             </div>
             <div class="modal-body">
 				<input id="modalPostID" class="form-control" type="hidden" />
+				<input id="modalPostCountry" class="form-control" type="hidden" />
 				<h3 class="text-info text-center"> ¿Está seguro que desea borrar esta publicación? </h3>
 			
             </div>
@@ -188,14 +189,17 @@ $.getJSON('ajax/burengo_update_stp.php',{
 
 $('.plist').on("click","button.deletePost", function(){
   var id= $(this).attr("itemId");
+  var ct= $(this).attr("countryCode");
   $('#modalPostID').val(id);
+  $('#modalPostCountry').val(ct);
   $('#modalTriggerDelete').click();
 });
 
 $('#proccedDelete').click(function(){
-var id = $('#modalPostID').val();	
-$.getJSON('../ajax/burengo_delete_post.php',{
-		pid: id
+ 
+$.getJSON('ajax/burengo_delete_post.php',{
+		pid: $('#modalPostID').val(),
+		ctc: $('#modalPostCountry').val()
 	},function(data){
 		switch(data['ok']){
 			case 0: toastr.error('ERROR! No se guardaron los cambios los datos: '+ data['err']); break;

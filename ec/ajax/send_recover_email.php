@@ -42,7 +42,7 @@ $mail->Subject = burengo_mailSubject;
 $mail-> Body =  "<center>"
 				."\n\n"
 				."<h3> ".burengo_mailboddy." </h3>"
-				."https://mpro-app.com/burengo/do/confirmation/recuperar-cuenta.php?ft=".$first."&th=".$third."&sd=".$second.""
+				."https://burengo.com/".COUNTRY_CODE."/confirmation/recuperar-cuenta.php?ft=".$first."&th=".$third."&sd=".$second.""
 				."</center>\n"
 				."\n"
 				."\n";

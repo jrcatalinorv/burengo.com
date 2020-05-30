@@ -96,6 +96,15 @@ $myemail = $rslts3["email"];
 	width: 250px; 
 	height:130px;
   }
+ 
+.burengo-img-grid-mate{
+	max-height:480px;
+	width:auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+} 
+  
 .bgo_font{
 	font-size:1vW;
 }
@@ -176,7 +185,7 @@ $myemail = $rslts3["email"];
             <div class="col-12 col-sm-6">
               <h3 class="d-inline-block d-sm-none"> </h3>
               <div class="col-12">
-                <img src="../media/vehiculos/<?php echo $img[0]; ?>" class="product-image" alt="Product Image">
+                <img src="../media/vehiculos/<?php echo $img[0]; ?>" class="product-image burengo-img-grid-mate" alt="Product Image">
               </div>
               <div class="col-12 product-image-thumbs">
                 <div class="product-image-thumb active"><img src="../media/vehiculos/<?php echo $img[0]; ?>" alt="Product Image"></div>
@@ -404,6 +413,10 @@ $myemail = $rslts3["email"];
 <script src="../../plugins/toastr/toastr.min.js"></script>
 <script src="../../dist/js/demo.js"></script>
 <script type="text/javascript">
+
+visits();
+
+
 $('.buyItem').click(function(){ $('#triggerBtnModal').click(); });
 $('#sendMsg').click(function(){ $('#triggerBtnModalmodal').click(); $('#closeMeBtn').click(); });
 $('.whishList').click(function(){
@@ -469,6 +482,19 @@ if( !isEmpty($('#mcomment').val() ) ){
 
 function isEmpty(str) {
     return (!str || 0 === str.length);
+}
+
+
+/* Funcion guardar visitas */
+function visits(){
+ $.getJSON('../ajax/burengo_insert_visit.php',{
+	code: $('#getMe').val()	
+  },function(data){
+		switch(data['ok']){
+			case 0: toastr.error('ERROR! No se pudo almacenar los datos: '+ data['err']); break;
+			case 1: break;
+		}
+	});
 }
 
 </script>

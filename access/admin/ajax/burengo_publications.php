@@ -73,7 +73,7 @@ echo '<div class="col-12 col-sm-4 col-md-3 d-flex align-items-stretch itemSelect
 							echo '<button type="button" class="btn btn-success changeStatus"  itemId="'.$results['bgo_code'].'" ns="1"><i class="fas fa-power-off"></i>Activar </button>';
                         }
 						
-						echo '<button type="button" class="btn btn-danger deletePost" itemId="'.$results['bgo_code'].'"><i class="fas fa-trash"></i> Borrar </button>
+						echo '<button type="button" class="btn btn-danger deletePost" itemId="'.$results['bgo_code'].'"   countryCode="'.$results['bgo_country_code'].'"><i class="fas fa-trash"></i> Borrar </button>
                       </div>
                   </div>
                 </div>

@@ -16,32 +16,22 @@ date_default_timezone_set("America/Santo_Domingo");
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
-  <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-dark bg-navy">
-    <!-- Left navbar links -->
     <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
-      </li>
+      <li class="nav-item"><a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a></li>
 	  <li class="nav-item d-none d-sm-inline-block"><a href="settings.php" class="nav-link"> Menú Configuración  </a></li>
-      
     </ul>
-  <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
  	<li class="nav-item dropdown" data-toggle="modal" data-target="#catmodal"><a class="nav-link"  href="#"><i class="fas fa-plus-circle"></i>  Modelos </a></li>
-	 
     </ul>
   </nav>
-  <!-- /.navbar -->
 
-  <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-danger elevation-4">
     <a href="" class="brand-link">
        <img src="../../dist/img/burengoLogo.png" alt="Campus CODEVI Logo" class="brand-image img-circle elevation-0" style="opacity: .8">  
        <span class="brand-text font-weight-light text-danger"> Burengo </span>
     </a>
 
-    <!-- Sidebar -->
     <div class="sidebar">
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image"><img src="media/users/<?php echo $_SESSION['bgo_userImg']; ?>" class="img-circle elevation-2" alt="User Image"></div>
@@ -59,15 +49,15 @@ date_default_timezone_set("America/Santo_Domingo");
 		  <li class="nav-item"><a href="salir.php" class="nav-link"><i class="nav-icon fas fa-sign-out-alt text-danger"></i><p> Salir</p></a></li>
 		</ul>
       </nav>
-    </div> <!-- /.sidebar -->
-  </aside>
+    </div> 
+</aside>
 
   <div class="content-wrapper">
     <div class="content">
       <div class="container-fluid">
 	  <div class="row pt-2">
 	        <div class="col-md-12">
-   <div class="card">
+          <div class="card">
               <div class="card-header">
                 <h3 class="card-title"> <i class="fas fa-car"></i> Modelos </h3>
               </div>
@@ -93,16 +83,13 @@ date_default_timezone_set("America/Santo_Domingo");
           </div>
  
 	 </div>  
-    </div><!-- /.container-fluid -->
+    </div> 
     </div>
-    <!-- /.content -->
   </div>
-  <!-- /.content-wrapper -->
 
 <div id="triggereditCatmodal" data-toggle="modal" data-target="#editCatmodal"></div>
 
- <!----  Modal Categorias ------->
-      <div class="modal fade" id="catmodal">
+<div class="modal fade" id="catmodal">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -131,13 +118,9 @@ date_default_timezone_set("America/Santo_Domingo");
               <button id="modalSaveCategory" type="button" class="btn btn-success"> <i class="fas fa-save"></i> Guardar </button>
             </div>
           </div>
-          <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
       </div>
-      <!-- /.modal -->	  
  
-   <!----  Modal Categorias ------->
       <div class="modal fade" id="editCatmodal">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -178,18 +161,10 @@ date_default_timezone_set("America/Santo_Domingo");
               <button id="modalSaveEditCategory" type="button" class="btn btn-success"> <i class="fas fa-save"></i> Guardar </button>
             </div>
           </div>
-          <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
       </div>
-      <!-- /.modal -->	
- 
- 
-
-  <!-- Main Footer -->
   <footer class="main-footer"><strong>Burengo &copy; 2020 </footer>
 </div>
-<!-- ./wrapper -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../../dist/js/adminlte.min.js"></script>
@@ -197,11 +172,15 @@ date_default_timezone_set("America/Santo_Domingo");
 <script type="text/javascript">
 $( document ).ready(function() {
 $('#categoryBody').load('ajax/burengo_modelos_lista.php'); 	   
+$('#modalMarca').load('ajax/bgo_select_car_brands.php'); 	   
 $('#modalMarcaEdit').load('ajax/bgo_select_car_brands.php'); 	   
 });
 
 /* Guardar un nuevo record */
 $('#modalSaveCategory').click(function(){
+if($('#modalMarca').val()=='0'){
+	toastr.error('Debe seleccionar la marca del Vehículo');
+}else{	
 	$.getJSON('ajax/burengo_insert_modelo.php',{
 		modelo: $('#modalNewCategory').val(),
 		marca: $('#modalMarca').val()
@@ -216,8 +195,10 @@ $('#modalSaveCategory').click(function(){
 			break;
 		}
 	}); 
+  }
 });
 
+/* */
 $('#categoryBody').on("click","button.changeStatus",function(){
   var id = $(this).attr("catId");
   var st = $(this).attr("nextCatState");
@@ -232,6 +213,7 @@ $.getJSON('ajax/burengo_update_modeloSt.php',{
 	});	
 }); 
 
+/* */
 $('#categoryBody').on("click","button.editarCategoria",function(){
   $('#editModalId').val($(this).attr("catId"));
   $('#editModalId2').val($(this).attr("catId2"));
@@ -240,7 +222,7 @@ $('#categoryBody').on("click","button.editarCategoria",function(){
   $('#triggereditCatmodal').click();
 });
 
-
+/* */
 $('#modalMarcaEdit').change(function(){
 	var mid = $('#modalMarcaEdit').val();	
 	var e = document.getElementById("modalMarcaEdit");
@@ -250,7 +232,7 @@ $('#modalMarcaEdit').change(function(){
 	$('#editModalCat').val(result);
 });
 
-
+/* */
 $('#modalSaveEditCategory').click(function(){
  $.getJSON('ajax/burengo_update_modelo.php',{
 	 pid: $('#editModalId').val(),
@@ -263,9 +245,6 @@ $('#modalSaveEditCategory').click(function(){
 		}
 	});	
 });
-
-
-
 </script>
 </body>
 </html>

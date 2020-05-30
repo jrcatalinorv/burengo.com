@@ -4,7 +4,7 @@ require_once "../modelos/conexion.php";
 
 $uid = $_REQUEST["code"];
 $name = $_REQUEST["nombre"];
-$user = $_REQUEST["user"];
+$user = strtolower ($_REQUEST["user"]);
 $addr =  $_REQUEST["address"];
 $provinvia =  $_REQUEST["provincia"];
 $ced =  $_REQUEST["ced"];

@@ -50,54 +50,58 @@ if(is_dir($structure)){
 .Hideme{
 	display:none;
 }
-.bgo-wrapper{width: 600px;  height: 100px;}
+ 
+@media only screen and (min-width: 992px) {
+.bgo-wrapper{width: 600px;  height: 100px; padding-left:100px;}
 .bgo-margin-area {  position: relative;  text-align: center;  font-family: "Trebuchet", sans-serif;  font-size: 14px;  margin: 0 20px;}
 .bgo-dot {height: 30px; width: 30px; position: absolute; background: #000; border-radius: 50%; top: 10px; color: #fff; line-height: 30px; z-index: 9999;}
 .bgo-dot.bgo-one {left: 35px; background: #0C84D9;}
+.bgo-dot.bgo-two {left: 180px; background: #0C84D9;}
+.bgo-dot.bgo-three {left: 330px; background: #bbb; color: #fff;}
+.bgo-progress-bar { position: absolute;  height: 10px;  width: 35%;  top: 20px;  left: 10%;  background: #bbb;}
+.bgo-progress-bar.bgo-first {background: #0C84D9;}
+.bgo-progress-bar.bgo-second {left: 40%;}
+.bgo-message{position: absolute;height: 60px;width: 170px;padding: 10px;margin: 0;left: -50px;top: 0;color: #000;}
+.bgo-message.bgo-message-1 {top: 40px;color: #000;}
+.bgo-message.bgo-message-2 {left: 160px;}
+.bgo-message.bgo-message-3 {left: 160px;color: #000;}	
+}	
 
-.bgo-dot.bgo-two {
-  left: 180px;
-  background: #0C84D9;
+
+/*  Vista celulares y tablet portrait */
+@media screen and (max-width: 700px) {
+	.bgo-wrapper{ padding-left:10px; width: 450px; height: 100px; }
+	.bgo-margin-area {position: relative;  text-align: center;  font-family: "Trebuchet", sans-serif;  font-size: 14px;  margin: 0 20px;}	
+	.bgo-dot {height: 30px; width: 30px; position: absolute; background: #000; border-radius: 50%; top: 10px; color: #fff; line-height: 30px; z-index: 9999;}
+	.bgo-dot.bgo-one {left: 35px; background: #0C84D9;}
+	.bgo-dot.bgo-two {left: 180px; background: #0C84D9;}
+	.bgo-dot.bgo-three {left: 330px; background: #bbb; color: #fff; }
+	.bgo-progress-bar { position: absolute;  height: 10px;  width: 45%;  top: 20px;  left: 10%;  background: #bbb;}
+	.bgo-progress-bar.bgo-first {background: #0C84D9;}
+	.bgo-progress-bar.bgo-second {left: 40%;}
+	.bgo-message{position: absolute; height: 60px; width: 170px; padding: 10px; margin: 0; left: -50px; top: 0; color: #000;}
+	.bgo-message.bgo-message-1 { display: none;}
+	.bgo-message.bgo-message-2 {display: none;}
+	.bgo-message.bgo-message-3 {display: none;}
 }
 
-.bgo-dot.bgo-three {
-  left: 330px;
-  background: #bbb;
-  color: #fff;
-}
-.bgo-progress-bar { position: absolute;  height: 10px;  width: 25%;  top: 20px;  left: 10%;  background: #bbb;}
 
-.bgo-progress-bar.bgo-first {
-    background: #0C84D9;  
+@media screen and (max-width: 1000px) {
+	.bgo-wrapper{ padding-left:10px; width: 450px; height: 100px; }
+	.bgo-margin-area {position: relative;  text-align: center;  font-family: "Trebuchet", sans-serif;  font-size: 14px;  margin: 0 20px;}
+	.bgo-dot {height: 30px; width: 30px; position: absolute; background: #000; border-radius: 50%; top: 10px; color: #fff; line-height: 30px; z-index: 9999;}
+	.bgo-dot.bgo-one {left: 35px; background: #0C84D9;}
+	.bgo-dot.bgo-two {left: 180px; background: #0C84D9;}
+	.bgo-dot.bgo-three {left: 330px; background: #bbb; color: #fff; }
+	.bgo-progress-bar { position: absolute;  height: 10px;  width: 45%;  top: 20px;  left: 10%;  background: #bbb;}
+	.bgo-progress-bar.bgo-first {background: #0C84D9;}
+	.bgo-progress-bar.bgo-second {left: 45%;}
+	.bgo-message{position: absolute; height: 60px; width: 170px; padding: 10px; margin: 0; left: -50px; top: 0; color: #000;}
+	.bgo-message.bgo-message-1 {top: 40px; color: #000;}
+	.bgo-message.bgo-message-2 {left: 160px;}
+	.bgo-message.bgo-message-3 {left: 160px;color: #000;}	
 }
-.bgo-progress-bar.bgo-second {
-  left: 35%;
-}
- 
-
-.bgo-message {
-  position: absolute;
-  height: 60px;
-  width: 170px;
-  padding: 10px;
-  margin: 0;
-  left: -50px;
-  top: 0;
-  color: #000;
-}
-.bgo-message.bgo-message-1 {
-  top: 40px;
-  color: #000;
-}
-.bgo-message.bgo-message-2 {
-  left: 160px;
-}
-.bgo-message.bgo-message-3 {
-  left: 160px;
-  color: #000;
-}
-			
-			
+ 		
    </style>
 </head>
 <body class="hold-transition layout-top-nav">
@@ -147,7 +151,7 @@ if(is_dir($structure)){
 </div>
 	  
     <div class="row">
-	<div class="col-md-11">
+	<div class="col-md-12">
 	<input id="getMaxValAllow" value="<?php echo $max; ?>" type="hidden" />
 	<input id="getUserID" type="hidden" value="<?php echo $_SESSION['bgo_userId']; ?>" />
             <div class="card">

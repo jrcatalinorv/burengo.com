@@ -4,7 +4,7 @@ require_once "../modelos/conexion.php";
 require_once "../modelos/data.php";
 
 $name = $_REQUEST["nombre"];
-$user = trim($_REQUEST["user"]);
+$user = strtolower (trim($_REQUEST["user"]));
 $pass = crypt($_REQUEST["pass"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$'); 
 
 $profile = 0; 

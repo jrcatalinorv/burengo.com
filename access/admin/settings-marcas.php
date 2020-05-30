@@ -178,7 +178,6 @@ date_default_timezone_set("America/Santo_Domingo");
 $('#categoryBody').load('ajax/burengo_marcas_lista.php'); 	   
 });
 
-
 /* Guardar un nuevo record */
 $('#modalSaveCategory').click(function(){
 	$.getJSON('ajax/burengo_insert_marca.php',{

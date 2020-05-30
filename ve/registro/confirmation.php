@@ -2,7 +2,17 @@
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../modelos/conexion.php";
 require_once "../modelos/data.php";
- $date = date('Y-m-d');
+require "../../plugins/PHPMailer/src/Exception.php";
+require "../../plugins/PHPMailer/src/PHPMailer.php";
+require "../../plugins/PHPMailer/src/SMTP.php";
+
+// def name spaces
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+
+$date = date('Y-m-d');
 $plan = $_REQUEST["p"];
 $uid = $_REQUEST["acc"];
 
@@ -52,9 +62,7 @@ $stmt20 = Conexion::conectar()->prepare("SELECT * FROM bgo_users WHERE uid ='".$
 $stmt20 -> execute();
 $results20 = $stmt20 -> fetch();
 
-$stmt = Conexion::conectar()->prepare("SELECT * FROM bgo_mail_server WHERE site_code = 'bgo'");
-$stmt -> execute(); 
-$rslt = $stmt -> fetch(); 
+
 	
 
 $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -63,14 +71,22 @@ $second = $uid;
 $third = substr(str_shuffle($permitted_chars), 0, 35);
 $email = $results20["email"];
 
+
+$stmt44 = Conexion::conectar()->prepare("SELECT * FROM bgo_mail_server WHERE site_code = 'bgo'");
+$stmt44 -> execute(); 
+$rslt = $stmt44 -> fetch(); 
+ 
 // create instance phpmailer
 $mail = new PHPMailer();
+
 $mail->isSMTP();
-$mail->Host = $results["mail_host"];
-$mail->Port = $results["mail_port"];
+
+$mail->Host = $rslt["mail_host"];
+
+$mail->Port = $rslt["mail_port"];
 $mail->SMTPAuth = "true";
-$mail->Username = $results["mail_user"];
-$mail->Password = $results["mail_pass"]; 
+$mail->Username = $rslt["mail_user"];
+$mail->Password = $rslt["mail_pass"]; 
 $mail->SMTPSecure = "tls";
 $mail->CharSet = "UTF-8";
 $mail->isHTML(true);
@@ -85,7 +101,7 @@ $mail-> Body =  "<center>"
 				."\n";
 $mail->addAddress($email);
 $mail->Send(); 
-$mail->smtpClose();
+$mail->smtpClose();   
 //--------------------------------------
 }else{
 	print_r($stmt2->errorInfo());
@@ -101,7 +117,7 @@ $mail->smtpClose();
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <link rel="icon" type="image/png" href="favicon.ico"/>
-  <title>  Burengo - Compra, renta o vende vehículos e inmuebles </title>
+  <title>Burengo</title>
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>

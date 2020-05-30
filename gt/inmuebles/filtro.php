@@ -2,6 +2,7 @@
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../modelos/conexion.php";
 require_once "../modelos/data.php";
+require_once "../modelos/settings.php";
 $tp = $_REQUEST['cat'];
 
 ?>
@@ -16,25 +17,7 @@ $tp = $_REQUEST['cat'];
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="../../plugins/bootstrap-slider/css/bootstrap-slider.min.css">
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
-<style>
-@media only screen and (min-width: 992px) {	
-.burengo-img-grid{
-	width: 300px; 
-	height:180px;
-  }
-.bgo_font{
-	font-size:1vW;
-}
-.bgo_mfont{
-   font-size:0.8vW;
-}
-}
-
-@media only screen and (max-width: 600px) {
-.linkWeb{
-	display:none;
-}
-</style> 
+  <link rel="stylesheet" href="../../dist/css/burengo-min.css">
 </head>
 <body class="hold-transition layout-top-nav">
 <div class="wrapper">
@@ -261,18 +244,19 @@ $('#pricefrom').load('../ajax/burengo_select_pricefrom.php');
 $('#priceto').load('../ajax/burengo_select_priceto.php');
 
 
-$('#pisos').change(function(){SendData();});
-$('#park').change(function(){SendData();});
-$('#banos').change(function(){SendData();});
-$('#rooms').change(function(){SendData();});
-$('#place').change(function(){SendData();});
-$('#pricefrom').change(function(){SendData();});
-$('#priceto').change(function(){SendData();});
+$('#pisos').change(function(){SendData(1);});
+$('#park').change(function(){SendData(1);});
+$('#banos').change(function(){SendData(1);});
+$('#rooms').change(function(){SendData(1);});
+$('#place').change(function(){SendData(1);});
+$('#pricefrom').change(function(){SendData(1);});
+$('#priceto').change(function(){SendData(1);});
  	
-SendData();
+SendData(1);
+
 $("#ctp").hide();
 document.getElementById('ctpBtn').innerHTML='<i class="fas fa-plus"></i>';
-$('.plist').load("../ajax/burengo_select_conditionals2.php?t0="+$('#getCat').val()+"&t1="+$('#string').val());
+$('.plist').load("../ajax/burengo_select_conditionals2.php?t0="+$('#getCat').val()+"&t1="+$('#string').val()+"&pageno=1");
 
 switch($('#tpm2').val()){
  case '1': $('#btn1').addClass("bg-default"); $('#btn1').addClass("bg-warning"); break;
@@ -299,7 +283,7 @@ $('#ctp').on("click","div.carTypeTxt", function(){
 	$(this).addClass('bg-warning');	
 	$('#oldSelected').val(myVal); 
 	$('#tipocarro').val(myVal);	
-	SendData();
+	SendData(1);
 });
 
 $("#ctpBtn").click(function(){
@@ -319,7 +303,7 @@ switch(op){
 } 
 });
  
-function SendData(){
+function SendData($pageno){
 
 var room = $('#rooms').val();
 var banos = $('#banos').val(); 
@@ -336,7 +320,7 @@ var Mydats = [['rooms',room],
 			  ['lugar',place]];	
 
 $("#string").val(JSON.stringify(Mydats));
-$('.plist').load("../ajax/burengo_select_conditionals2.php?t0="+$('#getCat').val()+"&t1="+$('#string').val());
+$('.plist').load("../ajax/burengo_select_conditionals2.php?t0="+$('#getCat').val()+"&t1="+$('#string').val()+"&pageno="+$pageno+"");
 }
  
 
@@ -350,6 +334,10 @@ $('.plist').on("click", "div.itemSelection", function(){
 		case '2': location.href="../inmuebles.php?dtcd="+id; break;
 	} 
 }); 
+
+$('.plist').on("click","li.page-item",function(){
+SendData($(this).attr('pg'));	 	
+});
 
 </script>
 </body>

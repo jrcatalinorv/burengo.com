@@ -23,7 +23,7 @@ date_default_timezone_set("America/Santo_Domingo");
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
       </li>
-	  <li class="nav-item d-none d-sm-inline-block"><a href="settings.php" class="nav-link"> Menu Configuracion </a></li>
+	  <li class="nav-item d-none d-sm-inline-block"><a href="settings.php" class="nav-link"> Menú configuración  </a></li>
       
     </ul>
   <!-- Right navbar links -->

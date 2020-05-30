@@ -23,7 +23,7 @@ date_default_timezone_set("America/Santo_Domingo");
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
       </li>
-	  <li class="nav-item d-none d-sm-inline-block"><a href="settings.php" class="nav-link"> Menu Configuracion </a></li>
+	  <li class="nav-item d-none d-sm-inline-block"><a href="settings.php" class="nav-link"> Menú configuración  </a></li>
       
     </ul>
   <!-- Right navbar links -->
@@ -61,7 +61,7 @@ date_default_timezone_set("America/Santo_Domingo");
           <li class="nav-item"><a href="members.php" class="nav-link"><i class="nav-icon fas fa-users"></i><p> Miembros </p></a></li>
           <li class="nav-item"><a href="all-publications.php" class="nav-link"><i class="nav-icon fas fa-list-alt"></i><p> Publicaciones </p></a></li>
           <li class="nav-item"><a href="planes.php" class="nav-link"><i class="nav-icon fas fa-list"></i><p> Planes </p></a></li>
-          <li class="nav-item"><a href="settings.php" class="nav-link active"><i class="nav-icon fas fa-cogs"></i><p> Configuracion</p></a></li>
+          <li class="nav-item"><a href="settings.php" class="nav-link active"><i class="nav-icon fas fa-cogs"></i><p> Configuración</p></a></li>
 		  <li class="nav-header"></li>
 		  <li class="nav-item"><a href="salir.php" class="nav-link"><i class="nav-icon fas fa-sign-out-alt text-danger"></i><p> Salir</p></a></li>
 		  

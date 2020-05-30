@@ -94,7 +94,14 @@ date_default_timezone_set("America/Santo_Domingo");
      <div class="card-body box-profile"> 
      <div class="text-center"><i class="fas fa-oil-can fa-3x text-info"></i></div><h3 class="profile-username text-center"> Transmisión </h3></div>
    </div>      
-</div>		  
+</div>	
+
+<div id="mv_tracc" class="col-md-3">  
+   <div class="card">
+     <div class="card-body box-profile"> 
+     <div class="text-center"><i class="fas fa-cogs fa-3x text-info"></i></div><h3 class="profile-username text-center"> Tracción  </h3></div>
+   </div>      
+</div>		   
 
 <div id="mv_places" class="col-md-3">
    <div class="card">
@@ -132,6 +139,16 @@ date_default_timezone_set("America/Santo_Domingo");
    </div>      
 </div>
 
+
+<div id="settings-currency" class="col-md-3">
+   <div class="card">
+     <div class="card-body box-profile">
+     <div class="text-center">
+	 <i class="fas fa-money-bill-wave fa-3x text-info"></i>
+	  </div><h3 class="profile-username  text-center"> Monedas </h3></div>
+   </div>      
+</div>
+
  
 <div class="col-md-3" data-toggle="modal" data-target="#modal-pass">
    <div class="card">
@@ -139,6 +156,7 @@ date_default_timezone_set("America/Santo_Domingo");
      <div class="text-center"><i class="fas fa-lock fa-3x text-info"></i></div><h3 class="profile-username text-center"> Cambiar Contraseña </h3></div>
    </div>      
 </div>
+
  
 </div>
 </div>
@@ -188,12 +206,14 @@ $('#mv_marcas').click(function(){location.href="settings-marcas.php";});
 $('#mv_modelos').click(function(){location.href="settings-modelos.php";});
 $('#mv_fuel').click(function(){location.href="settings-fuel.php";});
 $('#mv_trans').click(function(){location.href="settings-transmition.php";});
+$('#mv_tracc').click(function(){location.href="settings-traccion.php";});
 $('#mv_places').click(function(){location.href="settings-places-menu.php";});
 $('#mv_colors').click(function(){location.href="settings-colors.php";});
 $('#mv_years').click(function(){location.href="settings-active-years.php";});
 $('#business-info').click(function(){location.href="business-info.php";});
 $('#settings-mail-server').click(function(){location.href="settings-mail-server.php";});
 $('#settings-paypal').click(function(){location.href="settings-paypal.php";});
+$('#settings-currency').click(function(){location.href="settings-currency-menu.php";});
 
 
 

@@ -90,26 +90,21 @@ $rest5 = $stmt5 -> fetch();
     </div>
   </nav>
   <!-- /.navbar -->
-
-  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container">
         <div class="row mb-2">
           <input type="hidden" id="usrcode" value="<?php echo $_SESSION['bgo_userId']; ?>" />
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
+        </div> 
+      </div> 
     </div>
 
  <!-- Main content -->
  <section class="content">
       <div class="container-fluid">
         <div class="row">
-	
-       <!-- /.col -->
           <div class="col-md-6">
-<div class="card">
+			<div class="card">
   
         <div class="card-body" style="display: block;">
           <div class="row">

@@ -3,6 +3,7 @@ session_start();
 date_default_timezone_set("America/Santo_Domingo");
 require_once "../modelos/conexion.php";
 require_once "../modelos/data.php";
+require_once "../modelos/settings.php";
 $code = rand(1000000,9999999) ;
 
 if(isset($_SESSION['bgo_userId'])){   
@@ -28,25 +29,7 @@ $total_postv = number_format($results['totalpv']);
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="../../dist/css/adminlte.css">
   <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css"> 
-<style>
-@media only screen and (min-width: 992px) {	
-.burengo-img-grid{
-	width: 250px; 
-	height:180px;
-  }
-.bgo_font{
-	font-size:1vW;
-}
-.bgo_mfont{
-   font-size:0.8vW;
-}
-}
-
-@media only screen and (max-width: 600px) {
-.linkWeb{
-	display:none;
-}
-</style>  
+  <link rel="stylesheet" href="../../dist/css/burengo-min.css">  
 </head>
 <body class="hold-transition layout-top-nav layout-navbar-fixed">
 <div class="wrapper">
@@ -144,7 +127,7 @@ $total_postv = number_format($results['totalpv']);
 <div style="margin-top:-1.2em;" class="col-lg-9 p-0">
 <div class="">
  <div class="card-body">
-   <div class="row plist"></div>
+   <div class="plist"></div>
  </div>
 </div>  
 </div>
@@ -321,15 +304,13 @@ $('.plist').load('../ajax/burengo_select_acc.php?typo='+$('#route01').val()+'&pa
 getopPages();
 first();
 $('.whlist').load("../ajax/burengo_select_favorites.php?id="+$('#currentCode').val());
-
-
 });
 
 function explode(){
 var top = parseInt($('#pageTop').val());
 var current = parseInt($('#pageCant').val());	
 var next = current+1;
-if(next>top){
+if(next>top || next == 6){
 	$('#pageCant').val(1);	
 	$('.plist').load('../ajax/burengo_select_acc.php?typo='+$('#route01').val()+'&pageno='+$('#pageCant').val());	
 	first();
@@ -340,7 +321,7 @@ if(next>top){
   }
 }
 
-function first(){setTimeout(explode, 3000);}
+function first(){setTimeout(explode, <?php echo refreshTime; ?>);}
 function getopPages(){
 	$.getJSON('../ajax/burengo_page_stats.php',{			  	 
 	value: $('#route01').val() 	 
@@ -380,6 +361,13 @@ $('.plist').on("click", "div.itemSelection", function(){
 		case '2': location.href="inmuebles.php?dtcd="+id; break;
 	} 
 }); 
+
+
+$('.plist').on("click","li.page-item",function(){
+	$('.plist').load('../ajax/burengo_select_acc.php?typo='+$('#route01').val()+'&pageno='+$(this).attr('pg'));		
+	getopPages();	
+});
+
 
 $('#btnCompras').click(function(){
 var rt = $('#route01').val();

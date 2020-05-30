@@ -48,6 +48,8 @@ if($results = $stmt -> fetch()){
 	$currency = $results['cur_str']." (".$results['cur_code'].")"; /* Tipo de moneda */
 	$img = array($thumpnail,'0000.jpg','0000.jpg','0000.jpg','0000.jpg');
 	$cur_sign = $results["cur_sign"];
+		$comments = $results["bgo_notes"];
+	$accesories = $results["bgo_accesories"];
 	$pr_low  = intval($precio) - ( intval($precio) * 0.30 ); 
 	$pr_high = intval($precio) + ( intval($precio) * 0.50 );  
   }
@@ -63,10 +65,6 @@ $stmt2 -> execute();
 $rslts = $stmt2 -> fetch();
 $use_img    = $rslts["img"];
 $use_nombre = $rslts["name"];
-
-/* Vicitas */  
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -82,10 +80,16 @@ $use_nombre = $rslts["name"];
   <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
 <style>
 @media only screen and (min-width: 992px) {	
-.burengo-img-grid{
-	width: 250px; 
-	height:130px;
-  }
+.burengo-img-grid{width: 250px;height:130px;}
+  
+.burengo-img-grid-mate{
+	max-height:530px;
+	width:auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+  
 .bgo_font{
 	font-size:1vW;
 }
@@ -129,8 +133,10 @@ $use_nombre = $rslts["name"];
 				 <div class="row" >
 				    <div class="col-12 col-sm-6" >
               <h3 class="d-inline-block d-sm-none"></h3>
-              <div class="col-12"><img <?php echo $dest; ?> src="media/vehiculos/<?php echo $img[0]; ?>" class="product-image" alt="Product Image"></div>
-               <div class="col-12 product-image-thumbs">
+              <div class="col-12" style="border: solid #EDE9E9 1px;">
+			  <img <?php echo $dest; ?> src="media/vehiculos/<?php echo $img[0]; ?>" class="product-image burengo-img-grid-mate" alt="Product Image"></div>
+              
+			  <div class="col-12 product-image-thumbs">
                 <div class="product-image-thumb active"><img src="media/vehiculos/<?php echo $img[0]; ?>" alt="Product Image"></div>
                 <?php 
   				   $extraImages = json_decode($results['bgo_extrapics'], true);
@@ -203,40 +209,49 @@ $use_nombre = $rslts["name"];
 <script async src="https://static.addtoany.com/menu/page.js"></script>
 <!-- AddToAny END -->
 </div>
-
-            </div>
-    
-				 </div>	
-			</div>
+</div>
+</div>	
+</div>
 			
-		<div class="card-body pt-1">
-			 <div class="row">
-			 	<div class="col-12 col-sm-8">
-				<h4> <?php echo burengo_similars; ?> </h4> 	<hr/>
-				<div class="row similars"> </div>
-				</div>
-				
-				<div class="col-12 col-sm-4">
-				
-				<h4> &nbsp; </h4> 	<hr/>
-				<div class="map"> 
-				 
-				</div>
-			 
+<div class="card-body pt-0" style="" >
+	<div class="row">	 
+		<div class="col-12 col-sm-6">
+		<div class="row pl-2"> 
+		<?php 		
+			if(strlen($accesories) > 3){
+				$lista = json_decode($accesories, true);
+				foreach ($lista as $key => $value) {
+					if($value=='0'){		
+				}else{
+				   echo '<button type="button" class="btn btn-sm bg-lightblue btn-flat mt-2">'.$value.'</button>&nbsp;';
+				  }
+				}
+			}	
+		?>
+	   </div>
+	</div>
+	<div class="col-12 col-sm-6">
+	<div class="row pl-2 pt-2"> <h5><?php echo $comments; ?></h5>  </div>
+	</div>
+	</div>
+</div>        
+
+<div class="card-body pt-1">
+ <div class="row">
+ 	<div class="col-12 col-sm-8">
+		<h4> <?php echo burengo_similars; ?> </h4> 	<hr/>
+			<div class="row similars"> </div>
+	</div>
+	<div class="col-12 col-sm-4">	
+				<h4> &nbsp; </h4><hr/>
+				<div class="map"> </div>
 				</div>
 			 </div>
-			
-
-		</div>
-			
-		  </div> <!--- Card Solid ---> 	
-		</div> <!--- --->
+ </div>
+		  </div>   	
+		</div>  
       </div> 
     </div>
-    
-	
-	
-	<!-- /.content -->
   </div>
  
 <div id="triggerBtnModal" data-toggle="modal" data-target="#modal-default"></div>
@@ -364,6 +379,8 @@ $use_nombre = $rslts["name"];
 <script src="../plugins/toastr/toastr.min.js"></script>
 <script src="../dist/js/demo.js"></script>
 <script type="text/javascript">
+visits();
+
 $('.buyItem').click(function(){ $('#triggerBtnModal').click(); });
  
 $('.whishList').click(function(){ $('#triggerBtnModal2').click(); });  
@@ -379,6 +396,18 @@ $('.similars').on("click", "div.itemSelection", function(){
 		case '2': location.href="inmuebles.php?dtcd="+id; break;
 	} 
 });  
+
+/* Funcion guardar visitas */
+function visits(){
+ $.getJSON('ajax/burengo_insert_visit.php',{
+	code: $('#getMe').val()	
+  },function(data){
+		switch(data['ok']){
+			case 0: toastr.error('ERROR! No se pudo almacenar los datos: '+ data['err']); break;
+			case 1: break;
+		}
+	});
+}
  
  
 </script>

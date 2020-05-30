@@ -2,9 +2,10 @@
 require_once "../modelos/conexion.php";
 require_once "../modelos/functions.php";
 require_once "../modelos/data.php";
+require_once "../modelos/settings.php";
 
 $sb = intval($_REQUEST['value']);
-$no_of_records_per_page = 16;
+$no_of_records_per_page = totalEntries;
 
 
 switch($sb){
